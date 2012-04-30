@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <!-- DataBinding Initiator.                              -->
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./windowKurikulumDetail" ?>
+
+    <window id="windowKurikulumDetail" apply="${kurikulumDetailCtrl}"
+            border="none" width="100%">
+
+        <borderlayout id="borderlayout_KurikulumDetail">
+            <center border="none" autoscroll="true">
+                <panel border="none">
+                    <panelchildren>
+                        <groupbox mold="3d" closable="false">
+                            <caption
+                                    image="/images/icons/view.gif"
+                                    label="${c:l('common.Details')}"/>
+
+                            <grid sclass="GridLayoutNoBorder"
+                                  fixedLayout="true"
+                                  style="border:0px; padding-left:5px; padding-right:5px;">
+                                <columns>
+                                    <column width="150px"/>
+                                    <column/>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <hbox>
+                                            <label
+                                                    value="${c:l('label_KurikulumDialog_code.value')}"/>
+                                            <label value="*"
+                                                   style="color:red;font-size:10px"/>
+                                        </hbox>
+                                        <textbox id="txtb_code"
+                                                 value="@{controller.kurikulum.ckodekur}" readonly="true"
+                                                 constraint="no empty" maxlength="8" width="100px"/>
+                                    </row>
+                                    <row>
+                                        <separator bar="true"></separator>
+                                        <separator bar="true"></separator>
+                                    </row>
+                                    <row>
+                                        <hbox>
+                                            <label
+                                                    value="${c:l('label_KurikulumDialog_cohort.value')}"/>
+                                            <label value="*"
+                                                   style="color:red;font-size:10px"/>
+                                        </hbox>
+                                        <textbox
+                                                id="txtb_cohort"
+                                                value="@{controller.kurikulum.ccohort}" readonly="true"
+                                                constraint="no empty" maxlength="6" width="100px"/>
+                                    </row>
+                                    <row>
+                                        <hbox>
+                                            <label value="Program Studi"/>
+                                            <label value="*" style="color:red;font-size:10px"/>
+                                        </hbox>
+                                        <hbox pack="stretch" width="50%">
+                                            <textbox
+                                                    id="txtb_prodi"
+                                                    value="@{controller.kurikulum.mprodi.cnmprogst}"
+                                                    readonly="true" maxlength="50" width="99%"/>
+                                            <button
+                                                    id="btnSearchProdiExtended" disabled="true"
+                                                    width="28px"
+                                                    image="/images/icons/btn_search2_16x16.gif"
+                                                    tooltiptext="Cari Prodi"/>
+                                        </hbox>
+                                    </row>
+                                    <row>
+                                        <hbox>
+                                            <label value="Konsentrasi"/>
+                                            <label value="*" style="color:red;font-size:10px"/>
+                                        </hbox>
+                                        <hbox pack="stretch" width="50%">
+                                            <textbox
+                                                    id="txtb_peminatan"
+                                                    value="@{controller.kurikulum.mpeminatan.cnmminat}"
+                                                    readonly="true" maxlength="50" width="99%"/>
+                                            <button
+                                                    id="btnSearchPeminatanExtended" disabled="true"
+                                                    width="28px"
+                                                    image="/images/icons/btn_search2_16x16.gif"
+                                                    tooltiptext="Cari Peminatan"/>
+                                        </hbox>
+                                    </row>
+                                </rows>
+                            </grid>
+                        </groupbox>
+                        <groupbox mold="3d" closable="false" style="height:100%; ">
+                            <caption image="/images/icons/view.gif" label="Matakuliah"/>
+                            <div sclass="z-toolbar" style="padding:0">
+                                <hbox pack="stretch" sclass="hboxRemoveWhiteStrips" width="100%">
+                                    <toolbar align="start" style="float:left; border-style: none;" height="28px">
+                                        <hbox align="center" style="padding: 2px"></hbox>
+                                    </toolbar>
+                                    <toolbar align="center" style="float:left; border-style: none;" height="28px">
+                                        <hbox align="center" style="padding: 2px"></hbox>
+                                    </toolbar>
+                                    <toolbar align="end" style="float:right; border-style: none;" height="28px">
+                                        <button id="btnNewDetilKurikulum" height="24px" image="/images/icons/btn_new2_16x16.gif"/>
+                                        <button id="btnDeleteDetilKurikulum" height="24px" image="/images/icons/btn_delete2_16x16.gif"/>
+                                    </toolbar>
+                                </hbox>
+                            </div>
+                            <borderlayout id="borderDetilKurikulum" style="height:200px">
+                                <north border="none" height="26px">
+                                    <paging id="pagingDetilKurikulum" style="width:100%" pageSize="20"/>
+                                </north>
+                                <center border="none">
+                                    <listbox id="listDetilKurikulum" width="100%" height="100%" multiple="false">
+                                        <listhead sizable="true">
+                                            <!--listheader id="cno" sort="auto" width="5%" label="No"/-->
+                                            <listheader id="mtbmtkl.ckdmtk" sort="auto" width="10%" label="Kode"/>
+                                            <listheader id="mtbmtkl.cnamamk" sort="auto" width="20%" label="Nama Matakuliah"/>
+                                            <listheader id="cjenis" sort="auto" width="10%" label="Jenis"/>
+                                            <listheader id="cstatus" sort="auto" width="10%" label="Status"/>
+                                            <listheader id="cmun" sort="auto" width="10%" label="MUN"/>
+                                            <listheader id="ctermsmt" sort="auto" width="10%" label="Term Semester"/>
+                                            <listheader id="clintasprodi" sort="auto" width="30%" label="Lintas Prodi"/>
+                                        </listhead>
+                                    </listbox>
+                                </center>
+                            </borderlayout>
+                        </groupbox>
+                    </panelchildren>
+                </panel>
+            </center>
+        </borderlayout>
+    </window>
+</zk>

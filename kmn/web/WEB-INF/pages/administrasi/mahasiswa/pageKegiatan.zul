@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul
+	http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./windowKgtIlmiahDetail" ?>
+
+    <window id="windowKgtIlmiahDetail" apply="${kgtIlmiahDetailCtrl}" border="none" width="100%">
+        <borderlayout id="borderDetailKegiatan">
+            <center border="none" autoscroll="true">
+                <panel border="none">
+                    <panelchildren>
+                        <groupbox mold="3d" closable="false" style="height:100%; ">
+                            <caption image="/images/icons/view.gif" label="Kegiatan &amp; Karya Ilmiah"/>
+                            <grid sclass="GridLayoutNoBorder" fixedLayout="true"
+                                  style="border:0px; padding-left:5px; padding-right:5px; ">
+                                <columns>
+                                    <column width="10%"/>
+                                    <column/>
+                                </columns>
+                                <rows>
+                                    <row>
+                                        <label value="Tujuan Studi"/>
+                                        <textbox id="txtbctujuan" value="@{controller.mahasiswa.ctujuan}" maxlength="100" width="200px" readonly="true"/>
+                                    </row>
+                                </rows>
+                            </grid>
+                            <space/>
+
+                            <groupbox mold="3d" closable="false" style="border:0px; padding-left:10px; padding-right:10px; padding-bottom:5px;">
+                                <caption image="/images/icons/view.gif" label="Kegiatan"/>
+                                <div sclass="z-toolbar" style="padding:0">
+                                    <hbox pack="stretch" sclass="hboxRemoveWhiteStrips" width="100%">
+                                        <toolbar align="start" style="float:left; border-style: none;" height="28px">
+                                            <hbox align="center" style="padding: 2px"></hbox>
+                                        </toolbar>
+                                        <toolbar align="center" style="float:left; border-style: none;" height="28px">
+                                            <hbox align="center" style="padding: 2px"></hbox>
+                                        </toolbar>
+                                        <toolbar align="end" style="float:right; border-style: none;" height="28px">
+                                            <button id="btnNewKegiatan" height="24px" image="/images/icons/btn_new2_16x16.gif"/>
+                                            <button id="btnDeleteKegiatan" height="24px" image="/images/icons/btn_delete2_16x16.gif"/>
+                                        </toolbar>
+                                    </hbox>
+                                </div>
+                                <borderlayout id="borderKegiatan" style="height:200px">
+                                    <north border="none" height="26px">
+                                        <paging id="pagingKegiatan" style="width:100%" pageSize="20"/>
+                                    </north>
+                                    <center border="none">
+                                        <listbox id="listKegiatan" width="100%" height="100%" multiple="false">
+                                            <listhead sizable="true">
+                                                <listheader id="cno" sort="auto" width="5%" label="No"/>
+                                                <listheader id="cnmsimposium" sort="auto" width="25%" label="Nama Simposium/Seminar"/>
+                                                <listheader id="cperanan" sort="auto" width="25%" label="Peranan"/>
+                                                <listheader id="ctahun" sort="auto" width="15%" label="Tahun Penyelenggaraan"/>
+                                                <listheader id="cinstitusi" sort="auto" width="30%" label="Institusi Penyelenggara"/>
+                                            </listhead>
+                                        </listbox>
+                                    </center>
+                                </borderlayout>
+                            </groupbox>
+
+                            <groupbox mold="3d" closable="false" style="border:0px; padding-left:10px; padding-right:10px; padding-bottom:5px;">
+                                <caption image="/images/icons/view.gif" label="Karya" />
+                                <div sclass="z-toolbar" style="padding:0">
+                                    <hbox pack="stretch" sclass="hboxRemoveWhiteStrips" width="100%">
+                                        <toolbar align="start" style="float:left; border-style: none;" height="28px">
+                                            <hbox align="center" style="padding: 2px"></hbox>
+                                        </toolbar>
+                                        <toolbar align="center" style="float:left; border-style: none;" height="28px">
+                                            <hbox align="center" style="padding: 2px"></hbox>
+                                        </toolbar>
+                                        <toolbar align="end" style="float:right; border-style: none;" height="28px">
+                                            <button id="btnNewKarya" height="24px" image="/images/icons/btn_new2_16x16.gif"/>
+                                            <button id="btnDeleteKarya" height="24px" image="/images/icons/btn_delete2_16x16.gif"/>
+                                        </toolbar>
+                                    </hbox>
+                                </div>
+                                <borderlayout id="borderKarya" style="height:200px">
+                                    <north border="none" height="26px">
+                                        <paging id="pagingKarya" style="width:100%" pageSize="20"/>
+                                    </north>
+                                    <center border="none">
+                                        <listbox id="listKarya" width="100%" height="100%" multiple="false">
+                                            <listhead sizable="true">
+                                                <listheader id="cnob" sort="auto" width="5%" label="No"/>
+                                                <listheader id="cnmkyrilm" sort="auto" width="30%" label="Nama Karya Ilmiah"/>
+                                                <listheader id="cmediaterbit" sort="auto" width="25%" label="Media Penerbitan"/>
+                                                <listheader id="cthnterbit" sort="auto" width="10%" label="Tahun Terbit"/>
+                                                <listheader id="cket" sort="auto" width="30%" label="Keterangan"/>
+                                            </listhead>
+                                        </listbox>
+                                    </center>
+                                </borderlayout>
+                            </groupbox>
+                            
+                        </groupbox>
+                    </panelchildren>
+                </panel>
+            </center>
+        </borderlayout>
+    </window>
+</zk>
