@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 11 Mar 12 23:21:12 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="id.ac.idu.backend.model.Mdetilkurikulum" table="MDETILKURIKULUM" >
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="mprodi" class="id.ac.idu.backend.model.Mprodi" fetch="join" lazy="false">
+            <column name="PRODI_ID" not-null="true" unique="true"/>
+        </many-to-one>
+        <many-to-one name="mtbmtkl" class="id.ac.idu.backend.model.Mtbmtkl" fetch="join" lazy="false">
+            <column name="MATAKULIAH_ID" not-null="true" unique="true"/>
+        </many-to-one>
+        <property name="kurikulumId" type="int">
+            <column name="KURIKULUM_ID" length="4" not-null="true" unique="true"/>
+        </property>
+        <property name="ccohort" type="string">
+            <column name="CCOHORT" length="6" not-null="true" unique="true"/>
+        </property>
+        <property name="cjenis" type="string">
+            <column name="CJENIS" length="1" />
+        </property>
+        <property name="cstatus" type="string">
+            <column name="CSTATUS" length="1" />
+        </property>
+        <property name="cmun" type="string">
+            <column name="CMUN" length="1" />
+        </property>
+        <property name="clintasprodi" type="string">
+            <column name="CLINTASPRODI" length="1" />
+        </property>
+        <property name="ctermsmt" type="string">
+            <column name="CTERMSMT" length="1" />
+        </property>
+        <property name="dcreateddate" type="date">
+            <column name="DCREATEDDATE" length="10" />
+        </property>
+        <property name="ccreatedby" type="string">
+            <column name="CCREATEDBY" length="10" />
+        </property>
+        <property name="dupdateddate" type="date">
+            <column name="DUPDATEDDATE" length="10" />
+        </property>
+        <property name="cupdatedby" type="string">
+            <column name="CUPDATEDBY" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>
