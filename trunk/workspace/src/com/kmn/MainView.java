@@ -4,8 +4,12 @@
 
 package com.kmn;
 
+import com.kmn.controller.UserSession;
 import java.awt.Image;
-import java.awt.Toolkit;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JProgressBar;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -17,6 +21,7 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  * The application's main frame.
@@ -102,10 +107,23 @@ public class MainView extends FrameView {
     public void showLoginBox() {
         if (loginBox == null) {
             JFrame mainFrame = MainApps.getApplication().getMainFrame();
-            loginBox = new Login(mainFrame, true);
+            loginBox = new Login(this, true);
             loginBox.setLocationRelativeTo(mainFrame);
         }
         MainApps.getApplication().show(loginBox);
+    }
+
+    @Action
+    public void logoutUser() {
+        int confirm = JOptionPane.showConfirmDialog(this.getComponent(), "Are you sure to logout ?", "Logout", 2);
+        if(confirm == 0)
+            loginBox.getController().logoutUser();
+    }
+
+    @Action
+    public void changeLogin() {
+        if(UserSession.getInstance().getSecuser() == null) showLoginBox();
+        else logoutUser();
     }
 
     /** This method is called from within the constructor to
@@ -145,13 +163,18 @@ public class MainView extends FrameView {
         statusMessageLabel = new javax.swing.JLabel();
         statusAnimationLabel = new javax.swing.JLabel();
         progressBar = new javax.swing.JProgressBar();
+        userLoginLabel = new javax.swing.JLabel();
+        userIconLabel = new javax.swing.JLabel();
         toolBar = new javax.swing.JToolBar();
-        jButton2 = new javax.swing.JButton();
+        btnOpen = new javax.swing.JButton();
         btnFind = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JToolBar.Separator();
-        btnSettings = new javax.swing.JButton();
+        separatorToolBar = new javax.swing.JToolBar.Separator();
+        btnEquipment = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        btnLogin = new javax.swing.JButton();
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getResourceMap(MainView.class);
         mainPanel.setBackground(resourceMap.getColor("mainPanel.background")); // NOI18N
@@ -167,7 +190,7 @@ public class MainView extends FrameView {
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 350, Short.MAX_VALUE)
+            .addGap(0, 356, Short.MAX_VALUE)
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -178,6 +201,7 @@ public class MainView extends FrameView {
 
         openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         openMenuItem.setText(resourceMap.getString("openMenuItem.text")); // NOI18N
+        openMenuItem.setEnabled(false);
         openMenuItem.setName("openMenuItem"); // NOI18N
         fileMenu.add(openMenuItem);
 
@@ -221,14 +245,12 @@ public class MainView extends FrameView {
         loginMenu.setName("loginMenu"); // NOI18N
 
         loginMenuItem.setAction(actionMap.get("showLoginBox")); // NOI18N
-        loginMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         loginMenuItem.setText(resourceMap.getString("loginMenuItem.text")); // NOI18N
         loginMenuItem.setName("loginMenuItem"); // NOI18N
         loginMenu.add(loginMenuItem);
 
-        logoutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        logoutMenuItem.setAction(actionMap.get("logoutUser")); // NOI18N
         logoutMenuItem.setText(resourceMap.getString("logoutMenuItem.text")); // NOI18N
-        logoutMenuItem.setEnabled(false);
         logoutMenuItem.setName("logoutMenuItem"); // NOI18N
         loginMenu.add(logoutMenuItem);
 
@@ -273,7 +295,6 @@ public class MainView extends FrameView {
         helpMenu.setName("helpMenu"); // NOI18N
 
         aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
-        aboutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         aboutMenuItem.setName("aboutMenuItem"); // NOI18N
         helpMenu.add(aboutMenuItem);
 
@@ -291,18 +312,33 @@ public class MainView extends FrameView {
 
         progressBar.setName("progressBar"); // NOI18N
 
+        userLoginLabel.setFont(resourceMap.getFont("userLoginLabel.font")); // NOI18N
+        userLoginLabel.setText(resourceMap.getString("userLoginLabel.text")); // NOI18N
+        userLoginLabel.setName("userLoginLabel"); // NOI18N
+
+        userIconLabel.setIcon(resourceMap.getIcon("userIconLabel.icon")); // NOI18N
+        userIconLabel.setText(resourceMap.getString("userIconLabel.text")); // NOI18N
+        userIconLabel.setName("userIconLabel"); // NOI18N
+
         javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
             .addGroup(statusPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 526, Short.MAX_VALUE)
-                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(statusAnimationLabel)
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(statusMessageLabel))
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addGap(95, 95, 95)
+                        .addComponent(userIconLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(userLoginLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 351, Short.MAX_VALUE)
+                        .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(statusAnimationLabel)))
                 .addContainerGap())
         );
         statusPanelLayout.setVerticalGroup(
@@ -310,11 +346,18 @@ public class MainView extends FrameView {
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addComponent(statusPanelSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(statusMessageLabel)
-                    .addComponent(statusAnimationLabel)
-                    .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
+                .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(statusMessageLabel)
+                            .addComponent(statusAnimationLabel)
+                            .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11))
+                    .addGroup(statusPanelLayout.createSequentialGroup()
+                        .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(userLoginLabel)
+                            .addComponent(userIconLabel))
+                        .addContainerGap())))
         );
 
         toolBar.setFloatable(false);
@@ -324,14 +367,15 @@ public class MainView extends FrameView {
         toolBar.setName("toolBar"); // NOI18N
         toolBar.setPreferredSize(new java.awt.Dimension(800, 34));
 
-        jButton2.setIcon(resourceMap.getIcon("jButton2.icon")); // NOI18N
-        jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
-        jButton2.setEnabled(false);
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setName("jButton2"); // NOI18N
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolBar.add(jButton2);
+        btnOpen.setIcon(resourceMap.getIcon("btnOpen.icon")); // NOI18N
+        btnOpen.setText(resourceMap.getString("btnOpen.text")); // NOI18N
+        btnOpen.setToolTipText(resourceMap.getString("btnOpen.toolTipText")); // NOI18N
+        btnOpen.setEnabled(false);
+        btnOpen.setFocusable(false);
+        btnOpen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOpen.setName("btnOpen"); // NOI18N
+        btnOpen.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(btnOpen);
 
         btnFind.setIcon(resourceMap.getIcon("btnFind.icon")); // NOI18N
         btnFind.setText(resourceMap.getString("btnFind.text")); // NOI18N
@@ -353,20 +397,30 @@ public class MainView extends FrameView {
         btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(btnRefresh);
 
-        jSeparator1.setName("jSeparator1"); // NOI18N
-        toolBar.add(jSeparator1);
+        separatorToolBar.setName("separatorToolBar"); // NOI18N
+        separatorToolBar.setSeparatorSize(new java.awt.Dimension(2, 34));
+        toolBar.add(separatorToolBar);
 
-        btnSettings.setIcon(resourceMap.getIcon("btnSettings.icon")); // NOI18N
-        btnSettings.setText(resourceMap.getString("btnSettings.text")); // NOI18N
-        btnSettings.setToolTipText(resourceMap.getString("btnSettings.toolTipText")); // NOI18N
-        btnSettings.setFocusable(false);
-        btnSettings.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSettings.setMaximumSize(new java.awt.Dimension(37, 35));
-        btnSettings.setMinimumSize(new java.awt.Dimension(37, 35));
-        btnSettings.setName("btnSettings"); // NOI18N
-        btnSettings.setPreferredSize(new java.awt.Dimension(37, 35));
-        btnSettings.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolBar.add(btnSettings);
+        btnEquipment.setIcon(resourceMap.getIcon("btnEquipment.icon")); // NOI18N
+        btnEquipment.setText(resourceMap.getString("btnEquipment.text")); // NOI18N
+        btnEquipment.setToolTipText(resourceMap.getString("btnEquipment.toolTipText")); // NOI18N
+        btnEquipment.setFocusable(false);
+        btnEquipment.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEquipment.setMaximumSize(new java.awt.Dimension(37, 35));
+        btnEquipment.setMinimumSize(new java.awt.Dimension(37, 35));
+        btnEquipment.setName("btnEquipment"); // NOI18N
+        btnEquipment.setPreferredSize(new java.awt.Dimension(37, 35));
+        btnEquipment.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(btnEquipment);
+
+        jButton2.setIcon(resourceMap.getIcon("jButton2.icon")); // NOI18N
+        jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
+        jButton2.setToolTipText(resourceMap.getString("jButton2.toolTipText")); // NOI18N
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setName("jButton2"); // NOI18N
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(jButton2);
 
         jButton1.setIcon(resourceMap.getIcon("jButton1.icon")); // NOI18N
         jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
@@ -377,6 +431,20 @@ public class MainView extends FrameView {
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(jButton1);
 
+        jSeparator1.setName("jSeparator1"); // NOI18N
+        jSeparator1.setSeparatorSize(new java.awt.Dimension(2, 34));
+        toolBar.add(jSeparator1);
+
+        btnLogin.setAction(actionMap.get("changeLogin")); // NOI18N
+        btnLogin.setIcon(resourceMap.getIcon("btnLogin.icon")); // NOI18N
+        btnLogin.setText(resourceMap.getString("btnLogin.text")); // NOI18N
+        btnLogin.setToolTipText(resourceMap.getString("btnLogin.toolTipText")); // NOI18N
+        btnLogin.setFocusable(false);
+        btnLogin.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnLogin.setName("btnLogin"); // NOI18N
+        btnLogin.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(btnLogin);
+
         setComponent(mainPanel);
         setMenuBar(menuBar);
         setStatusBar(statusPanel);
@@ -384,9 +452,11 @@ public class MainView extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEquipment;
     private javax.swing.JButton btnFind;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnOpen;
     private javax.swing.JButton btnRefresh;
-    private javax.swing.JButton btnSettings;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
     private javax.swing.JMenuItem dbMenuItem;
@@ -407,6 +477,7 @@ public class MainView extends FrameView {
     private javax.swing.JProgressBar progressBar;
     private javax.swing.JPopupMenu.Separator sepTools;
     private javax.swing.JPopupMenu.Separator sepUser;
+    private javax.swing.JToolBar.Separator separatorToolBar;
     private javax.swing.JMenuItem serverMenuItem;
     private javax.swing.JMenu setupMenu;
     private javax.swing.JLabel statusAnimationLabel;
@@ -414,6 +485,8 @@ public class MainView extends FrameView {
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
     private javax.swing.JToolBar toolBar;
+    private javax.swing.JLabel userIconLabel;
+    private javax.swing.JLabel userLoginLabel;
     // End of variables declaration//GEN-END:variables
 
     private final Timer messageTimer;
@@ -425,5 +498,49 @@ public class MainView extends FrameView {
     private final Image windowImage;
 
     private JDialog aboutBox;
-    private JDialog loginBox;
+    private Login loginBox;
+
+    public JLabel getUserLoginLabel() {
+        return userLoginLabel;
+    }
+
+    public void setUserLoginLabel(JLabel userLoginLabel) {
+        this.userLoginLabel = userLoginLabel;
+    }
+
+    public JButton getBtnLogin() {
+        return btnLogin;
+    }
+
+    public JButton getBtnFind() {
+        return btnFind;
+    }
+
+    public JButton getBtnOpen() {
+        return btnOpen;
+    }
+
+    public JButton getBtnRefresh() {
+        return btnRefresh;
+    }
+
+    public JMenuItem getOpenMenuItem() {
+        return openMenuItem;
+    }
+
+    public JMenuItem getLoginMenuItem() {
+        return loginMenuItem;
+    }
+
+    public JMenuItem getLogoutMenuItem() {
+        return logoutMenuItem;
+    }
+
+    public JMenuItem getProfileMenuItem() {
+        return profileMenuItem;
+    }
+
+    public JProgressBar getProgressBar() {
+        return progressBar;
+    }
 }

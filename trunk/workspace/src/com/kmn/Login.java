@@ -27,10 +27,13 @@ import org.jdesktop.application.Action;
  */
 public class Login extends javax.swing.JDialog implements Confirm  {
     protected LoginController controller;
+    protected MainView mainview;
     
     /** Creates new form Login */
-    public Login(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public Login(MainView mainview, boolean modal) {
+        super(MainApps.getApplication().getMainFrame(), modal);
+
+        this.mainview = mainview;
         initComponents();
     }
 
@@ -134,7 +137,7 @@ public class Login extends javax.swing.JDialog implements Confirm  {
 
     @Action
     public void loginUser() {
-        controller = new LoginController();
+        controller = new LoginController(mainview);
         controller.processLogin(this, this);
     }
 
@@ -156,22 +159,10 @@ public class Login extends javax.swing.JDialog implements Confirm  {
     private javax.swing.JTextField jUsername;
     // End of variables declaration//GEN-END:variables
 
-    protected void unlockMenu() {
-        
-
-    }
-
-    protected void lockMenu() {
-        
-    }
-
-    @Override
-    public void onSuccess() {
+    private void showMssg(SecUser user) {
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
         sdf.format(now);
-        
-        SecUser user = controller.getUserDetail(this);
         
         StringBuffer mssg = new StringBuffer("");
         mssg.append("Welcome ");
@@ -179,7 +170,16 @@ public class Login extends javax.swing.JDialog implements Confirm  {
         mssg.append("Login at ");
         mssg.append(now);
         JOptionPane.showMessageDialog(this, mssg.toString());
+    }
+
+    @Override
+    public void onSuccess() {
         setVisible(false);
+        controller.loginUser();
+        showMssg(controller.getUserDetail(this));
+
+        jUsername.setText(null);
+        jPassword.setText(null);
     }
 
     @Override
@@ -192,4 +192,7 @@ public class Login extends javax.swing.JDialog implements Confirm  {
         JOptionPane.showMessageDialog(this, t.getMessage());
     }
 
+    public LoginController getController() {
+        return controller;
+    }
 }
