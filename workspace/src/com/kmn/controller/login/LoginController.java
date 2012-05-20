@@ -5,9 +5,13 @@
 package com.kmn.controller.login;
 
 import com.kmn.Login;
+import com.kmn.MainView;
 import com.kmn.backend.entity.SecUser;
 import com.kmn.backend.jpa.SecUserJpaController;
 import com.kmn.controller.Confirm;
+import com.kmn.controller.UserSession;
+import com.kmn.controller.menu.MainViewController;
+import java.util.Date;
 
 /**
  *
@@ -16,8 +20,13 @@ import com.kmn.controller.Confirm;
 public class LoginController {
 
     private SecUserJpaController usrJpa;
+    private MainViewController controller;
+    private SecUser secuser;
+    private MainView mainview;
 
-    public LoginController() {
+    public LoginController(MainView mainview) {
+        this.mainview = mainview;
+        this.controller = new MainViewController(mainview);
         this.usrJpa = new SecUserJpaController();
     }
 
@@ -33,11 +42,12 @@ public class LoginController {
             return;
         }
 
-        SecUser sec = this.usrJpa.findByUserName(username);
-        if (sec == null) {
+        this.secuser = this.usrJpa.findByUserName(username);
+        
+        if (this.secuser == null) {
             confirm.onWarning("Invalid Login"+ "\n" +"Please check user name");
             return;
-        } else if (!sec.getUsrPassword().equals(password)) {
+        } else if (!this.secuser.getUsrPassword().equals(password)) {
             confirm.onWarning("Invalid Login" + "\n" + "Please check your password");
             return;
         }
@@ -46,9 +56,16 @@ public class LoginController {
     }
 
     public SecUser getUserDetail(Login login) {
-        String username = login.getjUsername().getText();
-        SecUser sec = this.usrJpa.findByUserName(username);
+        return this.secuser;
+    }
 
-        return sec;
+    public void loginUser() {
+        UserSession.getInstance().setSession(this.secuser, new Date());
+        controller.init(true);
+    }
+
+    public void logoutUser() {
+        UserSession.getInstance().setSession(null, null);
+        controller.init(false);
     }
 }
