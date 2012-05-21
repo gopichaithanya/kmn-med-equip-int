@@ -172,22 +172,23 @@ public class Login extends javax.swing.JDialog implements Confirm  {
         JOptionPane.showMessageDialog(this, mssg.toString());
     }
 
-    @Override
+    //@Override
     public void onSuccess() {
-        setVisible(false);
+        //setVisible(false);
         controller.loginUser();
         showMssg(controller.getUserDetail(this));
 
         jUsername.setText(null);
         jPassword.setText(null);
+        setVisible(false);
     }
 
-    @Override
+    //@Override
     public void onWarning(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
 
-    @Override
+    //@Override
     public void onError(Throwable t) {
         JOptionPane.showMessageDialog(this, t.getMessage());
     }
