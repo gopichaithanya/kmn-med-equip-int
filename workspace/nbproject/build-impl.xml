@@ -380,7 +380,7 @@ is divided into following sections:
     </target>
     <target depends="init,-deps-jar-init" name="deps-jar" unless="no.deps">
         <mkdir dir="${build.dir}"/>
-        <touch file="${built-jar.properties}" verbose="false"/>
+		<touch file="${built-jar.properties}" verbose="false"/>
         <property file="${built-jar.properties}" prefix="already.built.jar."/>
         <antcall target="-warn-already-built-jar"/>
         <propertyfile file="${built-jar.properties}">
@@ -418,6 +418,11 @@ is divided into following sections:
     <target name="-post-compile">
         <!-- Empty placeholder for easier customization. -->
         <!-- You can override this target in the ../build.xml file. -->
+		<copy todir="${dist.dir}/conf">
+			<fileset dir="conf">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
     </target>
     <target depends="init,deps-jar,-verify-automatic-build,-pre-pre-compile,-pre-compile,-do-compile,-post-compile" description="Compile project." name="compile"/>
     <target name="-pre-compile-single">

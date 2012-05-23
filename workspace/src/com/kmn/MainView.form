@@ -178,8 +178,8 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="dbMenuItem">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Alt+D"/>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.kmn.MainView" id="openSetupDB" methodName="openSetupDB"/>
                 </Property>
                 <Property name="text" type="java.lang.String" resourceKey="dbMenuItem.text"/>
                 <Property name="name" type="java.lang.String" value="dbMenuItem" noResource="true"/>
@@ -187,8 +187,8 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="serverMenuItem">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Alt+S"/>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.kmn.MainView" id="openSetupServer" methodName="openSetupServer"/>
                 </Property>
                 <Property name="text" type="java.lang.String" resourceKey="serverMenuItem.text"/>
                 <Property name="name" type="java.lang.String" value="serverMenuItem" noResource="true"/>
@@ -430,6 +430,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.kmn.MainView" id="openSetupDB" methodName="openSetupDB"/>
+            </Property>
             <Property name="icon" type="javax.swing.Icon" resourceKey="jButton2.icon"/>
             <Property name="text" type="java.lang.String" resourceKey="jButton2.text"/>
             <Property name="toolTipText" type="java.lang.String" resourceKey="jButton2.toolTipText"/>
@@ -441,6 +444,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.kmn.MainView" id="openSetupServer" methodName="openSetupServer"/>
+            </Property>
             <Property name="icon" type="javax.swing.Icon" resourceKey="jButton1.icon"/>
             <Property name="text" type="java.lang.String" resourceKey="jButton1.text"/>
             <Property name="toolTipText" type="java.lang.String" resourceKey="jButton1.toolTipText"/>

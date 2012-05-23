@@ -5,6 +5,8 @@
 package com.kmn;
 
 import com.kmn.controller.UserSession;
+import com.kmn.gui.setup.SetupDatabase;
+import com.kmn.gui.setup.SetupServer;
 import java.awt.Image;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -125,7 +127,6 @@ public class MainView extends FrameView {
         if(UserSession.getInstance().getSecuser() == null) showLoginBox();
         else logoutUser();
     }
-
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -272,12 +273,12 @@ public class MainView extends FrameView {
         equiMenuItem.setName("equiMenuItem"); // NOI18N
         setupMenu.add(equiMenuItem);
 
-        dbMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK));
+        dbMenuItem.setAction(actionMap.get("openSetupDB")); // NOI18N
         dbMenuItem.setText(resourceMap.getString("dbMenuItem.text")); // NOI18N
         dbMenuItem.setName("dbMenuItem"); // NOI18N
         setupMenu.add(dbMenuItem);
 
-        serverMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
+        serverMenuItem.setAction(actionMap.get("openSetupServer")); // NOI18N
         serverMenuItem.setText(resourceMap.getString("serverMenuItem.text")); // NOI18N
         serverMenuItem.setName("serverMenuItem"); // NOI18N
         setupMenu.add(serverMenuItem);
@@ -413,6 +414,7 @@ public class MainView extends FrameView {
         btnEquipment.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(btnEquipment);
 
+        jButton2.setAction(actionMap.get("openSetupDB")); // NOI18N
         jButton2.setIcon(resourceMap.getIcon("jButton2.icon")); // NOI18N
         jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
         jButton2.setToolTipText(resourceMap.getString("jButton2.toolTipText")); // NOI18N
@@ -422,6 +424,7 @@ public class MainView extends FrameView {
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(jButton2);
 
+        jButton1.setAction(actionMap.get("openSetupServer")); // NOI18N
         jButton1.setIcon(resourceMap.getIcon("jButton1.icon")); // NOI18N
         jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
         jButton1.setToolTipText(resourceMap.getString("jButton1.toolTipText")); // NOI18N
@@ -499,6 +502,8 @@ public class MainView extends FrameView {
 
     private JDialog aboutBox;
     private Login loginBox;
+    private SetupDatabase setupDbBox;
+    private SetupServer setupServerBox;
 
     public JLabel getUserLoginLabel() {
         return userLoginLabel;
@@ -542,5 +547,25 @@ public class MainView extends FrameView {
 
     public JProgressBar getProgressBar() {
         return progressBar;
+    }
+
+    @Action
+    public void openSetupDB() {
+        if (setupDbBox == null) {
+            JFrame mainFrame = MainApps.getApplication().getMainFrame();
+            setupDbBox = new SetupDatabase(this, true);
+            setupDbBox.setLocationRelativeTo(mainFrame);
+        }
+        MainApps.getApplication().show(setupDbBox);
+    }
+
+    @Action
+    public void openSetupServer() {
+        if (setupServerBox == null) {
+            JFrame mainFrame = MainApps.getApplication().getMainFrame();
+            setupServerBox = new SetupServer(this, true);
+            setupServerBox.setLocationRelativeTo(mainFrame);
+        }
+        MainApps.getApplication().show(setupServerBox);
     }
 }
