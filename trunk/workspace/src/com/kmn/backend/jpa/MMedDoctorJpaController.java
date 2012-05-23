@@ -19,11 +19,11 @@ import javax.persistence.EntityNotFoundException;
  * @author Hermanto
  */
 public class MMedDoctorJpaController {
+    private EntityManagerFactory emf = null;
 
     public MMedDoctorJpaController() {
         emf = Persistence.createEntityManagerFactory("workspacePU");
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
