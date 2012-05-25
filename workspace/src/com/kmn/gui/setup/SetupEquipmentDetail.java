@@ -14,8 +14,10 @@ package com.kmn.gui.setup;
 import com.kmn.MainApps;
 import com.kmn.backend.entity.MMedEquipment;
 import com.kmn.backend.jpa.MMedEquipmentJpaController;
+import com.kmn.controller.props.EquipmentDetailProperties;
 import java.util.List;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -48,6 +50,8 @@ public class SetupEquipmentDetail extends javax.swing.JDialog {
             for(MMedEquipment lst : lequip)
                 this.comboCode.addItem(lst.getEquipmentCode());
         }
+
+        initValue();
     }
 
     /** This method is called from within the constructor to
@@ -85,11 +89,6 @@ public class SetupEquipmentDetail extends javax.swing.JDialog {
         setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
 
         labelCode.setText(resourceMap.getString("labelCode.text")); // NOI18N
         labelCode.setName("labelCode"); // NOI18N
@@ -261,10 +260,6 @@ public class SetupEquipmentDetail extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_comboCodeItemStateChanged
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
-    }//GEN-LAST:event_formWindowOpened
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox comboCode;
     private javax.swing.JComboBox comboData;
@@ -288,6 +283,39 @@ public class SetupEquipmentDetail extends javax.swing.JDialog {
     private javax.swing.JTextField textType;
     // End of variables declaration//GEN-END:variables
 
+    public void initValue() {
+        if(isedit) {
+            JTable table = setequip.getTabelEquipment();
+            String ecode = (String) table.getValueAt(table.getSelectedRow(), 0);
+            List<EquipmentDetailProperties> eqList = setequip.getEqList();
+            for(EquipmentDetailProperties ql : eqList) {
+                if(!ql.getEcode().equalsIgnoreCase(ecode)) continue;
+
+                comboCode.setSelectedItem(ql.getCode());
+                comboData.setSelectedItem(ql.getDataBit());
+                comboFlow.setSelectedItem(ql.getFlow());
+                comboParity.setSelectedItem(ql.getParity());
+                comboSpeed.setSelectedItem(ql.getRate());
+                comboStop.setSelectedItem(ql.getStopBit());
+                textCom.setText(ql.getCom());
+                textName.setText(ql.getName());
+                textType.setText(ql.getType());
+                break;
+            }
+        }
+        else {
+            comboCode.setSelectedIndex(0);
+            comboData.setSelectedIndex(0);
+            comboFlow.setSelectedIndex(0);
+            comboParity.setSelectedIndex(0);
+            comboSpeed.setSelectedIndex(0);
+            comboStop.setSelectedIndex(0);
+            textCom.setText(null);
+            textName.setText(null);
+            textType.setText(null);
+        }
+    }
+    
     @Action
     public void cancelDetail() {
         setVisible(false);
@@ -297,19 +325,32 @@ public class SetupEquipmentDetail extends javax.swing.JDialog {
     public void addDetail() {
         JTable table = setequip.getTabelEquipment();
 
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.addRow(new Object[]{
-            (String) comboCode.getSelectedItem(),
-            textName.getText(),
-            textType.getText(),
-            textCom.getText(),
-            (String) comboSpeed.getSelectedItem(),
-            "",
-            ""
-        });
+        boolean isSame = false;
+        for(int i=0; i<table.getRowCount(); i++) {
+            if(table.getValueAt(i, 0).equals(comboCode.getSelectedItem())) {
+                isSame = true;
+                break;
+            }
+        }
 
-        setequip.getListEquipment().add(this);
-        setVisible(false);
+        if(!isSame) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            model.addRow(new Object[]{
+                (String) comboCode.getSelectedItem(),
+                textName.getText(),
+                textType.getText(),
+                textCom.getText(),
+                (String) comboSpeed.getSelectedItem(),
+                "",
+                ""
+            });
+
+            setequip.getListEquipment().add(this);
+            setVisible(false);
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Duplicate Equipment Code Not Allowed ");
+        }
     }
 
     public JComboBox getComboCode() {

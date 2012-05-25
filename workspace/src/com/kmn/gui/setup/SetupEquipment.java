@@ -31,6 +31,7 @@ import org.jdesktop.application.Action;
 public class SetupEquipment extends javax.swing.JDialog implements Confirm {
     private SetupEquipmentDetail detailBox;
     private List<SetupEquipmentDetail> listEquipment = new ArrayList<SetupEquipmentDetail>();
+    private List<EquipmentDetailProperties> eqList;
     private EquipmentProperties eqprop = new EquipmentProperties(this);;
     
         /** Creates new form SetupEquipment */
@@ -185,7 +186,7 @@ public class SetupEquipment extends javax.swing.JDialog implements Confirm {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         eqprop.load();
-        List<EquipmentDetailProperties> eqList = eqprop.getEqList();
+        eqList = eqprop.getEqList();
         
         DefaultTableModel model = (DefaultTableModel) tabelEquipment.getModel();
         for(EquipmentDetailProperties ql : eqList) {
@@ -277,6 +278,10 @@ public class SetupEquipment extends javax.swing.JDialog implements Confirm {
 
     public List getListEquipment() {
         return listEquipment;
+    }
+
+    public List<EquipmentDetailProperties> getEqList() {
+        return eqList;
     }
 
     @Override
