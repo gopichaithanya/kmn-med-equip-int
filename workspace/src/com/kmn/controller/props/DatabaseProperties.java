@@ -61,7 +61,7 @@ public class DatabaseProperties implements PropertiesController {
         prop.setProperty(DB_PROVIDER, this.getProvider());
         
         try {
-            inProp.close();
+            if(inProp != null) inProp.close();
             
             outProp = new FileOutputStream(SYS_DIR + SYS_SEPARATOR + CONF_DIR + SYS_SEPARATOR + DB_FILE);
             outProp.flush();

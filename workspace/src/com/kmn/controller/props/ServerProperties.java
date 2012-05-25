@@ -59,7 +59,7 @@ public class ServerProperties implements PropertiesController {
         prop.setProperty(SERVER_PORT, this.getPort());
         
         try {
-            inProp.close();
+            if(inProp != null) inProp.close();
 
             outProp = new FileOutputStream(SYS_DIR + SYS_SEPARATOR + CONF_DIR + SYS_SEPARATOR + SERVER_FILE);
             outProp.flush();
