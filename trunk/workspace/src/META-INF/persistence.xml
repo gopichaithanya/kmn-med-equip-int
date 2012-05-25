@@ -9,6 +9,7 @@
     <class>com.kmn.backend.entity.MMedDoctor</class>
     <class>com.kmn.backend.entity.MMedEquiptype</class>
     <class>com.kmn.backend.entity.MMedOfficer</class>
+    <class>com.kmn.backend.entity.MMedEquipment</class>
     <properties>
       <property name="hibernate.connection.username" value="kmn"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>

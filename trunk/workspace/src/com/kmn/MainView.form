@@ -169,8 +169,8 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="equiMenuItem">
               <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Alt+E"/>
+                <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+                  <action class="com.kmn.MainView" id="openSetupEquipment" methodName="openSetupEquipment"/>
                 </Property>
                 <Property name="text" type="java.lang.String" resourceKey="equiMenuItem.text"/>
                 <Property name="name" type="java.lang.String" value="equiMenuItem" noResource="true"/>
@@ -410,6 +410,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnEquipment">
           <Properties>
+            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+              <action class="com.kmn.MainView" id="openSetupEquipment" methodName="openSetupEquipment"/>
+            </Property>
             <Property name="icon" type="javax.swing.Icon" resourceKey="btnEquipment.icon"/>
             <Property name="text" type="java.lang.String" resourceKey="btnEquipment.text"/>
             <Property name="toolTipText" type="java.lang.String" resourceKey="btnEquipment.toolTipText"/>

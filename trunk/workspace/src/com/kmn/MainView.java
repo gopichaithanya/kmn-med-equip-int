@@ -6,6 +6,7 @@ package com.kmn;
 
 import com.kmn.controller.UserSession;
 import com.kmn.gui.setup.SetupDatabase;
+import com.kmn.gui.setup.SetupEquipment;
 import com.kmn.gui.setup.SetupServer;
 import java.awt.Image;
 import javax.swing.JButton;
@@ -268,7 +269,7 @@ public class MainView extends FrameView {
         setupMenu.setText(resourceMap.getString("setupMenu.text")); // NOI18N
         setupMenu.setName("setupMenu"); // NOI18N
 
-        equiMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.ALT_MASK));
+        equiMenuItem.setAction(actionMap.get("openSetupEquipment")); // NOI18N
         equiMenuItem.setText(resourceMap.getString("equiMenuItem.text")); // NOI18N
         equiMenuItem.setName("equiMenuItem"); // NOI18N
         setupMenu.add(equiMenuItem);
@@ -402,6 +403,7 @@ public class MainView extends FrameView {
         separatorToolBar.setSeparatorSize(new java.awt.Dimension(2, 34));
         toolBar.add(separatorToolBar);
 
+        btnEquipment.setAction(actionMap.get("openSetupEquipment")); // NOI18N
         btnEquipment.setIcon(resourceMap.getIcon("btnEquipment.icon")); // NOI18N
         btnEquipment.setText(resourceMap.getString("btnEquipment.text")); // NOI18N
         btnEquipment.setToolTipText(resourceMap.getString("btnEquipment.toolTipText")); // NOI18N
@@ -504,6 +506,7 @@ public class MainView extends FrameView {
     private Login loginBox;
     private SetupDatabase setupDbBox;
     private SetupServer setupServerBox;
+    private SetupEquipment setupEquipmentBox;
 
     public JLabel getUserLoginLabel() {
         return userLoginLabel;
@@ -567,5 +570,15 @@ public class MainView extends FrameView {
             setupServerBox.setLocationRelativeTo(mainFrame);
         }
         MainApps.getApplication().show(setupServerBox);
+    }
+
+    @Action
+    public void openSetupEquipment() {
+        if (setupEquipmentBox == null) {
+            JFrame mainFrame = MainApps.getApplication().getMainFrame();
+            setupEquipmentBox = new SetupEquipment(this, true);
+            setupEquipmentBox.setLocationRelativeTo(mainFrame);
+        }
+        MainApps.getApplication().show(setupEquipmentBox);
     }
 }

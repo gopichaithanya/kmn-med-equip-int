@@ -22,4 +22,17 @@ public interface Properties {
     public static final String SERVER_PASSWORD = "server.password";
     public static final String SERVER_IP = "server.ip";
     public static final String SERVER_PORT = "server.port";
+
+    public static final String EQUIPMENT_FILE = "equipment.properties";
+    public static final String EQUIPMENT_CODE = "equipment.code";
+    public static final String EQUIPMENT_NAME = "equipment.name";
+    public static final String EQUIPMENT_TYPE = "equipment.type";
+    public static final String EQUIPMENT_COM = "equipment.com";
+    public static final String EQUIPMENT_BOUND_RATE = "equipment.rate";
+    public static final String EQUIPMENT_DATA_BIT = "equipment.data";
+    public static final String EQUIPMENT_PARITY = "equipment.parity";
+    public static final String EQUIPMENT_STOP_BIT = "equipment.stop";
+    public static final String EQUIPMENT_FLOW_CONTROL = "equipment.flow";
+    public static final String EQUIPMENT_IP = "equipment.ip";
+    public static final String EQUIPMENT_PORT = "equipment.port";
 }
