@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 11 Mar 12 23:21:12 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="id.co.kmn.backend.model.Mmedproducer" table="M_MED_PRODUCER" >
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="prodCode" type="string">
+            <column name="PROD_CODE" length="5" not-null="true" unique="true"/>
+        </property>
+        <property name="prodName" type="string">
+            <column name="PROD_NAME" length="50" not-null="true" />
+        </property>
+        <property name="activeSts" type="string">
+            <column name="ACTIVE_STS" length="1"/>
+        </property>
+        <property name="createDate" type="date">
+            <column name="CREATE_DATE" length="10" />
+        </property>
+        <property name="creatorId" type="string">
+            <column name="CREATOR_ID" length="20" />
+        </property>
+        <property name="lastUpdate" type="date">
+            <column name="LAST_UPDATE" length="10" />
+        </property>
+        <property name="lastUserId" type="string">
+            <column name="LAST_USER_ID" length="20" />
+        </property>
+    </class>
+</hibernate-mapping>
