@@ -20,6 +20,8 @@
                   iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_Doctor"/-->
         <menuItem id="menuItem_Admin_Room" zulNavigation="/WEB-INF/pages/administrasi/room/roomMain.zul"
                   iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_Room"/>
+        <menuItem id="menu_Item_Branches" zulNavigation="/WEB-INF/pages/branch/branchMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_MainData_Branch"/>
         <menuItem id="menuItem_Admin_System" zulNavigation="/WEB-INF/pages/administrasi/system/systemMain.zul"
                   iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_System"/>
     </menu>
