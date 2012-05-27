@@ -8,11 +8,13 @@ import com.kmn.controller.UserSession;
 import com.kmn.gui.setup.SetupDatabase;
 import com.kmn.gui.setup.SetupEquipment;
 import com.kmn.gui.setup.SetupServer;
+import com.kmn.gui.workspace.OpenDialog;
 import java.awt.Image;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JProgressBar;
+import javax.swing.JTabbedPane;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -138,6 +140,13 @@ public class MainView extends FrameView {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
+        panelBody = new javax.swing.JPanel();
+        tabMain = new javax.swing.JTabbedPane();
+        panelWelcome = new javax.swing.JPanel();
+        toolbarWelcome = new javax.swing.JToolBar();
+        buttonLogin2 = new javax.swing.JButton();
+        panelInfo = new javax.swing.JPanel();
+        labelKmn = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -173,26 +182,102 @@ public class MainView extends FrameView {
         btnRefresh = new javax.swing.JButton();
         separatorToolBar = new javax.swing.JToolBar.Separator();
         btnEquipment = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        buttonDb = new javax.swing.JButton();
+        buttonServer = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
         btnLogin = new javax.swing.JButton();
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getResourceMap(MainView.class);
         mainPanel.setBackground(resourceMap.getColor("mainPanel.background")); // NOI18N
-        mainPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         mainPanel.setName("mainPanel"); // NOI18N
         mainPanel.setPreferredSize(new java.awt.Dimension(800, 400));
+
+        panelBody.setBackground(resourceMap.getColor("panelBody.background")); // NOI18N
+        panelBody.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        panelBody.setName("panelBody"); // NOI18N
+
+        tabMain.setAlignmentX(0.0F);
+        tabMain.setAlignmentY(0.0F);
+        tabMain.setName("tabMain"); // NOI18N
+
+        panelWelcome.setName("panelWelcome"); // NOI18N
+
+        toolbarWelcome.setRollover(true);
+        toolbarWelcome.setName("toolbarWelcome"); // NOI18N
+
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getActionMap(MainView.class, this);
+        buttonLogin2.setAction(actionMap.get("showLoginBox")); // NOI18N
+        buttonLogin2.setIcon(resourceMap.getIcon("buttonLogin2.icon")); // NOI18N
+        buttonLogin2.setText(resourceMap.getString("buttonLogin2.text")); // NOI18N
+        buttonLogin2.setToolTipText(resourceMap.getString("buttonLogin2.toolTipText")); // NOI18N
+        buttonLogin2.setFocusable(false);
+        buttonLogin2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonLogin2.setName("buttonLogin2"); // NOI18N
+        buttonLogin2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolbarWelcome.add(buttonLogin2);
+
+        panelInfo.setBackground(resourceMap.getColor("panelInfo.background")); // NOI18N
+        panelInfo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelInfo.setName("panelInfo"); // NOI18N
+
+        labelKmn.setIcon(resourceMap.getIcon("labelKmn.icon")); // NOI18N
+        labelKmn.setText(resourceMap.getString("labelKmn.text")); // NOI18N
+        labelKmn.setName("labelKmn"); // NOI18N
+
+        javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
+        panelInfo.setLayout(panelInfoLayout);
+        panelInfoLayout.setHorizontalGroup(
+            panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInfoLayout.createSequentialGroup()
+                .addContainerGap(447, Short.MAX_VALUE)
+                .addComponent(labelKmn)
+                .addContainerGap())
+        );
+        panelInfoLayout.setVerticalGroup(
+            panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInfoLayout.createSequentialGroup()
+                .addContainerGap(182, Short.MAX_VALUE)
+                .addComponent(labelKmn)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout panelWelcomeLayout = new javax.swing.GroupLayout(panelWelcome);
+        panelWelcome.setLayout(panelWelcomeLayout);
+        panelWelcomeLayout.setHorizontalGroup(
+            panelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(toolbarWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
+            .addComponent(panelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        panelWelcomeLayout.setVerticalGroup(
+            panelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelWelcomeLayout.createSequentialGroup()
+                .addComponent(toolbarWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        tabMain.addTab(resourceMap.getString("panelWelcome.TabConstraints.tabTitle"), resourceMap.getIcon("panelWelcome.TabConstraints.tabIcon"), panelWelcome); // NOI18N
+
+        javax.swing.GroupLayout panelBodyLayout = new javax.swing.GroupLayout(panelBody);
+        panelBody.setLayout(panelBodyLayout);
+        panelBodyLayout.setHorizontalGroup(
+            panelBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tabMain, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+        );
+        panelBodyLayout.setVerticalGroup(
+            panelBodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tabMain, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 688, Short.MAX_VALUE)
+            .addComponent(panelBody, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 356, Short.MAX_VALUE)
+            .addComponent(panelBody, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -207,7 +292,6 @@ public class MainView extends FrameView {
         openMenuItem.setName("openMenuItem"); // NOI18N
         fileMenu.add(openMenuItem);
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getActionMap(MainView.class, this);
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
@@ -369,10 +453,10 @@ public class MainView extends FrameView {
         toolBar.setName("toolBar"); // NOI18N
         toolBar.setPreferredSize(new java.awt.Dimension(800, 34));
 
+        btnOpen.setAction(actionMap.get("openWorkspace")); // NOI18N
         btnOpen.setIcon(resourceMap.getIcon("btnOpen.icon")); // NOI18N
         btnOpen.setText(resourceMap.getString("btnOpen.text")); // NOI18N
         btnOpen.setToolTipText(resourceMap.getString("btnOpen.toolTipText")); // NOI18N
-        btnOpen.setEnabled(false);
         btnOpen.setFocusable(false);
         btnOpen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnOpen.setName("btnOpen"); // NOI18N
@@ -416,25 +500,25 @@ public class MainView extends FrameView {
         btnEquipment.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         toolBar.add(btnEquipment);
 
-        jButton2.setAction(actionMap.get("openSetupDB")); // NOI18N
-        jButton2.setIcon(resourceMap.getIcon("jButton2.icon")); // NOI18N
-        jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
-        jButton2.setToolTipText(resourceMap.getString("jButton2.toolTipText")); // NOI18N
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setName("jButton2"); // NOI18N
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolBar.add(jButton2);
+        buttonDb.setAction(actionMap.get("openSetupDB")); // NOI18N
+        buttonDb.setIcon(resourceMap.getIcon("buttonDb.icon")); // NOI18N
+        buttonDb.setText(resourceMap.getString("buttonDb.text")); // NOI18N
+        buttonDb.setToolTipText(resourceMap.getString("buttonDb.toolTipText")); // NOI18N
+        buttonDb.setFocusable(false);
+        buttonDb.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonDb.setName("buttonDb"); // NOI18N
+        buttonDb.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(buttonDb);
 
-        jButton1.setAction(actionMap.get("openSetupServer")); // NOI18N
-        jButton1.setIcon(resourceMap.getIcon("jButton1.icon")); // NOI18N
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setToolTipText(resourceMap.getString("jButton1.toolTipText")); // NOI18N
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setName("jButton1"); // NOI18N
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolBar.add(jButton1);
+        buttonServer.setAction(actionMap.get("openSetupServer")); // NOI18N
+        buttonServer.setIcon(resourceMap.getIcon("buttonServer.icon")); // NOI18N
+        buttonServer.setText(resourceMap.getString("buttonServer.text")); // NOI18N
+        buttonServer.setToolTipText(resourceMap.getString("buttonServer.toolTipText")); // NOI18N
+        buttonServer.setFocusable(false);
+        buttonServer.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonServer.setName("buttonServer"); // NOI18N
+        buttonServer.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(buttonServer);
 
         jSeparator1.setName("jSeparator1"); // NOI18N
         jSeparator1.setSeparatorSize(new java.awt.Dimension(2, 34));
@@ -462,21 +546,26 @@ public class MainView extends FrameView {
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnOpen;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton buttonDb;
+    private javax.swing.JButton buttonLogin2;
+    private javax.swing.JButton buttonServer;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
     private javax.swing.JMenuItem dbMenuItem;
     private javax.swing.JMenuItem deleteMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem equiMenuItem;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JLabel labelKmn;
     private javax.swing.JMenu loginMenu;
     private javax.swing.JMenuItem loginMenuItem;
     private javax.swing.JMenuItem logoutMenuItem;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JPanel panelBody;
+    private javax.swing.JPanel panelInfo;
+    private javax.swing.JPanel panelWelcome;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem profileMenuItem;
     private javax.swing.JProgressBar progressBar;
@@ -489,7 +578,9 @@ public class MainView extends FrameView {
     private javax.swing.JMenuItem statusMenuItem;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.JTabbedPane tabMain;
     private javax.swing.JToolBar toolBar;
+    private javax.swing.JToolBar toolbarWelcome;
     private javax.swing.JLabel userIconLabel;
     private javax.swing.JLabel userLoginLabel;
     // End of variables declaration//GEN-END:variables
@@ -507,6 +598,7 @@ public class MainView extends FrameView {
     private SetupDatabase setupDbBox;
     private SetupServer setupServerBox;
     private SetupEquipment setupEquipmentBox;
+    private OpenDialog openBox;
 
     public JLabel getUserLoginLabel() {
         return userLoginLabel;
@@ -552,6 +644,14 @@ public class MainView extends FrameView {
         return progressBar;
     }
 
+    public JButton getButtonLogin2() {
+        return buttonLogin2;
+    }
+
+    public JTabbedPane getTabMain() {
+        return tabMain;
+    }
+
     @Action
     public void openSetupDB() {
         if (setupDbBox == null) {
@@ -580,5 +680,15 @@ public class MainView extends FrameView {
             setupEquipmentBox.setLocationRelativeTo(mainFrame);
         }
         MainApps.getApplication().show(setupEquipmentBox);
+    }
+
+    @Action
+    public void openWorkspace() {
+        if (openBox == null) {
+            JFrame mainFrame = MainApps.getApplication().getMainFrame();
+            openBox = new OpenDialog(this, true);
+            openBox.setLocationRelativeTo(mainFrame);
+        }
+        MainApps.getApplication().show(openBox);
     }
 }

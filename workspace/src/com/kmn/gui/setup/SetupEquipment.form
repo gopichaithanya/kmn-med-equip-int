@@ -37,35 +37,37 @@
                       <Component id="labelEquipment" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="652" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="533" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="buttonEdit" alignment="0" pref="99" max="32767" attributes="1"/>
                           <Component id="buttonAdd" alignment="0" max="32767" attributes="1"/>
                           <Component id="buttonRemove" alignment="0" max="32767" attributes="1"/>
                       </Group>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="buttonSave" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="buttonCancel" min="-2" max="-2" attributes="0"/>
-                  </Group>
               </Group>
-              <EmptySpace pref="17" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="450" max="32767" attributes="0"/>
+              <Component id="buttonSave" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="buttonCancel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="iconEquipment" min="-2" max="-2" attributes="0"/>
                   <Component id="labelEquipment" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jScrollPane1" pref="247" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="buttonAdd" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -73,14 +75,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="buttonRemove" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" pref="242" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="buttonCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="buttonSave" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonCancel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -89,8 +90,9 @@
     <Component class="javax.swing.JButton" name="buttonAdd">
       <Properties>
         <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-          <action class="com.kmn.gui.setup.SetupEquipment" id="openDetail" methodName="openDetail"/>
+          <action class="com.kmn.gui.setup.SetupEquipment" id="newDetail" methodName="newDetail"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="buttonAdd.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="buttonAdd.text"/>
         <Property name="name" type="java.lang.String" value="buttonAdd" noResource="true"/>
       </Properties>
@@ -100,12 +102,17 @@
         <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
           <action class="com.kmn.gui.setup.SetupEquipment" id="editDetail" methodName="editDetail"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="buttonEdit.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="buttonEdit.text"/>
         <Property name="name" type="java.lang.String" value="buttonEdit" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="buttonRemove">
       <Properties>
+        <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+          <action class="com.kmn.gui.setup.SetupEquipment" id="removeDetail" methodName="removeDetail"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="buttonRemove.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="buttonRemove.text"/>
         <Property name="name" type="java.lang.String" value="buttonRemove" noResource="true"/>
       </Properties>
@@ -115,6 +122,7 @@
         <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
           <action class="com.kmn.gui.setup.SetupEquipment" id="closeSetupEquipment" methodName="closeSetupEquipment"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="buttonCancel.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="buttonCancel.text"/>
         <Property name="name" type="java.lang.String" value="buttonCancel" noResource="true"/>
       </Properties>
@@ -122,8 +130,9 @@
     <Component class="javax.swing.JButton" name="buttonSave">
       <Properties>
         <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-          <action class="com.kmn.gui.setup.SetupEquipment" id="saveSetupEquipment" methodName="saveSetupEquipment"/>
+          <action class="com.kmn.gui.setup.SetupEquipment" id="saveEquipment" methodName="saveEquipment"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="buttonSave.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="buttonSave.text"/>
         <Property name="name" type="java.lang.String" value="buttonSave" noResource="true"/>
       </Properties>

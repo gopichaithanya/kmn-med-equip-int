@@ -29,8 +29,8 @@ public class MainViewController {
 
         /* Toolbar */
         mainview.getBtnOpen().setEnabled(enabled);
-        mainview.getBtnFind().setEnabled(enabled);
-        mainview.getBtnRefresh().setEnabled(enabled);
+        //mainview.getBtnFind().setEnabled(enabled);
+        //mainview.getBtnRefresh().setEnabled(enabled);
         if(enabled) mainview.getBtnLogin().setIcon((mainview.getResourceMap().getIcon("btnLogout.icon")));
         else mainview.getBtnLogin().setIcon((mainview.getResourceMap().getIcon("btnLogin.icon")));
         mainview.getBtnLogin().setToolTipText(tooltips);
@@ -40,5 +40,7 @@ public class MainViewController {
         mainview.getLoginMenuItem().setEnabled(!enabled);
         mainview.getLogoutMenuItem().setEnabled(enabled);
         mainview.getProfileMenuItem().setEnabled(enabled);
+
+        mainview.getButtonLogin2().setEnabled(!enabled);
     }
 }

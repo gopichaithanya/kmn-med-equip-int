@@ -52,14 +52,14 @@
                   </Group>
                   <Component id="labelDb" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="27" max="32767" attributes="0"/>
+              <EmptySpace pref="19" max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="293" max="32767" attributes="0"/>
+              <EmptySpace pref="262" max="32767" attributes="0"/>
               <Component id="buttonSave" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="buttonCancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -186,6 +186,7 @@
         <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
           <action class="com.kmn.gui.setup.SetupDatabase" id="saveSetupDB" methodName="saveSetupDB"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="buttonSave.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="buttonSave.text"/>
         <Property name="name" type="java.lang.String" value="buttonSave" noResource="true"/>
       </Properties>
@@ -195,6 +196,7 @@
         <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
           <action class="com.kmn.gui.setup.SetupDatabase" id="closeSetupDB" methodName="closeSetupDB"/>
         </Property>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="buttonCancel.icon"/>
         <Property name="text" type="java.lang.String" resourceKey="buttonCancel.text"/>
         <Property name="name" type="java.lang.String" value="buttonCancel" noResource="true"/>
       </Properties>

@@ -22,9 +22,9 @@ public class EquipmentDetailProperties {
     private String flow;
     private String ip;
     private String port;
-    
-    public EquipmentDetailProperties(String ecode) {
-        this.ecode = ecode;
+    private String interfaceType;
+
+    public EquipmentDetailProperties() {
     }
 
     public String getEcode() {
@@ -121,5 +121,13 @@ public class EquipmentDetailProperties {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getInterfaceType() {
+        return interfaceType;
+    }
+
+    public void setInterfaceType(String interfaceType) {
+        this.interfaceType = interfaceType;
     }
 }

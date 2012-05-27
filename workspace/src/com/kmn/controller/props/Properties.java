@@ -35,4 +35,5 @@ public interface Properties {
     public static final String EQUIPMENT_FLOW_CONTROL = "equipment.flow";
     public static final String EQUIPMENT_IP = "equipment.ip";
     public static final String EQUIPMENT_PORT = "equipment.port";
+    public static final String EQUIPMENT_INTERFACE = "equipment.interface";
 }
