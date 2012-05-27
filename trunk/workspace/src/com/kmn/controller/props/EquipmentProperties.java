@@ -26,10 +26,9 @@ public class EquipmentProperties implements PropertiesController {
     private Properties prop;
 
     private Confirm confirm;
-    private String eqcode;
     private FileInputStream inProp;
     private FileOutputStream outProp;
-    private List<EquipmentDetailProperties> eqList = new ArrayList<EquipmentDetailProperties>();
+    private List<EquipmentDetailProperties> listDetailEquipment = new ArrayList<EquipmentDetailProperties>();
 
     public EquipmentProperties(Confirm confirm) {
         this.confirm = confirm;
@@ -49,7 +48,7 @@ public class EquipmentProperties implements PropertiesController {
                 prop = new Properties();
                 prop.load(inProp);
                 
-                EquipmentDetailProperties detail = new EquipmentDetailProperties(lname[0]);
+                EquipmentDetailProperties detail = new EquipmentDetailProperties();
                 detail.setCode(prop.getProperty(lname[0] + "." + EQUIPMENT_CODE));
                 detail.setName(prop.getProperty(lname[0] + "." + EQUIPMENT_NAME));
                 detail.setType(prop.getProperty(lname[0] + "." + EQUIPMENT_TYPE));
@@ -61,8 +60,10 @@ public class EquipmentProperties implements PropertiesController {
                 detail.setFlow(prop.getProperty(lname[0] + "." + EQUIPMENT_FLOW_CONTROL));
                 detail.setIp(prop.getProperty(lname[0] + "." + EQUIPMENT_IP));
                 detail.setPort(prop.getProperty(lname[0] + "." + EQUIPMENT_PORT));
+                detail.setInterfaceType(prop.getProperty(lname[0] + "." + EQUIPMENT_INTERFACE));
 
-                eqList.add(detail);
+                listDetailEquipment.add(detail);
+                inProp.close();
                 
             } catch (IOException ex) {
                 confirm.onError(ex);
@@ -70,58 +71,71 @@ public class EquipmentProperties implements PropertiesController {
         }
     }
 
+    private boolean isExist(String code) {
+        boolean isexist = false;
+        for(EquipmentDetailProperties detail : listDetailEquipment) {
+            if(detail.getCode().equals(code)) isexist = true;
+        }
+
+        return isexist;
+    }
+
     @Override
     public void store() {
-        for(EquipmentDetailProperties detail : eqList) {
+        for(EquipmentDetailProperties detail : listDetailEquipment) {
             prop = new Properties();
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_CODE, detail.getCode());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_NAME, detail.getName());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_TYPE, detail.getType());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_COM, detail.getCom());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_BOUND_RATE, detail.getRate());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_DATA_BIT, detail.getDataBit());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_PARITY, detail.getParity());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_STOP_BIT, detail.getStopBit());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_FLOW_CONTROL, detail.getFlow());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_IP, detail.getIp());
-            prop.setProperty(this.eqcode + "." + EQUIPMENT_PORT, detail.getPort());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_CODE, (detail.getCode()==null)?"":detail.getCode());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_NAME, (detail.getName()==null)?"":detail.getName());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_TYPE, (detail.getType()==null)?"":detail.getType());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_COM, (detail.getCom()==null)?"":detail.getCom());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_BOUND_RATE, (detail.getRate()==null)?"":detail.getRate());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_DATA_BIT, (detail.getDataBit()==null)?"":detail.getDataBit());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_PARITY, (detail.getParity()==null)?"":detail.getParity());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_STOP_BIT, (detail.getStopBit()==null)?"":detail.getStopBit());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_FLOW_CONTROL, (detail.getFlow()==null)?"":detail.getFlow());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_IP, (detail.getIp()==null)?"":detail.getIp());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_PORT, (detail.getPort()==null)?"":detail.getPort());
+            prop.setProperty(detail.getCode() + "." + EQUIPMENT_INTERFACE, (detail.getInterfaceType()==null)?"":detail.getInterfaceType());
 
             try {
-                if(inProp != null) inProp.close();
-
-                outProp = new FileOutputStream(SYS_DIR + SYS_SEPARATOR + CONF_DIR + SYS_SEPARATOR + this.eqcode + "-" + EQUIPMENT_FILE);
+                outProp = new FileOutputStream(SYS_DIR + SYS_SEPARATOR
+                        + CONF_DIR + SYS_SEPARATOR + detail.getCode()
+                        + "-" + EQUIPMENT_FILE);
                 outProp.flush();
                 prop.store(outProp, null);
                 outProp.close();
-
-            } catch (IOException ex) {
-                confirm.onError(ex);
             }
+            catch (IOException ex) { confirm.onError(ex); }
         }
-    }
 
-    public String getEqcode() {
-        return eqcode;
-    }
+        prop.clear();
+        
+        File receiverDir = new File(SYS_DIR + SYS_SEPARATOR + CONF_DIR);
+        File[] dirs = receiverDir.listFiles();
+        for (File d : dirs) {
+            String propName = d.getName();
+            String[] lname = propName.split("-");
+            if(!isExist(lname[0]))
+                d.delete();
+        }
+        
+        this.load();
 
-    public void setEqcode(String eqcode) {
-        this.eqcode = eqcode;
     }
 
     public EquipmentDetailProperties getDetalProperies(String ecode) {
-        for(EquipmentDetailProperties li : eqList) {
-            if(li.getEcode().equals(ecode))
-            return li;
+        for(EquipmentDetailProperties li : listDetailEquipment) {
+            if(li.getCode().equals(ecode)) return li;
         }
         
         return null;
     }
 
-    public void addDetalProperies(EquipmentDetailProperties detail) {
-        eqList.add(detail);
+    public List<EquipmentDetailProperties> getListDetailEquipment() {
+        return listDetailEquipment;
     }
 
-    public List<EquipmentDetailProperties> getEqList() {
-        return eqList;
-    }    
+    public void setListDetailEquipment(List<EquipmentDetailProperties> listDetailEquipment) {
+        this.listDetailEquipment = listDetailEquipment;
+    }
 }

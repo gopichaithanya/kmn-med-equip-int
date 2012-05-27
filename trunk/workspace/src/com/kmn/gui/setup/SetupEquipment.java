@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.jdesktop.application.Action;
 
@@ -30,9 +29,7 @@ import org.jdesktop.application.Action;
  */
 public class SetupEquipment extends javax.swing.JDialog implements Confirm {
     private SetupEquipmentDetail detailBox;
-    private List<SetupEquipmentDetail> listEquipment = new ArrayList<SetupEquipmentDetail>();
-    private List<EquipmentDetailProperties> eqList;
-    private EquipmentProperties eqprop = new EquipmentProperties(this);;
+    private EquipmentProperties propEuipment = new EquipmentProperties(this);
     
         /** Creates new form SetupEquipment */
     public SetupEquipment(MainView mainview, boolean modal) {
@@ -71,22 +68,28 @@ public class SetupEquipment extends javax.swing.JDialog implements Confirm {
         });
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getActionMap(SetupEquipment.class, this);
-        buttonAdd.setAction(actionMap.get("openDetail")); // NOI18N
+        buttonAdd.setAction(actionMap.get("newDetail")); // NOI18N
+        buttonAdd.setIcon(resourceMap.getIcon("buttonAdd.icon")); // NOI18N
         buttonAdd.setText(resourceMap.getString("buttonAdd.text")); // NOI18N
         buttonAdd.setName("buttonAdd"); // NOI18N
 
         buttonEdit.setAction(actionMap.get("editDetail")); // NOI18N
+        buttonEdit.setIcon(resourceMap.getIcon("buttonEdit.icon")); // NOI18N
         buttonEdit.setText(resourceMap.getString("buttonEdit.text")); // NOI18N
         buttonEdit.setName("buttonEdit"); // NOI18N
 
+        buttonRemove.setAction(actionMap.get("removeDetail")); // NOI18N
+        buttonRemove.setIcon(resourceMap.getIcon("buttonRemove.icon")); // NOI18N
         buttonRemove.setText(resourceMap.getString("buttonRemove.text")); // NOI18N
         buttonRemove.setName("buttonRemove"); // NOI18N
 
         buttonCancel.setAction(actionMap.get("closeSetupEquipment")); // NOI18N
+        buttonCancel.setIcon(resourceMap.getIcon("buttonCancel.icon")); // NOI18N
         buttonCancel.setText(resourceMap.getString("buttonCancel.text")); // NOI18N
         buttonCancel.setName("buttonCancel"); // NOI18N
 
-        buttonSave.setAction(actionMap.get("saveSetupEquipment")); // NOI18N
+        buttonSave.setAction(actionMap.get("saveEquipment")); // NOI18N
+        buttonSave.setIcon(resourceMap.getIcon("buttonSave.icon")); // NOI18N
         buttonSave.setText(resourceMap.getString("buttonSave.text")); // NOI18N
         buttonSave.setName("buttonSave"); // NOI18N
 
@@ -145,39 +148,40 @@ public class SetupEquipment extends javax.swing.JDialog implements Confirm {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelEquipment))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(buttonEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
                             .addComponent(buttonAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(buttonRemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(buttonSave)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buttonCancel)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                            .addComponent(buttonRemove, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(19, 19, 19))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(450, Short.MAX_VALUE)
+                .addComponent(buttonSave)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(buttonCancel)
+                .addGap(43, 43, 43))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(iconEquipment)
                     .addComponent(labelEquipment))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(buttonAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonEdit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(buttonRemove))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
+                        .addComponent(buttonRemove)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonCancel)
-                    .addComponent(buttonSave))
+                    .addComponent(buttonSave)
+                    .addComponent(buttonCancel))
                 .addContainerGap())
         );
 
@@ -185,48 +189,56 @@ public class SetupEquipment extends javax.swing.JDialog implements Confirm {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        eqprop.load();
-        eqList = eqprop.getEqList();
+        propEuipment.load();
+        this.loadRow();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void addRow(EquipmentDetailProperties detail) {
+        DefaultTableModel model = (DefaultTableModel) tabelEquipment.getModel();
+        model.addRow(new Object[]{
+            (String) detail.getCode(),
+            detail.getName(),
+            detail.getType(),
+            detail.getCom(),
+            detail.getRate(),
+            detail.getIp(),
+            detail.getPort()
+        });
+    }
+
+    private void editRow(EquipmentDetailProperties detail) {
+        int idx = tabelEquipment.getSelectedRow();
         
         DefaultTableModel model = (DefaultTableModel) tabelEquipment.getModel();
-        for(EquipmentDetailProperties ql : eqList) {
-            model.addRow(new Object[]{
-                (String) ql.getCode(),
-                ql.getName(),
-                ql.getType(),
-                ql.getCom(),
-                ql.getRate(),
-                "",
-                ""
+        model.setValueAt((String) detail.getCode(), idx, 0);
+        model.setValueAt(detail.getName(), idx, 1);
+        model.setValueAt(detail.getType(), idx, 2);
+        model.setValueAt(detail.getCom(), idx, 3);
+        model.setValueAt(detail.getRate(), idx, 4);
+        model.setValueAt(detail.getIp(), idx, 5);
+        model.setValueAt(detail.getPort(), idx, 6);
+    }
+
+    private void loadRow() {
+        DefaultTableModel model = (DefaultTableModel) tabelEquipment.getModel();
+        List<EquipmentDetailProperties> listEquip = propEuipment.getListDetailEquipment();
+            for(EquipmentDetailProperties equip : listEquip) {
+                model.addRow(new Object[]{
+                (String) equip.getCode(),
+                equip.getName(),
+                equip.getType(),
+                equip.getCom(),
+                equip.getRate(),
+                equip.getIp(),
+                equip.getPort()
             });
         }
-    }//GEN-LAST:event_formWindowOpened
+    }
 
     @Action
     public void closeSetupEquipment() {
         setVisible(false);
     }
-
-    @Action
-    public void openDetail() {
-        if (detailBox == null) {
-            JFrame mainFrame = MainApps.getApplication().getMainFrame();
-            detailBox = new SetupEquipmentDetail(this, true, false);
-            detailBox.setLocationRelativeTo(this);
-        }
-        MainApps.getApplication().show(detailBox);
-    }
-
-    @Action
-    public void editDetail() {
-        if (detailBox == null) {
-            JFrame mainFrame = MainApps.getApplication().getMainFrame();
-            detailBox = new SetupEquipmentDetail(this, true, true);
-            detailBox.setLocationRelativeTo(this);
-        }
-        MainApps.getApplication().show(detailBox);
-    }
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdd;
@@ -240,49 +252,6 @@ public class SetupEquipment extends javax.swing.JDialog implements Confirm {
     private javax.swing.JTable tabelEquipment;
     // End of variables declaration//GEN-END:variables
 
-    public JTable getTabelEquipment() {
-        return tabelEquipment;
-    }
-
-    @Action
-    public void saveSetupEquipment() {
-        boolean isnew = false;
-        for(SetupEquipmentDetail detail : listEquipment) {
-            String uniqcode = (String) detail.getComboCode().getSelectedItem();
-            
-            eqprop.setEqcode(uniqcode);
-            EquipmentDetailProperties detalprop = eqprop.getDetalProperies(uniqcode);
-            if(detalprop == null) {
-                isnew = true;
-                detalprop = new EquipmentDetailProperties(uniqcode);
-            }
-            
-            detalprop.setCode((String)detail.getComboCode().getSelectedItem());
-            detalprop.setName(detail.getTextName().getText());
-            detalprop.setType(detail.getTextType().getText());
-            detalprop.setCom(detail.getTextCom().getText());
-            detalprop.setRate((String) detail.getComboSpeed().getSelectedItem());
-            detalprop.setDataBit((String) detail.getComboData().getSelectedItem());
-            detalprop.setParity((String) detail.getComboParity().getSelectedItem());
-            detalprop.setStopBit((String) detail.getComboStop().getSelectedItem());
-            detalprop.setFlow((String) detail.getComboFlow().getSelectedItem());
-            detalprop.setIp("");
-            detalprop.setPort("");
-            
-            if(isnew) eqprop.addDetalProperies(detalprop);
-        }
-        
-        eqprop.store();
-        setVisible(false);
-    }
-
-    public List getListEquipment() {
-        return listEquipment;
-    }
-
-    public List<EquipmentDetailProperties> getEqList() {
-        return eqList;
-    }
 
     @Override
     public void onSuccess() {
@@ -297,5 +266,104 @@ public class SetupEquipment extends javax.swing.JDialog implements Confirm {
     @Override
     public void onError(Throwable t) {
         JOptionPane.showMessageDialog(this, t.getMessage());
+    }
+
+    @Action
+    public void newDetail() {
+        JFrame mainFrame = MainApps.getApplication().getMainFrame();
+        if (detailBox == null) {
+            detailBox = new SetupEquipmentDetail(this, true, this);
+            detailBox.setLocationRelativeTo(this);
+        }
+
+        EquipmentDetailProperties detail = new EquipmentDetailProperties();
+        detailBox.setDetail(detail);
+        MainApps.getApplication().show(detailBox);
+    }
+
+    @Action
+    public void editDetail() {
+        int idx = tabelEquipment.getSelectedRow();
+
+        if(idx < 0) return;
+
+        JFrame mainFrame = MainApps.getApplication().getMainFrame();
+        if (detailBox == null) {
+            detailBox = new SetupEquipmentDetail(this, true, this);
+            detailBox.setLocationRelativeTo(this);
+        }
+
+        DefaultTableModel model = (DefaultTableModel) tabelEquipment.getModel();
+        EquipmentDetailProperties detail = propEuipment.getDetalProperies((String) model.getValueAt(idx, 0));
+        detailBox.setDetail(detail);
+        MainApps.getApplication().show(detailBox);
+    }
+
+    public String addDetail(EquipmentDetailProperties detail) {
+        String mssg = "SAVE";
+
+        List<EquipmentDetailProperties> listEquipment =  propEuipment.getListDetailEquipment();
+        for(EquipmentDetailProperties propEquip : listEquipment) {
+            if(propEquip.getCode().equals(detail.getCode())) {
+                mssg = "Equipment Code Already exist";
+                break;
+            }
+        }
+
+        if(mssg.equals("SAVE")) {
+            listEquipment.add(detail);
+            this.addRow(detail);
+        }
+        
+        return mssg;
+    }
+
+    public String editDetail(EquipmentDetailProperties detail) {
+        String mssg = "SAVE";
+
+        List<EquipmentDetailProperties> listEquipment =  propEuipment.getListDetailEquipment();
+        for(EquipmentDetailProperties propEquip : listEquipment) {
+            if(propEquip.equals(detail)) propEquip = detail;
+        }
+        this.editRow(detail);
+
+        return mssg;
+    }
+
+    @Action
+    public void removeDetail() {
+        DefaultTableModel model = (DefaultTableModel) tabelEquipment.getModel();
+        int[] idx = tabelEquipment.getSelectedRows();
+        int count = tabelEquipment.getRowCount();
+        List<String> lcode = new ArrayList<String>();
+        
+        int z=0;
+        for(int i=count; i>=0; i--) {
+            for(int x : idx)
+                if(i == x) {
+                    lcode.add((String) model.getValueAt(x, 0));
+                    model.removeRow(i);
+                    z++;
+                }
+        }
+
+        List<EquipmentDetailProperties> listEquipment = propEuipment.getListDetailEquipment();
+        EquipmentDetailProperties equipProp;
+        for(int i=listEquipment.size(); i>0; i--) {
+            equipProp = listEquipment.get(i-1);
+
+            for(String l : lcode) {
+                if(l.equals(equipProp.getCode())) {
+                    listEquipment.remove(equipProp);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Action
+    public void saveEquipment() {
+        propEuipment.store();
+        setVisible(false);
     }
 }

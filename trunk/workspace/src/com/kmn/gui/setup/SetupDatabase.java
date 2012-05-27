@@ -106,10 +106,12 @@ public class SetupDatabase extends javax.swing.JDialog implements Confirm {
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getActionMap(SetupDatabase.class, this);
         buttonSave.setAction(actionMap.get("saveSetupDB")); // NOI18N
+        buttonSave.setIcon(resourceMap.getIcon("buttonSave.icon")); // NOI18N
         buttonSave.setText(resourceMap.getString("buttonSave.text")); // NOI18N
         buttonSave.setName("buttonSave"); // NOI18N
 
         buttonCancel.setAction(actionMap.get("closeSetupDB")); // NOI18N
+        buttonCancel.setIcon(resourceMap.getIcon("buttonCancel.icon")); // NOI18N
         buttonCancel.setText(resourceMap.getString("buttonCancel.text")); // NOI18N
         buttonCancel.setName("buttonCancel"); // NOI18N
 
@@ -137,13 +139,13 @@ public class SetupDatabase extends javax.swing.JDialog implements Confirm {
                             .addComponent(textPassword)
                             .addComponent(textUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(labelDb))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(293, Short.MAX_VALUE)
+                .addContainerGap(262, Short.MAX_VALUE)
                 .addComponent(buttonSave)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonCancel)
-                .addGap(27, 27, 27))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
