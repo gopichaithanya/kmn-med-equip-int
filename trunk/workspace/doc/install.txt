@@ -1,0 +1,43 @@
+Unzip the file javacomm20-win32.zip. This will produce a hierarchy with a top level directory commapi. 
+The examples in this document assume that you have unzipped the javacomm20-win32.zip file in your C: partition and your JDK installation is in C:\jdk1.1.6. If you have installed JDK in an other location or unzipped javacomm20-win32.zip in an other location modify the example commands appropriately. 
+
+If you are installing the Java communications API into a JRE (Java runtime environment) follow the same instructions as for the JDK except where noted. See the additional instructions for running using the JRE. 
+
+
+
+Copy win32com.dll to your <JDK>\bin directory. 
+
+C:\>copy c:\commapi\win32com.dll to c:\jdk1.1.6\bin 
+
+Copy comm.jar to your <JDK>\lib directory. 
+
+C:\>copy c:\commapi\comm.jar c:\jdk1.1.6\lib 
+
+Copy javax.comm.properties to your <JDK>\lib directory. 
+
+C:\>copy c:\commapi\javax.comm.properties c:\jdk1.1.6\lib 
+The javax.comm.properties file must be installed. If it is not, no ports will be found by the system. 
+
+
+
+Add comm.jar to your classpath (do not do this step for a JRE installation). 
+If you don't have a classpath defined: 
+
+C:\>set CLASSPATH=c:\jdk1.1.6\lib\comm.jar 
+
+
+If you already have a classpath defined: 
+
+C:\>set CLASSPATH=c:\jdk1.1.6\lib\comm.jar;%classpath% 
+
+
+Several serial port sample applications are provided with this release. One of them is BlackBox. To run BlackBox, first add BlackBox.jar to your classpath: 
+
+C:\>set CLASSPATH=c:\commapi\samples\Blackbox\BlackBox.jar;%CLASSPATH% 
+
+Now you can run BlackBox: 
+
+C:\>java BlackBox 
+
+
+One sample driver, NullDriver, is included in the samples\NullDriver directory. This is useful for folks attempting to write a new driver for their own hardware. 
