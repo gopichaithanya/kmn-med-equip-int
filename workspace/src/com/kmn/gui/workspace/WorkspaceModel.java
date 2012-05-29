@@ -11,12 +11,17 @@
 
 package com.kmn.gui.workspace;
 
+import com.kmn.MainApps;
+import com.kmn.controller.InterfaceEvent;
+import javax.swing.JFrame;
+
 /**
  *
  * @author Hermanto
  */
-public class WorkspaceModel extends javax.swing.JPanel {
+public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent {
 
+    private Status statusBox;
     /** Creates new form WorkspaceModel */
     public WorkspaceModel() {
         initComponents();
@@ -80,5 +85,30 @@ public class WorkspaceModel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void onSend() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void onReceive(String message) {
+        if (statusBox == null) {
+            JFrame mainFrame = MainApps.getApplication().getMainFrame();
+            statusBox = new Status(this, true);
+            statusBox.setLocationRelativeTo(mainFrame);
+        }
+        MainApps.getApplication().show(statusBox);
+    }
+
+    @Override
+    public void onError(Throwable t) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void onMessage(String message) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }
