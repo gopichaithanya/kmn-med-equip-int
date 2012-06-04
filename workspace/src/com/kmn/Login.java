@@ -168,7 +168,7 @@ public class Login extends javax.swing.JDialog implements Confirm  {
         JOptionPane.showMessageDialog(this, mssg.toString());
     }
 
-    @Override
+    //@Override
     public void onSuccess() {
         setVisible(false);
         controller.loginUser();
@@ -178,12 +178,12 @@ public class Login extends javax.swing.JDialog implements Confirm  {
         jPassword.setText(null);
     }
 
-    @Override
+    //@Override
     public void onWarning(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
 
-    @Override
+    //@Override
     public void onError(Throwable t) {
         JOptionPane.showMessageDialog(this, t.getMessage());
     }

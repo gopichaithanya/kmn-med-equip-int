@@ -42,12 +42,13 @@
         <Component class="javax.swing.JTable" name="jTable1">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="0">
+              <Table columnCount="6" rowCount="0">
                 <Column editable="true" title="Patient ID" type="java.lang.String"/>
                 <Column editable="true" title="First name" type="java.lang.String"/>
                 <Column editable="true" title="Last Name" type="java.lang.String"/>
                 <Column editable="true" title="Remark" type="java.lang.String"/>
                 <Column editable="true" title="Branch" type="java.lang.String"/>
+                <Column editable="true" title="Data Output" type="java.lang.String"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -74,6 +75,11 @@
                 </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title resourceKey="jTable1.columnModel.title4"/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title resourceKey="jTable1.columnModel.title5"/>
                   <Editor/>
                   <Renderer/>
                 </Column>

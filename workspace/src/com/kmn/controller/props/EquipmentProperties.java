@@ -34,7 +34,7 @@ public class EquipmentProperties implements PropertiesController {
         this.confirm = confirm;
     }
     
-    @Override
+    //@Override
     public void load() {
         File receiverDir = new File(SYS_DIR + SYS_SEPARATOR + CONF_DIR);
         File[] dirs = receiverDir.listFiles();
@@ -80,7 +80,7 @@ public class EquipmentProperties implements PropertiesController {
         return isexist;
     }
 
-    @Override
+    //@Override
     public void store() {
         for(EquipmentDetailProperties detail : listDetailEquipment) {
             prop = new Properties();

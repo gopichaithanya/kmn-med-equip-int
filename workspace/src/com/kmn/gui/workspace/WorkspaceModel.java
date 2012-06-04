@@ -13,7 +13,11 @@ package com.kmn.gui.workspace;
 
 import com.kmn.MainApps;
 import com.kmn.controller.InterfaceEvent;
+import com.kmn.util.CommInterface;
+import javax.comm.*;
+
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -48,11 +52,11 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
             },
             new String [] {
-                "Patient ID", "First name", "Last Name", "Remark", "Branch"
+                "Patient ID", "First name", "Last Name", "Remark", "Branch", "Data Output"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -67,6 +71,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         jTable1.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("jTable1.columnModel.title2")); // NOI18N
         jTable1.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("jTable1.columnModel.title3")); // NOI18N
         jTable1.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("jTable1.columnModel.title4")); // NOI18N
+        jTable1.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("jTable1.columnModel.title5")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -78,6 +83,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
         );
+        CommInterface ci = new CommInterface(this);
+        ci.connect("COM77", 9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, SerialPort.FLOWCONTROL_NONE);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -86,27 +93,30 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
-    @Override
+    //@Override
     public void onSend() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+    //@Override
     public void onReceive(String message) {
         if (statusBox == null) {
             JFrame mainFrame = MainApps.getApplication().getMainFrame();
             statusBox = new Status(this, true);
             statusBox.setLocationRelativeTo(mainFrame);
         }
-        MainApps.getApplication().show(statusBox);
+        //MainApps.getApplication().show(statusBox);
+        DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
+        model.addRow(new Object[]{null,null,null,null,null,message});
+        //statusBox.setVisible(false);
     }
 
-    @Override
+    //@Override
     public void onError(Throwable t) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+    //@Override
     public void onMessage(String message) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

@@ -130,7 +130,7 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
     private javax.swing.JLabel labelOpen;
     // End of variables declaration//GEN-END:variables
 
-    @Override
+    //@Override
     public void onSuccess() {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getResourceMap(OpenDialog.class);
         
@@ -144,11 +144,11 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
         setVisible(false);
     }
 
-    @Override
+    //@Override
     public void onWarning(String message) {
     }
 
-    @Override
+    //@Override
     public void onError(Throwable t) {
     }
 

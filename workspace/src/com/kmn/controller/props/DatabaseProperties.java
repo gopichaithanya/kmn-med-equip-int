@@ -35,7 +35,7 @@ public class DatabaseProperties implements PropertiesController {
         this.confirm = confirm;
     }
 
-    @Override
+    //@Override
     public void load() {
         try {
             inProp = new FileInputStream(SYS_DIR + SYS_SEPARATOR + CONF_DIR + SYS_SEPARATOR + DB_FILE);
@@ -52,7 +52,7 @@ public class DatabaseProperties implements PropertiesController {
         }
     }
 
-    @Override
+    //@Override
     public void store() {
         prop.setProperty(DB_USER_NAME, this.getUsername());
         prop.setProperty(DB_PASSWORD, this.getPassword());

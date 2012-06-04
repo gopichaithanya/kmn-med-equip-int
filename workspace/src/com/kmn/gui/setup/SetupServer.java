@@ -212,17 +212,17 @@ public class SetupServer extends javax.swing.JDialog implements Confirm {
     private javax.swing.JTextField textUserName;
     // End of variables declaration//GEN-END:variables
 
-    @Override
+    //@Override
     public void onSuccess() {
         setVisible(false);
     }
 
-    @Override
+    //@Override
     public void onWarning(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
 
-    @Override
+    //@Override
     public void onError(Throwable t) {
         JOptionPane.showMessageDialog(this, t.getMessage());
     }
