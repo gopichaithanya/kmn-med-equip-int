@@ -35,7 +35,7 @@ public class ServerProperties implements PropertiesController {
         this.confirm = confirm;
     }
 
-    @Override
+    //@Override
     public void load() {
         try {
             inProp = new FileInputStream(SYS_DIR + SYS_SEPARATOR + CONF_DIR + SYS_SEPARATOR + SERVER_FILE);
@@ -51,7 +51,7 @@ public class ServerProperties implements PropertiesController {
         }
     }
 
-    @Override
+    //@Override
     public void store() {
         prop.setProperty(SERVER_USER_NAME, this.getUsername());
         prop.setProperty(SERVER_PASSWORD, this.getPassword());
