@@ -36,6 +36,7 @@ public class EquipmentProperties implements PropertiesController {
     
     //@Override
     public void load() {
+        listDetailEquipment.clear();
         File receiverDir = new File(SYS_DIR + SYS_SEPARATOR + CONF_DIR);
         File[] dirs = receiverDir.listFiles();
         for (File d : dirs) {

@@ -84,6 +84,7 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 			port = (SerialPort) portID.open("KMN MEI Client", 2000);
 			if (port == null) {
 				System.out.println("Error opening port " + portID.getName());
+                                this.intEvt.onMessage("Error opening port " + portID.getName());
 				return false;
 			} else {
 				this.open = true;
@@ -96,6 +97,7 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 				in = this.port.getInputStream();
 			} catch (IOException e) {
 				System.out.println("Cannot open input stream");
+                                this.intEvt.onMessage("Cannot open input stream");
 			}
 			/*
 			 *  Get the output stream
@@ -108,6 +110,7 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 				}
 			} catch (IOException e) {
 				System.out.println("Cannot open output stream");
+                                this.intEvt.onMessage("Cannot open output stream");
 			}
 			//this.createPanel();
 			//this.showValues();
@@ -149,6 +152,8 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 		} catch (PortInUseException e) {
 			System.out.println("Queueing open for " + portID.getName()
 					  + ": port in use by " + e.currentOwner);
+                        this.intEvt.onMessage("Queueing open for " + portID.getName()
+					  + ": port in use by " + e.currentOwner);
 			/*if (portName != null) {
 				portName.setForeground(Color.yellow);
 			}*/
@@ -161,6 +166,7 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 	public void closeBBPort() {
 		if (this.open) {
 			System.out.println("Closing " + this.port.getName());
+                        this.intEvt.onMessage("Closing " + this.port.getName());
 			//this.portName.setForeground(Color.red);
 			this.open = false;
 			/*
@@ -350,43 +356,46 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 	 */
 	public void serialEvent(SerialPortEvent	ev) {
 		if (this.port == null) {
-			System.out.println(port.getName() + "got serial event on a closed port");
-			return;
+                    System.out.println(port.getName() + "got serial event on a closed port");
+                    this.intEvt.onMessage(port.getName() + " got serial event on a closed port");
+                    return;
 		}
 		switch(ev.getEventType()) {
 		case SerialPortEvent.BI:
 			//this.ctlSigs.BILabel.setState(ev.getNewValue());
-			System.out.println(port.getName() + SerialPortEvent.BI);
+			System.out.println(port.getName()+ " SerialPortEvent.BI "  + SerialPortEvent.BI);
 			break;
 		case SerialPortEvent.OE:
 			//this.ctlSigs.OELabel.setState(ev.getNewValue());
-			System.out.println(port.getName() + SerialPortEvent.OE);
+			System.out.println(port.getName()+ " SerialPortEvent.OE "  + SerialPortEvent.OE);
 			break;
 		case SerialPortEvent.FE:
 			//this.ctlSigs.FELabel.setState(ev.getNewValue());
-			System.out.println(port.getName() + SerialPortEvent.FE);
+			System.out.println(port.getName()+ " SerialPortEvent.FE " + SerialPortEvent.FE);
 			break;
 		case SerialPortEvent.PE:
 			//this.ctlSigs.PELabel.setState(ev.getNewValue());
-			System.out.println(port.getName() + SerialPortEvent.PE);
+			System.out.println(port.getName()+ " SerialPortEvent.PE " + SerialPortEvent.PE);
 			break;
 		case SerialPortEvent.CD:
 		case SerialPortEvent.CTS:
 		case SerialPortEvent.DSR:
 		case SerialPortEvent.RI:
 			//this.ctlSigs.showValues();
-			System.out.println(port.getName() + SerialPortEvent.RI);
+			System.out.println(port.getName()+ " SerialPortEvent.RI " + SerialPortEvent.RI);
 			break;
 		case SerialPortEvent.DATA_AVAILABLE:
 			//this.ctlSigs.DA = true;
 			//this.ctlSigs.showErrorValues();
-			System.out.println(port.getName() + " DATA_AVAILABLE");
+			System.out.println(port.getName() + " Incoming Data");
+                        this.intEvt.onMessage(port.getName() + " Incoming Data");
 			if (rcvThread != null) {
 				synchronized (receiver) {
 					receiver.notify();
 				}
 			} else if (threadRcv) {
 				System.out.println(port.getName() + "Receive thread has died!");
+                                this.intEvt.onMessage(port.getName() + " Receive thread has died!");
 				rcvThread = new Thread(this.receiver, "Rcv " + port.getName());
 				rcvThread.start();
 			} else {
@@ -397,6 +406,7 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 			//this.ctlSigs.BE = true;
 			//this.ctlSigs.showErrorValues();
 			System.out.println(port.getName() + " OUTPUT_BUFFER_EMPTY");
+                        this.intEvt.onMessage(port.getName() + " OUTPUT_BUFFER_EMPTY");
 			break;
 		}
 	}
@@ -420,7 +430,8 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 			try {
 				openBBPort();
 			} catch (PortInUseException ex) {
-				System.out.println(portID.getName() + " is in use by " + ex.currentOwner); 
+				System.out.println(portID.getName() + " is in use by " + ex.currentOwner);
+                                this.intEvt.onMessage(port.getName() + " is in use by " + ex.currentOwner); 
 			}
 		}
 	}
@@ -435,6 +446,7 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 		switch (type) {
 		case CommPortOwnershipListener.PORT_UNOWNED:
 			System.out.println(portID.getName() + ": PORT_UNOWNED");
+                        this.intEvt.onMessage(portID.getName() + ": PORT_UNOWNED");
 			if (this.waiting) {
 				/*
 				 *  Try to open the port
@@ -443,14 +455,17 @@ public class SerialPortObject implements SerialPortEventListener, MouseListener,
 					openBBPort();
 				} catch (PortInUseException e) {
 					System.out.println(portID.getName() + " s/b free but is in use by " + e.currentOwner);
+                                        this.intEvt.onMessage(portID.getName() + " s/b free but is in use by " + e.currentOwner);
 				}
 			}
 			break;
 		case CommPortOwnershipListener.PORT_OWNED:
 			System.out.println(portID.getName() + ": PORT_OWNED");
+                        this.intEvt.onMessage(portID.getName() + " Listening");
 			break;
 		case CommPortOwnershipListener.PORT_OWNERSHIP_REQUESTED:
 			System.out.println(portID.getName() + ": PORT_OWNERSHIP_REQUESTED");
+                        this.intEvt.onMessage(portID.getName() + " PORT_OWNERSHIP_REQUESTED");
 			if (this.friendly && this.open) {
 				/*
 				 *  Give up the port
