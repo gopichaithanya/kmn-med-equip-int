@@ -34,6 +34,7 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
         super(MainApps.getApplication().getMainFrame(), modal);
         this.mainView = mainview;
         initComponents();
+        initComboEquip();
     }
 
     /** This method is called from within the constructor to
@@ -114,13 +115,7 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        propEuipment.load();
-        List<EquipmentDetailProperties> listEuip = propEuipment.getListDetailEquipment();
-
-        for(EquipmentDetailProperties equip : listEuip) {
-            String code = equip.getCode() +" - "+ equip.getName();
-            comboEquip.addItem(code);
-        }
+        
     }//GEN-LAST:event_formWindowActivated
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -133,11 +128,11 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
     //@Override
     public void onSuccess() {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getResourceMap(OpenDialog.class);
-        
-        String title = (String) comboEquip.getSelectedItem();
+        EquipmentDetailProperties equipment = (EquipmentDetailProperties) comboEquip.getSelectedItem();
+        String title = equipment.toString();
         JTabbedPane tab = mainView.getTabMain();
         
-        WorkspaceModel model = new WorkspaceModel();
+        WorkspaceModel model = new WorkspaceModel(tab, equipment);
         tab.addTab(title, resourceMap.getIcon("file.tabIcon"),  model);
         tab.setSelectedIndex(tab.getTabCount()-1);
 
@@ -161,5 +156,15 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
     public void openNewWorkspace() {
         newWorkspace.add();
     }
+    
+    private void initComboEquip() {
+        propEuipment.load();
+        List<EquipmentDetailProperties> listEuip = propEuipment.getListDetailEquipment();
 
+        for(EquipmentDetailProperties equip : listEuip) {
+            //String code = equip.getCode() +" - "+ equip.getName();
+            comboEquip.addItem(equip);
+        }
+        this.setResizable(true);
+    }
 }

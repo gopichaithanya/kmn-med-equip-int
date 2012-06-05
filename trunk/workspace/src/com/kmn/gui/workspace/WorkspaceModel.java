@@ -13,10 +13,14 @@ package com.kmn.gui.workspace;
 
 import com.kmn.MainApps;
 import com.kmn.controller.InterfaceEvent;
+import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.comm.*;
 
 import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,9 +30,18 @@ import javax.swing.table.DefaultTableModel;
 public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent {
 
     private Status statusBox;
+    private JTabbedPane owner;
+    private EquipmentDetailProperties equip;
+    private CommInterface ci;
     /** Creates new form WorkspaceModel */
     public WorkspaceModel() {
         initComponents();
+    }
+    public WorkspaceModel(JTabbedPane owner, EquipmentDetailProperties equip) {
+        this.owner = owner;
+        this.equip = equip;
+        initComponents();
+        receiveEquipmentData();
     }
 
     /** This method is called from within the constructor to
@@ -42,6 +55,10 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setName("Form"); // NOI18N
 
@@ -65,30 +82,88 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         });
         jTable1.setName("jTable1"); // NOI18N
         jScrollPane1.setViewportView(jTable1);
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getResourceMap(WorkspaceModel.class);
-        jTable1.getColumnModel().getColumn(0).setHeaderValue(resourceMap.getString("jTable1.columnModel.title0")); // NOI18N
-        jTable1.getColumnModel().getColumn(1).setHeaderValue(resourceMap.getString("jTable1.columnModel.title1")); // NOI18N
-        jTable1.getColumnModel().getColumn(2).setHeaderValue(resourceMap.getString("jTable1.columnModel.title2")); // NOI18N
-        jTable1.getColumnModel().getColumn(3).setHeaderValue(resourceMap.getString("jTable1.columnModel.title3")); // NOI18N
-        jTable1.getColumnModel().getColumn(4).setHeaderValue(resourceMap.getString("jTable1.columnModel.title4")); // NOI18N
-        jTable1.getColumnModel().getColumn(5).setHeaderValue(resourceMap.getString("jTable1.columnModel.title5")); // NOI18N
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/save.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/kmn/gui/workspace/resources/WorkspaceModel"); // NOI18N
+        jButton1.setText(bundle.getString("jButton1.save")); // NOI18N
+        jButton1.setName("jButton1");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/cancel.png"))); // NOI18N
+        jButton2.setText(bundle.getString("jButton2.cancel")); // NOI18N
+        jButton2.setName("jButton2");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/login_user.png"))); // NOI18N
+        jButton3.setText(bundle.getString("jButton3.lookup")); // NOI18N
+        jButton3.setName("jButton3");
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/loading.gif"))); // NOI18N
+        jLabel1.setName("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 677, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1)
+                    .addComponent(jButton3)
+                    .addComponent(jLabel1))
+                .addContainerGap())
         );
-        CommInterface ci = new CommInterface(this);
-        ci.connect("COM77", 9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, SerialPort.FLOWCONTROL_NONE);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.ci.close();
+        int index = this.owner.getSelectedIndex();
+        this.owner.remove(index);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    protected javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
@@ -106,8 +181,20 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
             statusBox.setLocationRelativeTo(mainFrame);
         }
         //MainApps.getApplication().show(statusBox);
+        Date now = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
+        sdf.format(now);
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{null,null,null,null,null,message});
+        model.addRow(new Object[]{null,null,null,now,null,message});
+        while(!jLabel1.getText().isEmpty()) {
+            try {
+                synchronized (this) {
+                    wait(1000);
+                }
+                jLabel1.setText("");
+            } catch (InterruptedException e) {
+            }
+        }
         //statusBox.setVisible(false);
     }
 
@@ -118,7 +205,21 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     //@Override
     public void onMessage(String message) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
+        while(jLabel1 == null) {
+            try {
+                synchronized (this) {
+                    wait(1000);
+                }
+            } catch (InterruptedException e) {
+            }
+        }
+        jLabel1.setText(message);
     }
 
+    public void receiveEquipmentData() {
+        this.ci = new CommInterface(this);         
+        //ci.connect("COM77", 9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, SerialPort.FLOWCONTROL_NONE);
+        ci.connect(equip.getCom(), 9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, SerialPort.FLOWCONTROL_NONE);
+    }
 }

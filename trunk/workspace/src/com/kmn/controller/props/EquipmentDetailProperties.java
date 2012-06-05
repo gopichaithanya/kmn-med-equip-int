@@ -36,7 +36,7 @@ public class EquipmentDetailProperties {
     }
 
     public String getCode() {
-        return code;
+        return this.code;
     }
 
     public void setCode(String code) {
@@ -130,4 +130,8 @@ public class EquipmentDetailProperties {
     public void setInterfaceType(String interfaceType) {
         this.interfaceType = interfaceType;
     }
+    
+    public String toString() {
+        return this.code +" - "+ this.name +" - "+ this.type ;
+    } 
 }
