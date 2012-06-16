@@ -5,6 +5,7 @@
 package com.kmn.util;
 
 import com.kmn.controller.InterfaceEvent;
+import com.kmn.gui.workspace.ModelInterface;
 //import gnu.io.CommPortIdentifier;
 //import gnu.io.PortInUseException;
 //import gnu.io.SerialPort;
@@ -34,7 +35,7 @@ import java.util.TooManyListenersException;
  *
  * @author Hermanto
  */
-public class CommInterface implements SerialPortEventListener, Serializable {
+public class CommInterface implements SerialPortEventListener, ModelInterface, Serializable {
     private static final long serialVersionUID = -8352659530536077973L;
     @SuppressWarnings("rawtypes")
 	Enumeration portList;
@@ -61,12 +62,27 @@ public class CommInterface implements SerialPortEventListener, Serializable {
 					friendly = false,
 					allPorts = true,
 					lineMonitor = false;
+    
+    private String port;
+    private int speed;
+    private int dataBit;
+    private int stopBit;
+    private int parity;
+    private int flow;
 
-    public CommInterface(InterfaceEvent event) {
+    public CommInterface(InterfaceEvent event, String port
+            , int speed, int dataBit, int stopBit, int parity, int flow) {
         this.event = event;
+        this.port = port;
+        this.speed = speed;
+        this.dataBit = dataBit;
+        this.stopBit = stopBit;
+        this.parity = parity;
+        this.flow = flow;
     }
 
-    public void connect(String port, int speed, int dataBit, int stopBit, int parity, int flow) {
+    @Override
+    public void connect() {
     	boolean allPorts = false, lineMonitor = false;
     	/* initialize number of ports to be read */
     	portObj = new SerialPortObject[20];
@@ -119,6 +135,17 @@ public class CommInterface implements SerialPortEventListener, Serializable {
             System.exit(0);
         }
     }
+    
+    @Override
+    public void close(){
+        for (SerialPortObject spo : portObj) {
+            try {
+                spo.closeBBPort();
+            } catch (Exception e) {
+            }
+        }
+    }
+    
     @SuppressWarnings("static-access")
     private void addPort(CommPortIdentifier	portId) {
         /*
@@ -145,14 +172,7 @@ public class CommInterface implements SerialPortEventListener, Serializable {
             }
         }
     }
-    public void close(){
-        for (SerialPortObject spo : portObj) {
-            try {
-                spo.closeBBPort();
-            } catch (Exception e) {
-            }
-        }
-    }
+    
     //@Override
     public void serialEvent(SerialPortEvent spe) {
         StringBuffer eventResponse = new StringBuffer();

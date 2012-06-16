@@ -15,10 +15,10 @@ import com.kmn.MainApps;
 import com.kmn.controller.InterfaceEvent;
 import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
+import com.kmn.util.DicomInterface;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.comm.*;
-
+import javax.comm.SerialPort;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.table.DefaultTableModel;
@@ -32,7 +32,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     private Status statusBox;
     private JTabbedPane owner;
     private EquipmentDetailProperties equip;
-    private CommInterface ci;
+    private ModelInterface modelinterface;
+
     /** Creates new form WorkspaceModel */
     public WorkspaceModel() {
         initComponents();
@@ -153,7 +154,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.ci.close();
+        this.modelinterface.close();
         int index = this.owner.getSelectedIndex();
         this.owner.remove(index);
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -218,8 +219,13 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     }
 
     public void receiveEquipmentData() {
-        this.ci = new CommInterface(this);         
-        //ci.connect("COM77", 9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, SerialPort.FLOWCONTROL_NONE);
-        ci.connect(equip.getCom(), 9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE, SerialPort.FLOWCONTROL_NONE);
+        if (equip.getInterfaceType().equalsIgnoreCase("DICOM")) {
+            this.modelinterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
+         } else {
+            this.modelinterface = new CommInterface(this, equip.getCom(), 96000
+                    , SerialPort.DATABITS_8, SerialPort.STOPBITS_1
+                    , SerialPort.PARITY_SPACE, SerialPort.FLOWCONTROL_RTSCTS_OUT);
+        }
+        this.modelinterface.connect();        
     }
 }
