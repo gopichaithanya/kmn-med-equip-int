@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hermanto
  */
-public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent, ModelInterface {
+public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent {
 
     private Status statusBox;
     private JTabbedPane owner;
@@ -45,7 +45,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         this.owner = owner;
         this.equip = equip;
         initComponents();
-        //receiveEquipmentData();
+        receiveEquipmentData();
     }
 
     /** This method is called from within the constructor to
@@ -150,16 +150,16 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
-        receiveEquipmentData();
+        //receiveEquipmentData();
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        receiveEquipmentData();
+        //receiveEquipmentData();
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //this.modelinterface.close();
+        this.modelinterface.close();
         if(this.dicomInterface != null) this.dicomInterface.close();
         if(this.commInterface != null) this.commInterface.close();
         int index = this.owner.getSelectedIndex();
@@ -227,19 +227,19 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     private void receiveEquipmentData() {
         if (equip.getInterfaceType().equalsIgnoreCase("DICOM")) {
-            this.dicomInterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
-            //this.modelinterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
-            this.dicomInterface.connect();
+            //this.dicomInterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
+            this.modelinterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
+            //this.dicomInterface.connect();
          } else {
-            this.commInterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
+            //this.commInterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
+            //       , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
+            //        , getParityInt(equip.getParity()), getFlowInt(equip.getFlow()));
+            //this.commInterface.connect();
+            this.modelinterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
                     , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
                     , getParityInt(equip.getParity()), getFlowInt(equip.getFlow()));
-            this.commInterface.connect();
-//            this.modelinterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
-//                    , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
-//                    , getParityInt(equip.getParity()), getFlowInt(equip.getFlow()));
         }
-        //this.modelinterface.connect();        
+        this.modelinterface.connect();        
     }
     
     public Integer getStopBitInt(String string) {
@@ -299,15 +299,5 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
             result = SerialPort.PARITY_SPACE;
         } 
         return result;
-    }
-
-    @Override
-    public void connect() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void close() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
