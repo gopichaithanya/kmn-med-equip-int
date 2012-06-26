@@ -11,6 +11,7 @@
 
 package com.kmn.gui.workspace;
 
+import com.kmn.gui.workspace.ModelInterface;
 import com.kmn.MainApps;
 import com.kmn.controller.InterfaceEvent;
 import com.kmn.controller.props.EquipmentDetailProperties;
@@ -27,12 +28,14 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Hermanto
  */
-public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent {
+public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent, ModelInterface {
 
     private Status statusBox;
     private JTabbedPane owner;
     private EquipmentDetailProperties equip;
     private ModelInterface modelinterface;
+    private DicomInterface dicomInterface;
+    private CommInterface commInterface;
 
     /** Creates new form WorkspaceModel */
     public WorkspaceModel() {
@@ -42,7 +45,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         this.owner = owner;
         this.equip = equip;
         initComponents();
-        receiveEquipmentData();
+        //receiveEquipmentData();
     }
 
     /** This method is called from within the constructor to
@@ -147,14 +150,18 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
+        receiveEquipmentData();
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
+        receiveEquipmentData();
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.modelinterface.close();
+        //this.modelinterface.close();
+        if(this.dicomInterface != null) this.dicomInterface.close();
+        if(this.commInterface != null) this.commInterface.close();
         int index = this.owner.getSelectedIndex();
         this.owner.remove(index);
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -218,14 +225,89 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         jLabel1.setText(message);
     }
 
-    public void receiveEquipmentData() {
+    private void receiveEquipmentData() {
         if (equip.getInterfaceType().equalsIgnoreCase("DICOM")) {
-            this.modelinterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
+            this.dicomInterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
+            //this.modelinterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
+            this.dicomInterface.connect();
          } else {
-            this.modelinterface = new CommInterface(this, equip.getCom(), 96000
-                    , SerialPort.DATABITS_8, SerialPort.STOPBITS_1
-                    , SerialPort.PARITY_SPACE, SerialPort.FLOWCONTROL_RTSCTS_OUT);
+            this.commInterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
+                    , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
+                    , getParityInt(equip.getParity()), getFlowInt(equip.getFlow()));
+            this.commInterface.connect();
+//            this.modelinterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
+//                    , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
+//                    , getParityInt(equip.getParity()), getFlowInt(equip.getFlow()));
         }
-        this.modelinterface.connect();        
+        //this.modelinterface.connect();        
+    }
+    
+    public Integer getStopBitInt(String string) {
+        int result = 1;
+        if(string.equalsIgnoreCase("2")) {
+            result = SerialPort.STOPBITS_2;
+        } else if(string.equalsIgnoreCase("1.5")) {
+            result = SerialPort.STOPBITS_1_5;
+        } else if(string.equalsIgnoreCase("1")) {
+            result = SerialPort.STOPBITS_1;
+        }
+        return result;
+    }
+    
+    public static final String FLOW_NONE = "None";
+    public static final String FLOW_XONXOFF = "Xon / Xoff";
+    public static final String FLOW_XONXOFFOUT = "Xon / Xoff out";
+    public static final String FLOW_HARDWARE = "Hardware";
+    public static final String FLOW_RTSCTS_IN = "RTCS In";
+    public static final String FLOW_RTSCTS_OUT = "RTCS Out";
+    
+    public Integer getFlowInt(String string) {
+        int result = SerialPort.FLOWCONTROL_NONE;
+        if(string.equalsIgnoreCase(FLOW_NONE)) {
+            result = SerialPort.FLOWCONTROL_NONE;
+        } else if(string.equalsIgnoreCase(FLOW_XONXOFF)) {
+            result = SerialPort.FLOWCONTROL_XONXOFF_IN;
+        } else if(string.equalsIgnoreCase(FLOW_HARDWARE)) {
+            result = SerialPort.FLOWCONTROL_RTSCTS_IN;
+        } else if(string.equalsIgnoreCase(FLOW_RTSCTS_IN)) { //not yet implemented
+            result = SerialPort.FLOWCONTROL_RTSCTS_IN;
+        } else if(string.equalsIgnoreCase(FLOW_RTSCTS_OUT)) { //not yet implemented
+            result = SerialPort.FLOWCONTROL_RTSCTS_OUT;
+        } else if(string.equalsIgnoreCase(FLOW_XONXOFFOUT)) { //not yet implemented
+            result = SerialPort.FLOWCONTROL_XONXOFF_OUT;
+        }
+        return result;
+    }
+    
+    public static final String PARITY_NONE = "None";
+    public static final String PARITY_ODD = "Odd";
+    public static final String PARITY_EVEN = "Even";
+    public static final String PARITY_MARK = "Mark";
+    public static final String PARITY_SPACE = "Space";
+    
+    public Integer getParityInt(String string) {
+        int result = SerialPort.PARITY_NONE;
+        if(string.equalsIgnoreCase(PARITY_NONE)) {
+            result = SerialPort.PARITY_NONE;
+        } else if(string.equalsIgnoreCase(PARITY_ODD)) {
+            result = SerialPort.PARITY_ODD;
+        } else if(string.equalsIgnoreCase(PARITY_EVEN)) {
+            result = SerialPort.PARITY_EVEN;
+        } else if(string.equalsIgnoreCase(PARITY_MARK)) {
+            result = SerialPort.PARITY_MARK;
+        } else if(string.equalsIgnoreCase(PARITY_SPACE)) {
+            result = SerialPort.PARITY_SPACE;
+        } 
+        return result;
+    }
+
+    @Override
+    public void connect() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void close() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
