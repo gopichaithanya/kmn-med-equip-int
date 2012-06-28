@@ -24,11 +24,17 @@ public class Dcm2XmlExt extends Dcm2Xml {
         super();
         File ifile = new File(iPath);
         File ofile = new File(oPath);
+        File subDir = new File(ifile.getParent(), ifile.getName()+".out");
+        subDir.mkdir();
         super.setBaseDir(ofile.getAbsoluteFile().getParentFile());
-        super.setExclude(new int[] {Tag.PixelData});
+        super.setExclude(new int[] {Tag.EncapsulatedDocument,Tag.PixelData});
+        super.setComments(true);
         long t1 = System.currentTimeMillis();
         try {
             super.convert(ifile, ofile);
+            File input = new File(ofile.getParent(),"00420011");
+            File output = new File(ofile.getParent(),"output.pdf");
+            input.renameTo(output);
         } catch (TransformerConfigurationException e) {
             System.err.println("dcm2xml: Configuration Error: " 
                     + e.getMessage());
