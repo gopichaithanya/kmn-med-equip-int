@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" resourceKey="formDbSetup.title"/>
+    <Property name="name" type="java.lang.String" value="formDbSetup" noResource="true"/>
+    <Property name="resizable" type="boolean" value="false"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
+  </Events>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+              <Component id="iconDb" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="labelUserName" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelPassword" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelDriver" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelUrl" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelProvider" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="textProvider" max="32767" attributes="1"/>
+                          <Component id="textUrl" max="32767" attributes="1"/>
+                          <Component id="textDriver" max="32767" attributes="1"/>
+                          <Component id="textPassword" max="32767" attributes="1"/>
+                          <Component id="textUserName" alignment="0" min="-2" pref="280" max="-2" attributes="1"/>
+                      </Group>
+                  </Group>
+                  <Component id="labelDb" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="19" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="262" max="32767" attributes="0"/>
+              <Component id="buttonSave" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="buttonCancel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="iconDb" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelDb" alignment="1" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelUserName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textUserName" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelDriver" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textDriver" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelUrl" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textUrl" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="labelProvider" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textProvider" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="buttonCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonSave" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="iconDb">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="iconDb.icon"/>
+        <Property name="text" type="java.lang.String" resourceKey="iconDb.text"/>
+        <Property name="name" type="java.lang.String" value="iconDb" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelDb">
+      <Properties>
+        <Property name="font" type="java.awt.Font" resourceKey="labelDb.font"/>
+        <Property name="text" type="java.lang.String" resourceKey="labelDb.text"/>
+        <Property name="name" type="java.lang.String" value="labelDb" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelUserName">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="labelUserName.text"/>
+        <Property name="name" type="java.lang.String" value="labelUserName" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelPassword">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="labelPassword.text"/>
+        <Property name="name" type="java.lang.String" value="labelPassword" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelDriver">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="labelDriver.text"/>
+        <Property name="name" type="java.lang.String" value="labelDriver" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelUrl">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="labelUrl.text"/>
+        <Property name="name" type="java.lang.String" value="labelUrl" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="labelProvider">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="labelProvider.text"/>
+        <Property name="name" type="java.lang.String" value="labelProvider" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="textUserName">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="textUserName.text"/>
+        <Property name="name" type="java.lang.String" value="textUserName" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="textPassword">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="textPassword.text"/>
+        <Property name="name" type="java.lang.String" value="textPassword" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="textDriver">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="textDriver.text"/>
+        <Property name="name" type="java.lang.String" value="textDriver" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="textUrl">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="textUrl.text"/>
+        <Property name="name" type="java.lang.String" value="textUrl" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="textProvider">
+      <Properties>
+        <Property name="text" type="java.lang.String" resourceKey="textProvider.text"/>
+        <Property name="name" type="java.lang.String" value="textProvider" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonSave">
+      <Properties>
+        <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+          <action class="com.kmn.gui.setup.SetupDatabase" id="saveSetupDB" methodName="saveSetupDB"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="buttonSave.icon"/>
+        <Property name="text" type="java.lang.String" resourceKey="buttonSave.text"/>
+        <Property name="name" type="java.lang.String" value="buttonSave" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="buttonCancel">
+      <Properties>
+        <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
+          <action class="com.kmn.gui.setup.SetupDatabase" id="closeSetupDB" methodName="closeSetupDB"/>
+        </Property>
+        <Property name="icon" type="javax.swing.Icon" resourceKey="buttonCancel.icon"/>
+        <Property name="text" type="java.lang.String" resourceKey="buttonCancel.text"/>
+        <Property name="name" type="java.lang.String" value="buttonCancel" noResource="true"/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
