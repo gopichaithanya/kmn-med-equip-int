@@ -50,13 +50,22 @@ public class DcmRcvExt extends DcmRcv {
         super.onCStoreRQ(as, pcid, rq, dataStream, tsuid, rsp);
         //convert to xml
         String iPath = getDestinationExt()+"\\"+iuid;
-        String oPath = getDestinationExt()+"\\"+iuid+".xml";
-        String jpgPath = getDestinationExt()+"\\"+iuid+".jpg";
+        String subDir = getDestinationExt()+"\\"+iuid+".out";
+        String oPath = subDir + "\\output.xml";
+        String jpgPath = subDir + "\\output.jpg";
         System.out.println("Start Xml Conversion");
+        this.event.onMessage("Start Xml Conversion");
         Dcm2XmlExt dcm2XmlExt = new Dcm2XmlExt(iPath, oPath);
         //convert to jpg
-        System.out.println("Start Jpeg Conversion");
-        Dcm2JpgExt dcm2JpgExt = new Dcm2JpgExt(iPath, jpgPath);
-        this.event.onReceive(getDestinationExt()+"\\"+iuid);
+        try {
+            System.out.println("Start Jpeg Conversion");
+            this.event.onMessage("Start Jpeg Conversion");
+            Dcm2JpgExt dcm2JpgExt = new Dcm2JpgExt(iPath, jpgPath);
+        } catch (NullPointerException e) {
+            System.out.println("Dicom file does not contain pixel data");
+            this.event.onMessage("Dicom file does not contain pixel data");
+        } finally {
+            this.event.onReceive(getDestinationExt()+"\\"+iuid);
+        }
     }
 }
