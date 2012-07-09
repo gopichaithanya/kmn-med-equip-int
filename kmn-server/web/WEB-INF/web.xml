@@ -19,6 +19,7 @@
             classpath:customize-applicationContext.xml,
             classpath:springSecurityContext.xml
             classpath:performance-db-logging.xml
+            classpath:spring-ws-servlet.xml
         </param-value>
     </context-param>
 
@@ -120,4 +121,16 @@
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
+
+    <!-- Defines the Spring-WS MessageDispatcherServlet -->
+    <servlet>
+        <servlet-name>spring-ws</servlet-name>
+        <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+    </servlet>
+
+    <!-- Map all requests to this servlet -->
+    <servlet-mapping>
+        <servlet-name>spring-ws</servlet-name>
+        <url-pattern>*.wsdl</url-pattern>
+    </servlet-mapping>
 </web-app>
