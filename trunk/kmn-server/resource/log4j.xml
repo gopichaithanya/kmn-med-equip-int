@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
-                     debug="false">
+                     debug="true">
 
     <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
         <param name="Target" value="System.out"/>
@@ -65,7 +65,16 @@
     <category name="org.springframework">
         <priority value="INFO"/>
     </category>
-
+    <!-- Sprinframework web services-->
+    <category name="org.springframework.ws">
+        <priority value="DEBUG"/>
+    </category>
+    <category name="org.springframework.xml">
+        <priority value="DEBUG"/>
+    </category>
+    <category name="openjpa">
+        <priority value="INFO"/>
+    </category>
 
     <root>
         <level value="ALL"/>
