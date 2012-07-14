@@ -105,7 +105,7 @@ public class UserWorkspace implements Serializable, DisposableBean {
 
     private Set<String> getGrantedAuthoritySet() {
         if (this.grantedAuthoritySet == null) {
-            final Collection<GrantedAuthority> list = getAuthentication().getAuthorities();
+            final Collection<GrantedAuthority> list = (Collection<GrantedAuthority>) getAuthentication().getAuthorities();
             this.grantedAuthoritySet = new HashSet<String>(list.size());
             for (final GrantedAuthority grantedAuthority : list) {
                 this.grantedAuthoritySet.add(grantedAuthority.getAuthority());

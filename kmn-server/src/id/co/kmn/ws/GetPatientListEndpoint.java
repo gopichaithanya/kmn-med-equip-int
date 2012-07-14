@@ -15,14 +15,12 @@ import javax.xml.transform.dom.DOMSource;
 
 /**
  * @author <a href="valeo.gumilang@gmail.com">Valeo Gumilang</a>
- * @Date 7/9/12
- * Time: 6:04 PM
+ * @Date 7/12/12
+ * Time: 10:00 PM
  */
-public class PatientListEndpoint extends AbstractSaxPayloadEndpoint {
-    private static final String NAMESPACE_URI = "http://192.168.13.10:8080/kmn/IntegrasiAlat";
+public class GetPatientListEndpoint extends AbstractSaxPayloadEndpoint {
+    private static final String NAMESPACE_URI = "http://localhost:9090/kmn/";
     private static final String CIS_URI = "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/";
-    private static final String CONTANT_NAME = "Contact";
-    private static final String CONTANT_COUNT_NAME = "ContactCount";
     private static final String REQ_LIST_NAME = "getPatientList";
     private static final String RES_LIST_NAME = "getPatientListResponse";
 
@@ -33,23 +31,23 @@ public class PatientListEndpoint extends AbstractSaxPayloadEndpoint {
 
     private DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
-    public PatientListEndpoint() {
+    public GetPatientListEndpoint() {
         documentBuilderFactory.setNamespaceAware(true);
     }
-
+    @Override
     protected ContentHandler createContentHandler() throws Exception {
         return new PatientList();
     }
-
+    @Override
     protected Source getResponse(ContentHandler contentHandler) throws Exception {
         PatientList patientList = (PatientList) contentHandler;
-        System.out.println("getResponse: "+contentHandler.toString());
+
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
         Document response = documentBuilder.newDocument();
         Element contactCountElement = response.createElementNS(NAMESPACE_URI, RES_LIST_NAME);
         response.appendChild(contactCountElement);
         //contactCountElement.setTextContent(Integer.toString(patientList.resPageNumber));
-        contactCountElement.setTextContent("Result Text");
+        contactCountElement.setTextContent("Test Result");
 
         return new DOMSource(response);
     }
