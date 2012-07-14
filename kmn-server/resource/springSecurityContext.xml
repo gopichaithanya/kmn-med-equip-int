@@ -7,11 +7,11 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:aop="http://www.springframework.org/schema/aop"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 	       http://www.springframework.org/schema/aop   
-		   http://www.springframework.org/schema/aop/spring-aop-3.0.xsd                        
+		   http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
            http://www.springframework.org/schema/security
-           http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
     <!-- Enable the @Secured annotation to secure service layer methods -->
     <global-method-security secured-annotations="enabled"/>
@@ -33,11 +33,16 @@
                 <salt-source user-property="token"/>
             </password-encoder>
         </authentication-provider>
+        <!--authentication-provider user-service-ref="securityServiceWs"/-->
     </authentication-manager>
 
     <beans:bean id="myUserDetailsService" class="id.co.kmn.policy.model.PolicyManager">
         <beans:property name="userService" ref="userService"/>
     </beans:bean>
+
+    <!--beans:bean id="securityServiceWs"
+          class="org.springframework.ws.samples.airline.security.SpringFrequentFlyerSecurityService">
+    </beans:bean-->
 
     <beans:bean id="passwordEncoder" class="id.co.kmn.policy.PasswordEncoderImpl"></beans:bean>
     <beans:bean id="LoginLoggingPolicyService" class="id.co.kmn.policy.LoginLoggingPolicyService" scope="session">
