@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions name="IntegrasiAlat" targetNamespace="http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/">
+      <xsd:element name="getPatientList">
+                <xsd:annotation>
+                	<xsd:documentation>getPatientList adalah service untuk meminta listing data pasien pada klinik tertentu.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="reqKeyword" type="xsd:string">
+          		<xsd:annotation>
+          			<xsd:documentation>reqKeyword adalah parameter pencarian data pasien dimana tanda persen (%) digunakan sebagai wildcard.
+String dalam reqKeyword akan di-match-kan terhadap nama pasien.</xsd:documentation>
+          		</xsd:annotation></xsd:element>
+          	<xsd:element name="reqClinicId" type="xsd:string">
+          		<xsd:annotation>
+          			<xsd:documentation>reqClinicId adalah ID dari klinik asal tempat data. Aplikasi pemanggil request ini harus memiliki database ID klinik yang sesuai dengan data di CIS.
+</xsd:documentation>
+          		</xsd:annotation></xsd:element>
+          	<xsd:element name="reqPageNumber" type="xsd:int">
+          		<xsd:annotation>
+          			<xsd:documentation>reqPageNumber adalah nomor halaman dari hasil query listing pasien yang diinginkan
+</xsd:documentation>
+          		</xsd:annotation></xsd:element>
+          	<xsd:element name="reqRowPerPage" type="xsd:int">
+          		<xsd:annotation>
+          			<xsd:documentation>reqRowPerPage adalah jumlah baris maksimum yang diinginkan oleh aplikasi pengirim request untuk dikembalikan oleh CIS.
+</xsd:documentation>
+          		</xsd:annotation></xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getPatientListResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+                        <xsd:element name="resPageNumber" type="xsd:int">
+          		<xsd:annotation>
+          			<xsd:documentation>
+          				resPageNumber adalah nomor halaman dari
+          				listing data pasien yang dikirimkan.
+          			</xsd:documentation>
+          		</xsd:annotation>
+          	</xsd:element>
+          	<xsd:element name="resRowThisPage" type="xsd:int">
+          		<xsd:annotation>
+          			<xsd:documentation>
+          				resRowThisPage adalah jumlah baris pada hasil
+          				listing pasien yang dikirimkan.
+          			</xsd:documentation>
+          		</xsd:annotation>
+          	</xsd:element>
+          	<xsd:element name="resRowPerPage" type="xsd:int">
+          		<xsd:annotation>
+          			<xsd:documentation>
+          				resRowPerPage adalah nilai default jumlah
+          				baris per halaman listing pasien yang
+          				dikirimkan.
+          			</xsd:documentation>
+          		</xsd:annotation>
+          	</xsd:element>
+          	<xsd:element name="resRowTotal" type="xsd:int">
+          		<xsd:annotation>
+          			<xsd:documentation>
+          				resRowTotal adalah jumlah keseluruhan record
+          				dari listing pasien yang dikirimkan.
+          			</xsd:documentation>
+          		</xsd:annotation>
+          	</xsd:element>
+          	<xsd:element name="resRowsXML" type="xsd:string">
+          		<xsd:annotation>
+          			<xsd:documentation>
+          				resRowXML adalah XML dari data pasien yang
+          				dikirimkan yang jumlahnya sesuai dengan
+          				resRowThisPage. Data2 dalam XML ini adalah:
+          				patientId: id pasien yang merupakan identifier
+          				unik untuk pasien tertentu di klinik tertentu
+          				pada hari tertentu. Data akan diambil dari
+          				data registrasi pasien di CIS patientName:
+          				nama pasien patientBRM: BRM pasien doctorId:
+          				ID dokter sesuai dengan patientId doctorName:
+          				nama dokter
+          			</xsd:documentation>
+          		</xsd:annotation>
+          	</xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="putPatientData">
+                <xsd:annotation>
+                	<xsd:documentation>putPatientData adalah fasilitas untuk mengirimkan data capture alat medis ke CIS</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+      		<xsd:sequence>
+      			<xsd:element name="reqPatientId" type="xsd:string">
+      				<xsd:annotation>
+      					<xsd:documentation>reqPatientId adalah identifier unik atas pasien.
+reqPatientId diambil dari data patientId dari data resRowXML hasil respon getPatientList
+</xsd:documentation>
+      				</xsd:annotation></xsd:element>
+      			<xsd:element name="reqDeviceId" type="xsd:int">
+      				<xsd:annotation>
+      					<xsd:documentation>reqDeviceId adalah ID dari alat sumber data.
+Aplikasi pemanggil harus memiliki data referensi alat yang sama dengan CIS.
+</xsd:documentation>
+      				</xsd:annotation></xsd:element>
+      			<xsd:element name="reqImageURL" type="xsd:string">
+      				<xsd:annotation>
+      					<xsd:documentation>reqImageURL adalah URL dari image hasil capture alat dimana URL tersebut harus bisa diakses oleh CIS untuk didownload datanya lewat akses http.</xsd:documentation>
+      				</xsd:annotation></xsd:element>
+      			<xsd:element name="reqDataXML" type="xsd:string">
+      				<xsd:annotation>
+      					<xsd:documentation>reqDataXML adalah data hasil capture data.
+Format XML dari data ini akan spesifik per jenis alat.
+Format XML harus disiapkan interpreternya terlebih dahulu oleh CIS agar bisa dimasukkan ke field2 database yang sesuai.
+</xsd:documentation>
+      				</xsd:annotation></xsd:element>
+      			<xsd:element name="reqDatetime" type="xsd:dateTime">
+      				<xsd:annotation>
+      					<xsd:documentation>reqDatetime adalah jam dan waktu data di-capture
+</xsd:documentation>
+      				</xsd:annotation></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="putPatientDataResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+                        <xsd:element name="resStatusNo" type="xsd:int">
+      				<xsd:annotation>
+      					<xsd:documentation>
+      						resStatusNo adalah nomor hasil status
+      						dimana 0 adalah sukses dan lainnya adalah
+      						gagal
+      					</xsd:documentation>
+      				</xsd:annotation>
+      			</xsd:element>
+      			<xsd:element name="resStatusXML" type="xsd:string">
+      				<xsd:annotation>
+      					<xsd:documentation>
+      						resStatusXML adalah penjelasan dari
+      						resStatusNo. Format XML dari data ini
+      						berupa: errNo: error number errMsg: error
+      						description
+      					</xsd:documentation>
+      				</xsd:annotation>
+      			</xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getPatientListRequest">
+    <wsdl:part element="tns:getPatientList" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getPatientListResponse">
+    <wsdl:part element="tns:getPatientListResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="putPatientDataRequest">
+  	<wsdl:part name="parameters" element="tns:putPatientData"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="putPatientDataResponse">
+  	<wsdl:part name="parameters" element="tns:putPatientDataResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="IntegrasiAlat">
+    <wsdl:operation name="getPatientList">
+      <wsdl:input message="tns:getPatientListRequest"/>
+      <wsdl:output message="tns:getPatientListResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="putPatientData">
+    	<wsdl:input message="tns:putPatientDataRequest"></wsdl:input>
+    	<wsdl:output message="tns:putPatientDataResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="IntegrasiAlatSOAP" type="tns:IntegrasiAlat">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getPatientList">
+      <soap:operation soapAction="http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/getPatientList"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IntegrasiAlat">
+    <wsdl:port binding="tns:IntegrasiAlatSOAP" name="IntegrasiAlatSOAP">
+      <soap:address location="http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
