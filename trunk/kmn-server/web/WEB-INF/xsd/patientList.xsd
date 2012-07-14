@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+            targetNamespace="http://localhost:9090/kmn">
+    <!-- targetNamespace="http://www.springframework.org/spring-ws/samples/pox" -->
+    <xsd:element name="getPatientList">
+        <xsd:annotation>
+            <xsd:documentation>
+                getPatientList adalah service untuk meminta listing data pasien pada klinik tertentu.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="reqKeyword" type="xsd:string">
+          		    <xsd:annotation>
+          			    <xsd:documentation>reqKeyword adalah parameter pencarian data pasien dimana tanda persen (%) digunakan sebagai wildcard. String dalam reqKeyword akan di-match-kan terhadap nama pasien.</xsd:documentation>
+          		    </xsd:annotation>
+                </xsd:element>
+          	    <xsd:element name="reqClinicId" type="xsd:string">
+          		    <xsd:annotation>
+          			    <xsd:documentation>reqClinicId adalah ID dari klinik asal tempat data. Aplikasi pemanggil request ini harus memiliki database ID klinik yang sesuai dengan data di CIS.</xsd:documentation>
+          		    </xsd:annotation>
+                </xsd:element>
+          	    <xsd:element name="reqPageNumber" type="xsd:int">
+          		    <xsd:annotation>
+          			    <xsd:documentation>reqPageNumber adalah nomor halaman dari hasil query listing pasien yang diinginkan</xsd:documentation>
+          		    </xsd:annotation>
+                </xsd:element>
+          	    <xsd:element name="reqRowPerPage" type="xsd:int">
+          		    <xsd:annotation>
+          			    <xsd:documentation>reqRowPerPage adalah jumlah baris maksimum yang diinginkan oleh aplikasi pengirim request untuk dikembalikan oleh CIS.</xsd:documentation>
+          		    </xsd:annotation>
+                </xsd:element>
+                <!--xsd:element name="reqKeyword" type="xsd:string">
+                    <xsd:complexType>
+                        <xsd:all>
+                            <xsd:element name="Name" type="xsd:string"/>
+                            <xsd:element name="Phone" type="xsd:string"/>
+                        </xsd:all>
+                    </xsd:complexType>
+                </xsd:element-->
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="getPatientListResponse" type="xsd:string"/>
+
+</xsd:schema>

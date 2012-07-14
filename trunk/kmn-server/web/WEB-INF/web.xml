@@ -12,14 +12,20 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:applicationContext-db.xml,
-            classpath:applicationContext-hibernate.xml,
-            classpath:applicationContext-guiControllers.xml,
+            classpath:applicationContext-db.xml
+            classpath:applicationContext-hibernate.xml
+            classpath:applicationContext-guiControllers.xml
             classpath:applicationContext-guiServices.xml
-            classpath:customize-applicationContext.xml,
+            classpath:customize-applicationContext.xml
             classpath:springSecurityContext.xml
             classpath:performance-db-logging.xml
-            classpath:spring-ws-servlet.xml
+            <!--classpath:spring-ws-pox-servlet.xml-->
+            classpath:spring-ws-echo-servlet.xml
+            <!--classpath:applicationContext-jpa.xml-->
+            <!--classpath:applicationContext-service.xml-->
+            <!--classpath:applicationContext-security.xml-->
+            <!--classpath:applicationContext-ws.xml-->
+            <!--classpath:applicationContext-jms.xml-->
         </param-value>
     </context-param>
 
@@ -121,16 +127,74 @@
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
-
+    <!-- POX Web Service -->
     <!-- Defines the Spring-WS MessageDispatcherServlet -->
     <servlet>
-        <servlet-name>spring-ws</servlet-name>
+        <servlet-name>spring-ws-pox</servlet-name>
         <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+        <init-param>
+            <!-- Transform the location attributes in WSDLs -->
+            <param-name>transformWsdlLocations</param-name>
+            <param-value>true</param-value>
+        </init-param>
     </servlet>
 
-    <!-- Map all requests to this servlet -->
+    <!-- Map all wsdl requests to this servlet -->
     <servlet-mapping>
-        <servlet-name>spring-ws</servlet-name>
+        <servlet-name>spring-ws-pox</servlet-name>
         <url-pattern>*.wsdl</url-pattern>
+    </servlet-mapping>
+    <!-- Echo SAAJ Web Service -->
+    <!-- Defines the Spring-WS MessageDispatcherServlet -->
+    <servlet>
+        <servlet-name>spring-ws-echo</servlet-name>
+        <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+        <init-param>
+            <!-- Transform the location attributes in WSDLs -->
+            <param-name>transformWsdlLocations</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- Map all wsdl requests to this servlet -->
+    <servlet-mapping>
+        <servlet-name>spring-ws-echo</servlet-name>
+        <url-pattern>*.wsdl</url-pattern>
+    </servlet-mapping>
+    <!-- SOAP web service -->
+    <!--servlet>
+        <servlet-name>ws</servlet-name>
+        <servlet-class>org.springframework.ws.transport.http.MessageDispatcherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ws</servlet-name>
+        <url-pattern>/services</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ws</servlet-name>
+        <url-pattern>*.wsdl</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>mvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>mvc</servlet-name>
+        <url-pattern>*.html</url-pattern>
+    </servlet-mapping>
+    <mime-mapping>
+        <extension>xsd</extension>
+        <mime-type>text/xml</mime-type>
+    </mime-mapping-->
+    <!--welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list-->
+    <servlet>
+        <servlet-name>public-image</servlet-name>
+        <servlet-class>org.springframework.web.servlet.ResourceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>public-image</servlet-name>
+        <url-pattern>/images/*</url-pattern>
     </servlet-mapping>
 </web-app>
