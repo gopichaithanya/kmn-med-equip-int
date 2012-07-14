@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-            targetNamespace="http://www.springframework.org/spring-ws/samples/pox">
-
+            targetNamespace="http://localhost:9090/kmn">
+    <!-- targetNamespace="http://www.springframework.org/spring-ws/samples/pox" -->
     <xsd:element name="Contacts">
         <xsd:annotation>
             <xsd:documentation>
