@@ -16,6 +16,8 @@
 
 package org.springframework.ws.samples.pox.ws;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.ws.server.endpoint.AbstractSaxPayloadEndpoint;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,13 +33,15 @@ import javax.xml.transform.dom.DOMSource;
 
 public class ContactCountEndpoint extends AbstractSaxPayloadEndpoint {
 
-    private static final String NAMESPACE_URI = "http://www.springframework.org/spring-ws/samples/pox";
+    private static final String NAMESPACE_URI = "http://localhost:9090/kmn";
 
     private static final String CONTANT_NAME = "Contact";
 
     private static final String CONTANT_COUNT_NAME = "ContactCount";
 
     private DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+
+    private static final Log LOG = LogFactory.getLog(ContactCountEndpoint.class);
 
     public ContactCountEndpoint() {
         documentBuilderFactory.setNamespaceAware(true);
@@ -61,6 +65,11 @@ public class ContactCountEndpoint extends AbstractSaxPayloadEndpoint {
 
     private static class ContactCounter extends DefaultHandler {
 
+        public ContactCounter(){
+            super();
+            LOG.debug("DEBUG: ContactCounter");
+            LOG.info("INFO: ContactCounter");
+        }
         private int contactCount = 0;
 
         @Override
@@ -70,6 +79,9 @@ public class ContactCountEndpoint extends AbstractSaxPayloadEndpoint {
             System.out.println("localName: " + localName);
             System.out.println("qName: " + qName);
             System.out.println("Attributes: " + attributes);
+            LOG.debug("DEBUG: startElement");
+            LOG.info("INFO: startElement");
+            contactCount = 1;
             if (NAMESPACE_URI.equals(uri) && CONTANT_NAME.equals(localName)) {
                 contactCount++;
             }

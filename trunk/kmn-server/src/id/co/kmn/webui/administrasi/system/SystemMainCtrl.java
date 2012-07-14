@@ -10,7 +10,11 @@ import id.co.kmn.util.Codec;
 import id.co.kmn.util.ConstantUtil;
 import id.co.kmn.webui.administrasi.report.MpegawaiSimpleDJReport;
 import id.co.kmn.webui.util.*;
+import id.co.kmn.ws.client.ClientEcho;
+import id.co.kmn.ws.client.ClientPox;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Component;
@@ -71,6 +75,8 @@ public class SystemMainCtrl extends GFCBaseCtrl implements Serializable {
     protected Button btnDelete; // autowired
     protected Button btnSave; // autowired
     protected Button btnCancel; // autowired
+    protected Button btnTestWsdl; // autowired
+    protected Button btnTestEcho; // autowired
 
     protected Button btnHelp;
 
@@ -352,7 +358,24 @@ public class SystemMainCtrl extends GFCBaseCtrl implements Serializable {
     public void onClick$btnHelp(Event event) throws InterruptedException {
         doHelp(event);
     }
-
+    /**
+     * When the "Test Echo" button is clicked.
+     *
+     * @param event
+     * @throws InterruptedException
+     */
+    public void onClick$btnTestEcho(Event event) throws InterruptedException {
+        doTestEcho(event);
+    }
+    /**
+     * When the "Test WSDL" button is clicked.
+     *
+     * @param event
+     * @throws InterruptedException
+     */
+    public void onClick$btnTestWsdl(Event event) throws InterruptedException {
+        doTestWsdl(event);
+    }
     /**
      * When the "new" button is clicked.
      *
@@ -417,7 +440,26 @@ public class SystemMainCtrl extends GFCBaseCtrl implements Serializable {
     // +++++++++++++++++++++++++++++++++++++++++++++++++ //
     // +++++++++++++++++ Business Logic ++++++++++++++++ //
     // +++++++++++++++++++++++++++++++++++++++++++++++++ //
+    private void doTestEcho(Event event) throws InterruptedException {
+        try {
+            ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext-clientecho.xml", ClientEcho.class);
+            ClientEcho clientEcho = (ClientEcho) applicationContext.getBean("clientEcho");
+            //ZksampleMessageUtils.showErrorMessage(clientEcho.echoString());
+            clientEcho.echo();
+        } catch (IOException e) {
+            ZksampleMessageUtils.showErrorMessage(e.getStackTrace().toString());
+        }
+    }
 
+    private void doTestWsdl(Event event) throws InterruptedException {
+        try {
+            ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext-clientpox.xml", ClientPox.class);
+            ClientPox clientPox = (ClientPox) applicationContext.getBean("clientPox");
+            clientPox.getPatientList();
+        } catch (IOException e) {
+            ZksampleMessageUtils.showErrorMessage(e.getStackTrace().toString());
+        }
+    }
     /**
      * 1. Cancel the current action.<br>
      * 2. Reset the values to its origin.<br>
