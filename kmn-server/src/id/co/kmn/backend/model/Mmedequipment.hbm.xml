@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 11 Mar 12 23:21:12 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="id.co.kmn.backend.model.Mmedequipment" table="M_MED_EQUIPMENT" >
+    <class name="id.co.kmn.backend.model.Mmedequipment" table="m_med_equipment" >
         <id name="id" type="int">
             <column name="ID" />
             <generator class="native" />
