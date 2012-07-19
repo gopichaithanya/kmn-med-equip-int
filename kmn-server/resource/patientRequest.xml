@@ -1,6 +1,0 @@
-<getPatientList xmlns="http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/">
-    <reqKeyword>%dinda%</reqKeyword>
-    <reqClinicId>9</reqClinicId>
-    <reqPageNumber>1</reqPageNumber>
-    <reqRowPerPage>10</reqRowPerPage>
-</getPatientList>

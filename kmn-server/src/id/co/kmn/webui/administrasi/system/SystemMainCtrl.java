@@ -10,8 +10,6 @@ import id.co.kmn.util.Codec;
 import id.co.kmn.util.ConstantUtil;
 import id.co.kmn.webui.administrasi.report.MpegawaiSimpleDJReport;
 import id.co.kmn.webui.util.*;
-import id.co.kmn.ws.client.ClientEcho;
-import id.co.kmn.ws.client.ClientPox;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -441,24 +439,24 @@ public class SystemMainCtrl extends GFCBaseCtrl implements Serializable {
     // +++++++++++++++++ Business Logic ++++++++++++++++ //
     // +++++++++++++++++++++++++++++++++++++++++++++++++ //
     private void doTestEcho(Event event) throws InterruptedException {
-        try {
+        /*try {
             ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext-clientecho.xml", ClientEcho.class);
             ClientEcho clientEcho = (ClientEcho) applicationContext.getBean("clientEcho");
             //ZksampleMessageUtils.showErrorMessage(clientEcho.echoString());
             clientEcho.echo();
         } catch (IOException e) {
             ZksampleMessageUtils.showErrorMessage(e.getStackTrace().toString());
-        }
+        }*/
     }
 
     private void doTestWsdl(Event event) throws InterruptedException {
-        try {
+        /*try {
             ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext-clientpox.xml", ClientPox.class);
             ClientPox clientPox = (ClientPox) applicationContext.getBean("clientPox");
             clientPox.getPatientList();
         } catch (IOException e) {
             ZksampleMessageUtils.showErrorMessage(e.getStackTrace().toString());
-        }
+        }*/
     }
     /**
      * 1. Cancel the current action.<br>
