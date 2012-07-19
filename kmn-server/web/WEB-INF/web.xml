@@ -189,12 +189,12 @@
     <!--welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list-->
-    <servlet>
+    <!--servlet>
         <servlet-name>public-image</servlet-name>
         <servlet-class>org.springframework.web.servlet.ResourceServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
+    </servlet-->
+    <!--servlet-mapping>
         <servlet-name>public-image</servlet-name>
         <url-pattern>/images/*</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping-->
 </web-app>
