@@ -17,11 +17,12 @@ import com.kmn.controller.InterfaceEvent;
 import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
+import java.awt.Point;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.comm.SerialPort;
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,11 +32,12 @@ import javax.swing.table.DefaultTableModel;
 public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent {
 
     private Status statusBox;
-    private JTabbedPane owner;
+    protected JTabbedPane owner;
     private EquipmentDetailProperties equip;
     private ModelInterface modelinterface;
     private DicomInterface dicomInterface;
     private CommInterface commInterface;
+    //private ViewOutput viewOutput = new ViewOutput(this);
 
     /** Creates new form WorkspaceModel */
     public WorkspaceModel() {
@@ -63,6 +65,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
 
         setName("Form"); // NOI18N
 
@@ -73,18 +76,32 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
             },
             new String [] {
-                "Patient ID", "First name", "Last Name", "Remark", "Branch", "Data Output"
+                "Patient ID", "Patient Name", "Patient BRM", "Remark", "Doc ID", "Data Output"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jTable1.setName("jTable1"); // NOI18N
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/save.png"))); // NOI18N
@@ -94,6 +111,11 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -114,9 +136,23 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/login_user.png"))); // NOI18N
         jButton3.setText(bundle.getString("jButton3.lookup")); // NOI18N
         jButton3.setName("jButton3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/loading.gif"))); // NOI18N
         jLabel1.setName("jLabel1");
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/file.png"))); // NOI18N
+        jButton4.setText("View Output");
+        jButton4.setName("jButton4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -126,6 +162,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -143,7 +181,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                     .addComponent(jButton2)
                     .addComponent(jButton1)
                     .addComponent(jButton3)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jButton4))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -159,21 +198,61 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Cancel Button
         this.modelinterface.close();
         if(this.dicomInterface != null) this.dicomInterface.close();
         if(this.commInterface != null) this.commInterface.close();
         int index = this.owner.getSelectedIndex();
         this.owner.remove(index);
     }//GEN-LAST:event_jButton2ActionPerformed
+    //To select the path of image file
+    private File file;
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // View Output
+        int row = jTable1.getSelectedRow();
+        String filePath = (String) jTable1.getValueAt(row, 5);
+        try {
+            file = new File(filePath+".out\\output.pdf");
+            if(!file.exists()) {
+                file = new File(filePath+".out\\output.jpg");  
+            }
+        } catch (NullPointerException e) {   
+            file = new File(filePath+".out\\output.jpg");
+        }
+        ViewOutput vo = new ViewOutput(this, file);
+        vo.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+    
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // Lookup Patient
+        int row = jTable1.getSelectedRow();
+        if (row > -1) {
+            LookupPatients lookupPatients = new LookupPatients(this);
+            lookupPatients.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a data row.");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Save Row
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+//        Point p = evt.getPoint(); 
+//        int selectedRow = jTable1.rowAtPoint(p);
+//        int row = jTable1.getSelectedRow();
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     protected javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    protected javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 
     //@Override
@@ -237,7 +316,9 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
             //this.commInterface.connect();
             this.modelinterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
                     , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
-                    , getParityInt(equip.getParity()), getFlowInt(equip.getFlow()));
+                    , getParityInt(equip.getParity()), 
+                    getFlowInt(equip.getFlow()));
+                    //SerialPort.FLOWCONTROL_NONE);
         }
         this.modelinterface.connect();        
     }
