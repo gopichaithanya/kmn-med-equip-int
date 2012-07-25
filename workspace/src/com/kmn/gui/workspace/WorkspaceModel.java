@@ -17,7 +17,6 @@ import com.kmn.controller.InterfaceEvent;
 import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
-import java.awt.Point;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,14 +29,39 @@ import javax.swing.table.DefaultTableModel;
  * @author Hermanto
  */
 public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent {
-
+    public static String TEMP_DIR = "C:\\kmntmp";
+    public static String OUTPUT_PDF = ".out\\output.pdf";
+    public static String OUTPUT_JPG = ".out\\output.jpg";
+    public static String OUTPUT_XML = ".out\\output.xml";
+    public static String DICOM = "DICOM";
+    public static String LOCAL_IP = "127.0.0.1";
+    public static String AP_NAME = "DCMRCV";
+    public static String SDF = "E, dd MMM yyyy HH:mm:ss Z";
+    public static String MSG_SELECT_ROW = "Please select a data row.";
+    /** Equipment Properties File Mapping - Flow Control */
+    public static final String FLOW_NONE = "None";
+    public static final String FLOW_XONXOFF = "Xon / Xoff";
+    public static final String FLOW_XONXOFFOUT = "Xon / Xoff out";
+    public static final String FLOW_HARDWARE = "Hardware";
+    public static final String FLOW_RTSCTS_IN = "RTCS In";
+    public static final String FLOW_RTSCTS_OUT = "RTCS Out";
+    /** Equipment Properties File Mapping - Parity */
+    public static final String PARITY_NONE = "None";
+    public static final String PARITY_ODD = "Odd";
+    public static final String PARITY_EVEN = "Even";
+    public static final String PARITY_MARK = "Mark";
+    public static final String PARITY_SPACE = "Space";
+    /** Equipment Properties File Mapping - Stop Bits */
+    public static final String STOPBITS_1 = "1";
+    public static final String STOPBITS_1_5 = "1.5";
+    public static final String STOPBITS_2 = "2";
+    
     private Status statusBox;
     protected JTabbedPane owner;
     private EquipmentDetailProperties equip;
     private ModelInterface modelinterface;
     private DicomInterface dicomInterface;
     private CommInterface commInterface;
-    //private ViewOutput viewOutput = new ViewOutput(this);
 
     /** Creates new form WorkspaceModel */
     public WorkspaceModel() {
@@ -210,17 +234,24 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // View Output
         int row = jTable1.getSelectedRow();
-        String filePath = (String) jTable1.getValueAt(row, 5);
-        try {
-            file = new File(filePath+".out\\output.pdf");
-            if(!file.exists()) {
-                file = new File(filePath+".out\\output.jpg");  
+        if (row > -1) {
+            String filePath = (String) jTable1.getValueAt(row, 5);
+            try {
+                file = new File(filePath+OUTPUT_PDF);
+                if(!file.exists()) {
+                    file = new File(filePath+OUTPUT_JPG);
+                    if(!file.exists()) {
+                        file = null;  
+                    }
+                }
+            } catch (NullPointerException e) {   
+                file = new File(filePath+OUTPUT_JPG);
             }
-        } catch (NullPointerException e) {   
-            file = new File(filePath+".out\\output.jpg");
+            ViewOutput vo = new ViewOutput(this, file);
+            //vo.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
         }
-        ViewOutput vo = new ViewOutput(this, file);
-        vo.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -230,7 +261,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
             LookupPatients lookupPatients = new LookupPatients(this);
             lookupPatients.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a data row.");
+            JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -269,7 +300,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         }
         //MainApps.getApplication().show(statusBox);
         Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
+        SimpleDateFormat sdf = new SimpleDateFormat(SDF);
         sdf.format(now);
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
         model.addRow(new Object[]{null,null,null,now,null,message});
@@ -292,7 +323,6 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     //@Override
     public void onMessage(String message) {
-        //throw new UnsupportedOperationException("Not supported yet.");
         while(jLabel1 == null) {
             try {
                 synchronized (this) {
@@ -305,9 +335,9 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     }
 
     private void receiveEquipmentData() {
-        if (equip.getInterfaceType().equalsIgnoreCase("DICOM")) {
+        if (equip.getInterfaceType().equalsIgnoreCase(DICOM)) {
             //this.dicomInterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
-            this.modelinterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
+            this.modelinterface = new DicomInterface(this, LOCAL_IP, Integer.valueOf(equip.getPort()), AP_NAME, TEMP_DIR);
             //this.dicomInterface.connect();
          } else {
             //this.commInterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
@@ -318,29 +348,21 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                     , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
                     , getParityInt(equip.getParity()), 
                     getFlowInt(equip.getFlow()));
-                    //SerialPort.FLOWCONTROL_NONE);
         }
         this.modelinterface.connect();        
     }
     
     public Integer getStopBitInt(String string) {
         int result = 1;
-        if(string.equalsIgnoreCase("2")) {
+        if(string.equalsIgnoreCase(STOPBITS_2)) {
             result = SerialPort.STOPBITS_2;
-        } else if(string.equalsIgnoreCase("1.5")) {
+        } else if(string.equalsIgnoreCase(STOPBITS_1_5)) {
             result = SerialPort.STOPBITS_1_5;
-        } else if(string.equalsIgnoreCase("1")) {
+        } else if(string.equalsIgnoreCase(STOPBITS_1)) {
             result = SerialPort.STOPBITS_1;
         }
         return result;
     }
-    
-    public static final String FLOW_NONE = "None";
-    public static final String FLOW_XONXOFF = "Xon / Xoff";
-    public static final String FLOW_XONXOFFOUT = "Xon / Xoff out";
-    public static final String FLOW_HARDWARE = "Hardware";
-    public static final String FLOW_RTSCTS_IN = "RTCS In";
-    public static final String FLOW_RTSCTS_OUT = "RTCS Out";
     
     public Integer getFlowInt(String string) {
         int result = SerialPort.FLOWCONTROL_NONE;
@@ -359,12 +381,6 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         }
         return result;
     }
-    
-    public static final String PARITY_NONE = "None";
-    public static final String PARITY_ODD = "Odd";
-    public static final String PARITY_EVEN = "Even";
-    public static final String PARITY_MARK = "Mark";
-    public static final String PARITY_SPACE = "Space";
     
     public Integer getParityInt(String string) {
         int result = SerialPort.PARITY_NONE;

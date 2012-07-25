@@ -15,9 +15,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,39 +32,56 @@ public class ViewOutput extends javax.swing.JFrame {
     public ViewOutput(WorkspaceModel wm, File file) {
         initComponents();
         this.wm = wm;
-        if(file.getName().contains(PDF_FILE_EXT)) {
+        if(file == null) {
+            renderXml((String) wm.jTable1.getValueAt(wm.jTable1.getSelectedRow(), 5));
+        } else if(file.getName().contains(PDF_FILE_EXT)) {
             renderPdf(file);
         } else if (file.getName().contains(JPG_FILE_EXT)) {
             renderImage(file);
-        } else {
-            //render xml
         }
+    }
+    
+    private void renderXml(String XmlStr) {
+//        this.remove(jLabel1);
+//        JPanel panel = new JPanel();
+//        JTextArea textArea = new JTextArea(200,100);
+//        textArea.setVisible(true);
+//        textArea.append(XmlStr);
+//        panel.add(textArea);
+//        jScrollPane1.add(panel);
+        JOptionPane.showMessageDialog(this, XmlStr);
+        //jLabel1.setText(XmlStr);
+        //this.pack();
+        //this.setVisible(true);
+        //this.dispose();
     }
     
     private void renderImage(File file) {
         ImageIcon gbr = new ImageIcon(file.getAbsolutePath());
         jLabel1.setIcon(gbr);
+        //this.pack();
+        this.setVisible(true);
     }
     
     private void renderPdf(File file) {
         try {
             renderPdfAsImage(file);
-            PagePanel panel = new PagePanel();
-            this.remove(jLabel1);
-            jScrollPane1.add(panel);
-            //this.add(panel);
-            this.pack();
-            this.setVisible(true);
-
-            //load a pdf from a byte buffer
-            RandomAccessFile raf = new RandomAccessFile(file, "r");
-            FileChannel channel = raf.getChannel();
-            ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
-            PDFFile pdffile = new PDFFile(buf);
-
-            // show the first page
-            PDFPage page = pdffile.getPage(0);
-            panel.showPage(page);
+//            PagePanel panel = new PagePanel();
+//            this.remove(jLabel1);
+//            jScrollPane1.add(panel);
+//            //this.add(panel);
+//            this.pack();
+//            this.setVisible(true);
+//
+//            //load a pdf from a byte buffer
+//            RandomAccessFile raf = new RandomAccessFile(file, "r");
+//            FileChannel channel = raf.getChannel();
+//            ByteBuffer buf = channel.map(FileChannel.MapMode.READ_ONLY, 0, channel.size());
+//            PDFFile pdffile = new PDFFile(buf);
+//
+//            // show the first page
+//            PDFPage page = pdffile.getPage(0);
+//            panel.showPage(page);
             
             
         } catch (FileNotFoundException e) {
@@ -126,8 +142,8 @@ public class ViewOutput extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jLabel1 = new javax.swing.JLabel();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Output Viewer");
-        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         jLabel1.setAlignmentY(0.0F);
         jLabel1.setAutoscrolls(true);
