@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
-import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -88,8 +87,6 @@ public class LookupPatients extends javax.swing.JFrame {
             NodeList n4 = doc.getElementsByTagName(TAG_DOCID);
             NodeList n5 = doc.getElementsByTagName(TAG_DOCNAME);
             String data1 = "", data2 = "", data3 = "", data4 = "", data5 = "";
-//            Vector data = new Vector();
-//            Vector columns = new Vector();
             for (int i = 0; i < patientInfo.getLength(); i++) {
                 data1 = getStringNodeValue(n1.item(i));
                 data2 = getStringNodeValue(n2.item(i));
@@ -100,16 +97,7 @@ public class LookupPatients extends javax.swing.JFrame {
                 System.out.println(line);
                 DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
                 model.addRow(new Object[]{data1,data2,data3,data4,data5});
-//                StringTokenizer st2 = new StringTokenizer(line, " ");
-//                while (st2.hasMoreTokens()) {
-//                        data.addElement(st2.nextToken());
-//                }
             }
-//            columns.add("");
-//            columns.add("");
-//            columns.add("");
-//            columns.add("");
-//            columns.add("");
         } catch (Exception e) {  
             e.printStackTrace();  
         }
