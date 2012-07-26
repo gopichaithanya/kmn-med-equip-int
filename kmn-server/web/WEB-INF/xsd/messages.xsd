@@ -1,12 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="http://www.springframework.org/spring-ws/samples/airline/schemas/messages"
-        xmlns:tns="http://www.springframework.org/spring-ws/samples/airline/schemas/messages"
-        xmlns:types="http://www.springframework.org/spring-ws/samples/airline/schemas/types"
+        targetNamespace="http://localhost:9090/kmn/schemas/messages"
+        xmlns:tns="http://localhost:9090/kmn/schemas/messages"
+        xmlns:types="http://localhost:9090/kmn/schemas/types"
         elementFormDefault="qualified">
 
-    <import namespace="http://www.springframework.org/spring-ws/samples/airline/schemas/types"
+    <import namespace="http://localhost:9090/kmn/schemas/types"
             schemaLocation="types.xsd"/>
+    <!--import namespace="http://www.springframework.org/spring-ws/samples/airline/schemas/types"
+            schemaLocation="types.xsd"/-->
+
+    <element name="GetPatientsRequest">
+        <complexType>
+            <all>
+                <element name="reqKeyword" type="string"/>
+                <element name="reqClinicId" type="string"/>
+                <element name="reqPageNumber" type="int"/>
+                <element name="reqRowPerPage" type="int"/>
+            </all>
+        </complexType>
+    </element>
+
+    <element name="GetPatientListResponse">
+        <complexType>
+            <all>
+                <element name="resPageNumber" type="int"/>
+                <element name="resRowThisPage" type="int"/>
+                <element name="resRowPerPage" type="int"/>
+                <element name="resRowTotal" type="int"/>
+                <element name="resRowsXML" type="string"/>
+            </all>
+        </complexType>
+    </element>
+
+    <!--element name="getPatientListResponse">
+        <complexType>
+            <sequence>
+                <element name="resPageNumber" type="int">
+                    <annotation>
+                        <documentation>resPageNumber adalah nomor halaman dari listing data pasien yang dikirimkan.</documentation>
+                    </annotation>
+                </element>
+                <element name="resRowThisPage" type="int">
+                    <annotation>
+                        <documentation>resRowThisPage adalah jumlah baris pada hasil listing pasien yang dikirimkan.</documentation>
+                    </annotation>
+                </element>
+                <element name="resRowPerPage" type="int">
+                    <annotation>
+                        <documentation>resRowPerPage adalah nilai default jumlah baris per halaman listing pasien yang dikirimkan.</documentation>
+                    </annotation>
+                </element>
+                <element name="resRowTotal" type="int">
+                    <annotation>
+                        <documentation>resRowTotal adalah jumlah keseluruhan record dari listing pasien yang dikirimkan.</documentation>
+                    </annotation>
+                </element>
+                <element name="resRowsXML" type="string">
+                    <annotation>
+                        <documentation>resRowXML adalah XML dari data pasien yang dikirimkan yang jumlahnya sesuai dengan resRowThisPage.
+                            Data2 dalam XML ini adalah:
+                            patientId: id pasien yang merupakan identifier unik untuk pasien tertentu di klinik tertentu pada hari tertentu. Data akan diambil dari data registrasi pasien di CIS
+                            patientName: nama pasien
+                            patientBRM: BRM pasien
+                            doctorId: ID dokter sesuai dengan patientId
+                            doctorName: nama dokter
+                        </documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+      </element-->
 
     <element name="GetFlightsRequest">
         <complexType>

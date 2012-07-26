@@ -7,14 +7,13 @@
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
         </descriptors>
         <webroots>
-          <root url="file://$MODULE_DIR$/web" relative="/" />
+          <root url="file://$MODULE_DIR$/web" relative="" />
         </webroots>
-        <context-artifact name="ROOT" />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
       <configuration>
-        <fileset id="fileset1" name="siak" removed="false">
+        <fileset id="fileset1" name="kmn" removed="false">
           <file>file://$MODULE_DIR$/resource/applicationContext-db.xml</file>
           <file>file://$MODULE_DIR$/resource/applicationContext-guiControllers.xml</file>
           <file>file://$MODULE_DIR$/resource/applicationContext-guiServices.xml</file>
@@ -39,9 +38,8 @@
       <excludeFolder url="file://$MODULE_DIR$/ext" />
       <excludeFolder url="file://$MODULE_DIR$/lib" />
     </content>
-    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="JDK 1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="kmn" level="project" />
     <orderEntry type="library" name="kmn" level="project" />
   </component>
 </module>

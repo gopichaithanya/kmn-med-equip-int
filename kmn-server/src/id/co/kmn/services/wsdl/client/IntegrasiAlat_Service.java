@@ -1,14 +1,14 @@
 
 package id.co.kmn.services.wsdl.client;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Logger;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
 import javax.xml.ws.WebServiceClient;
 import javax.xml.ws.WebServiceFeature;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Logger;
 
 
 /**
@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.1
  * 
  */
-@WebServiceClient(name = "IntegrasiAlat", targetNamespace = "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/", wsdlLocation = "http://localhost:9999/apps/kmn/IntegrasiAlat.wsdl")
+@WebServiceClient(name = "IntegrasiAlat", targetNamespace = "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/", wsdlLocation = "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat.wsdl")
 public class IntegrasiAlat_Service
     extends Service
 {
@@ -30,9 +30,9 @@ public class IntegrasiAlat_Service
         try {
             URL baseUrl;
             baseUrl = id.co.kmn.services.wsdl.client.IntegrasiAlat_Service.class.getResource(".");
-            url = new URL(baseUrl, "http://localhost:9999/apps/kmn/IntegrasiAlat.wsdl");
+            url = new URL(baseUrl, "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat.wsdl");
         } catch (MalformedURLException e) {
-            logger.warning("Failed to create URL for the wsdl Location: 'http://localhost:9999/apps/kmn/IntegrasiAlat.wsdl', retrying as a local file");
+            logger.warning("Failed to create URL for the wsdl Location: 'http://192.168.13.10:2221/apps/kmn/IntegrasiAlat.wsdl', retrying as a local file");
             logger.warning(e.getMessage());
         }
         INTEGRASIALAT_WSDL_LOCATION = url;
