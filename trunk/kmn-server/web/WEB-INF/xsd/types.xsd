@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://localhost:9090/kmn/schemas/types"
+        xmlns:tns="http://localhost:9090/kmn/schemas/types"
+        elementFormDefault="qualified">
+<!--schema xmlns="http://www.w3.org/2001/XMLSchema"
         targetNamespace="http://www.springframework.org/spring-ws/samples/airline/schemas/types"
         xmlns:tns="http://www.springframework.org/spring-ws/samples/airline/schemas/types"
-        elementFormDefault="qualified">
+        elementFormDefault="qualified"-->
+
+    <complexType name="Patient">
+        <sequence>
+            <element name="patientId" type="string"/>
+            <element name="patientName" type="string"/>
+            <element name="patientBrm" type="string"/>
+            <element name="docId" type="string"/>
+            <element name="docName" type="string"/>
+        </sequence>
+    </complexType>
 
     <complexType name="Flight">
         <sequence>
