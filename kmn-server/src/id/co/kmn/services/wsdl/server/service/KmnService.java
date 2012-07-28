@@ -1,46 +1,89 @@
 package id.co.kmn.services.wsdl.server.service;
 
-import com.sun.xml.internal.ws.message.ByteArrayAttachment;
-import id.co.kmn.services.wsdl.server.bean.Patient;
-import org.joda.time.DateTime;
+import id.co.kmn.services.wsdl.client.ObjectFactory;
 
-import java.util.List;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.ws.Holder;
+import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
+
+import static id.co.kmn.services.wsdl.WebServiceConstant.*;
 
 /**
  * @author <a href="valeo.gumilang@gmail.com">Valeo Gumilang</a>
- * @Date 7/26/12
- * Time: 11:45 AM
+ * @Date 7/27/12
+ * Time: 1:18 AM
  */
+@WebService(name = QNAME_LOCAL_SERVER, targetNamespace = KMNSERVICE_TNS_URL)
+@XmlSeeAlso({
+    ObjectFactory.class
+})
 public interface KmnService {
     /**
-     * Returns a list of <code>Patient</code> with the given parameter.
      *
-     * @param reqKeyword the patient name keyword
-     * @param reqClinicId the clinic Id
-     * @param reqPageNumber the page number of query results
-     * @param reqRowPerPage the number of rows per page
-     * @return a list of patients
+     * @param reqPageNumber
+     * @param resRowThisPage
+     * @param reqClinicId
+     * @param resRowTotal
+     * @param reqKeyword
+     * @param resRowPerPage
+     * @param resPageNumber
+     * @param reqRowPerPage
+     * @param resRowsXML
      */
-    List<Patient> getPatients(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage);
+    @WebMethod(action = "http://localhost:9090/kmn/KmnService/getPatientList")
+    @RequestWrapper(localName = "getPatientList", targetNamespace = KMNSERVICE_TNS_URL, className = "id.co.kmn.services.wsdl.client.GetPatientList")
+    @ResponseWrapper(localName = "getPatientListResponse", targetNamespace = KMNSERVICE_TNS_URL, className = "id.co.kmn.services.wsdl.client.GetPatientListResponse")
+    public void getPatientList(
+        @WebParam(name = "reqKeyword", targetNamespace = "")
+        String reqKeyword,
+        @WebParam(name = "reqClinicId", targetNamespace = "")
+        String reqClinicId,
+        @WebParam(name = "reqPageNumber", targetNamespace = "")
+        int reqPageNumber,
+        @WebParam(name = "reqRowPerPage", targetNamespace = "")
+        int reqRowPerPage,
+        @WebParam(name = "resPageNumber", targetNamespace = "", mode = WebParam.Mode.OUT)
+        Holder<Integer> resPageNumber,
+        @WebParam(name = "resRowThisPage", targetNamespace = "", mode = WebParam.Mode.OUT)
+        Holder<Integer> resRowThisPage,
+        @WebParam(name = "resRowPerPage", targetNamespace = "", mode = WebParam.Mode.OUT)
+        Holder<Integer> resRowPerPage,
+        @WebParam(name = "resRowTotal", targetNamespace = "", mode = WebParam.Mode.OUT)
+        Holder<Integer> resRowTotal,
+        @WebParam(name = "resRowsXML", targetNamespace = "", mode = WebParam.Mode.OUT)
+        Holder<String> resRowsXML);
 
     /**
-     * Store the equipment output results with patient data attached.
      *
-     * @param branchId
-     * @param patientId
-     * @param patientCode
-     * @param patientName
-     * @param remark
-     * @param imageId
-     * @param trxDate
-     * @param timeStamp
-     * @param dataLocation
-     * @param dataOutput
-     * @param xmlData
-     * @param creatorId
-     * @return the boolean success result
+     * @param reqPatientId
+     * @param resStatusXML
+     * @param resStatusNo
+     * @param reqDataXML
+     * @param reqDatetime
+     * @param reqImageURL
+     * @param reqDeviceId
      */
-    Boolean storeResults(String branchId, String patientId, String patientCode, String patientName,
-           String remark, int equipmentId, int imageId,DateTime trxDate, DateTime timeStamp,
-           String dataLocation, ByteArrayAttachment dataOutput, String xmlData, String creatorId);
+    @WebMethod(action = "http://localhost:9090/kmn/KmnService/putPatientData")
+    @RequestWrapper(localName = "putPatientData", targetNamespace = KMNSERVICE_TNS_URL, className = "id.co.kmn.services.wsdl.client.PutPatientData")
+    @ResponseWrapper(localName = "putPatientDataResponse", targetNamespace = KMNSERVICE_TNS_URL, className = "id.co.kmn.services.wsdl.client.PutPatientDataResponse")
+    public void putPatientData(
+        @WebParam(name = "reqPatientId", targetNamespace = "")
+        String reqPatientId,
+        @WebParam(name = "reqDeviceId", targetNamespace = "")
+        int reqDeviceId,
+        @WebParam(name = "reqImageURL", targetNamespace = "")
+        String reqImageURL,
+        @WebParam(name = "reqDataXML", targetNamespace = "")
+        String reqDataXML,
+        @WebParam(name = "reqDatetime", targetNamespace = "")
+        XMLGregorianCalendar reqDatetime,
+        @WebParam(name = "resStatusNo", targetNamespace = "", mode = WebParam.Mode.OUT)
+        Holder<String> resStatusNo,
+        @WebParam(name = "resStatusXML", targetNamespace = "", mode = WebParam.Mode.OUT)
+        Holder<String> resStatusXML);
 }
