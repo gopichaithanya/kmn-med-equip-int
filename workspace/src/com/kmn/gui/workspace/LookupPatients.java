@@ -4,14 +4,22 @@
  */
 package com.kmn.gui.workspace;
 
+import com.kmn.ws.ClientService;
+import com.kmn.ws.bean.Patient;
+import com.kmn.ws.bean.PatientInfo;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.MalformedURLException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.soap.SOAPException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -26,107 +34,38 @@ import org.xml.sax.SAXException;
  * @author valeo
  */
 public class LookupPatients extends javax.swing.JFrame {
-    public static String RESPONSE = "<SOAP-ENV:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" ><SOAP-ENV:Body><getPatientListResponse xmlns=\"http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/\">"
-    +"<resPageNumber>1</resPageNumber>"
-    +"<resRowThisPage>2</resRowThisPage>"
-    +"<resRowPerPage>2</resRowPerPage>"
-    +"<resRowTotal>13</resRowTotal>"
-    +"<resRowsXML>&lt;PATIENTINFO&gt;&lt;PATIENTID&gt;500488231&lt;/PATIENTID&gt;&lt;PATIENTNAME&gt;STEPHANUS BUDI RAHARDJO&lt;/PATIENTNAME&gt;&lt;PATIENTBRM&gt;&lt;/PATIENTBRM&gt;&lt;DOCID&gt;100094871&lt;/DOCID&gt;&lt;DOCNAME&gt;dr. HADI PRAKOSO, SpM&lt;/DOCNAME&gt;&lt;/PATIENTINFO&gt;&lt;PATIENTINFO&gt;&lt;PATIENTID&gt;500490641&lt;/PATIENTID&gt;&lt;PATIENTNAME&gt;BUDIYANTI BENYAMIN&lt;/PATIENTNAME&gt;&lt;PATIENTBRM&gt;&lt;/PATIENTBRM&gt;&lt;DOCID&gt;140&lt;/DOCID&gt;&lt;DOCNAME&gt;dr. HENRY WAROUW, SpM&lt;/DOCNAME&gt;&lt;/PATIENTINFO&gt;</resRowsXML>"
-    +"</getPatientListResponse>"
-    +"</SOAP-ENV:Body>"
-    +"</SOAP-ENV:Envelope>";
-    public static String RES_ROWS_XML = "&lt;PATIENTINFO&gt;&lt;PATIENTID&gt;500488231&lt;/PATIENTID&gt;&lt;PATIENTNAME&gt;STEPHANUS BUDI RAHARDJO&lt;/PATIENTNAME&gt;&lt;PATIENTBRM&gt;&lt;/PATIENTBRM&gt;&lt;DOCID&gt;100094871&lt;/DOCID&gt;&lt;DOCNAME&gt;dr. HADI PRAKOSO, SpM&lt;/DOCNAME&gt;&lt;/PATIENTINFO&gt;&lt;PATIENTINFO&gt;&lt;PATIENTID&gt;500490641&lt;/PATIENTID&gt;&lt;PATIENTNAME&gt;BUDIYANTI BENYAMIN&lt;/PATIENTNAME&gt;&lt;PATIENTBRM&gt;&lt;/PATIENTBRM&gt;&lt;DOCID&gt;140&lt;/DOCID&gt;&lt;DOCNAME&gt;dr. HENRY WAROUW, SpM&lt;/DOCNAME&gt;&lt;/PATIENTINFO&gt;";
-    public static String FORMATED_RES_ROWS_XML = "<PATIENTINFO><PATIENTID>500488231</PATIENTID><PATIENTNAME>STEPHANUS BUDI RAHARDJO</PATIENTNAME><PATIENTBRM></PATIENTBRM><DOCID>100094871</DOCID><DOCNAME>dr. HADI PRAKOSO, SpM</DOCNAME></PATIENTINFO><PATIENTINFO><PATIENTID>500490641</PATIENTID><PATIENTNAME>BUDIYANTI BENYAMIN</PATIENTNAME><PATIENTBRM></PATIENTBRM><DOCID>140</DOCID><DOCNAME>dr. HENRY WAROUW, SpM</DOCNAME></PATIENTINFO>";
-    
-    public static String TAG_RESROWSXML = "resRowsXML";
-    public static String TAG_PATIENTINFO = "PATIENTINFO";
-    public static String TAG_PATIENTID = "PATIENTID";
-    public static String TAG_PATIENTNAME = "PATIENTNAME";
-    public static String TAG_PATIENTBRM = "PATIENTBRM";
-    public static String TAG_DOCID = "DOCID";
-    public static String TAG_DOCNAME = "DOCNAME";
-    public static String TEMP_XML_PATH = "C:\\kmntmp\\tempXml.xml";
-    public static String TEMP_XML_DATA_PATH = "C:\\kmntmp\\tempDataXml.xml";
-    
     private WorkspaceModel wm;
+    private PatientInfo patientInfo;
     /**
      * Creates new form LookupPatients
      */
-    public LookupPatients() {
+    protected LookupPatients() {
         initComponents();
-        retrievePatients();
     }
     
     public LookupPatients(WorkspaceModel wm) {
         this.wm = wm;
         this.setTitle(wm.owner.getTitleAt(wm.owner.getSelectedIndex()));
         initComponents();
-        retrievePatients();
-    }
-    
-    private void retrievePatients() {
-        //fetch from web service
-        //handle response  
+        DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
+        ClientService cs = new ClientService();
         try {
-            //Create temp XML
-            createXml(RESPONSE, TEMP_XML_PATH); 
-            //Read temp XML
-            Document tempDoc = readXml(TEMP_XML_PATH);
-            String resRowsXML = tempDoc.getElementsByTagName(TAG_RESROWSXML).item(0).getFirstChild().getNodeValue();
-            //Create temp data XML
-            StringBuilder sb = new StringBuilder("<root>");
-            sb.append(resRowsXML);
-            sb.append("</root>");
-            createXml(sb.toString(), TEMP_XML_DATA_PATH);
-            //Read temp data XML
-            Document doc = readXml(TEMP_XML_DATA_PATH);
-            NodeList patientInfo = doc.getElementsByTagName(TAG_PATIENTINFO);
-            NodeList n1 = doc.getElementsByTagName(TAG_PATIENTID);
-            NodeList n2 = doc.getElementsByTagName(TAG_PATIENTNAME);
-            NodeList n3 = doc.getElementsByTagName(TAG_PATIENTBRM);
-            NodeList n4 = doc.getElementsByTagName(TAG_DOCID);
-            NodeList n5 = doc.getElementsByTagName(TAG_DOCNAME);
-            String data1 = "", data2 = "", data3 = "", data4 = "", data5 = "";
-            for (int i = 0; i < patientInfo.getLength(); i++) {
-                data1 = getStringNodeValue(n1.item(i));
-                data2 = getStringNodeValue(n2.item(i));
-                data3 = getStringNodeValue(n3.item(i));
-                data4 = getStringNodeValue(n4.item(i));
-                data5 = getStringNodeValue(n5.item(i));
-                String line = data1 + " " + data2 + " " + data3+ " " + data4+ " " + data5;
-                System.out.println(line);
-                DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
-                model.addRow(new Object[]{data1,data2,data3,data4,data5});
+            patientInfo = cs.retrievePatients(jTextField1.getText(), "8", 1, 10);
+            for (Patient p : patientInfo.getPatients()) {
+                model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
+                    p.getPatientBrm(), p.getDocId(), p.getDocName()});
             }
-        } catch (Exception e) {  
-            e.printStackTrace();  
+        } catch (SOAPException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public String getStringNodeValue(Node node) {
-        String result = "";
-        if(node.hasChildNodes())
-            result = node.getFirstChild().getNodeValue();
-        return result;
-    }
-    
-    public void createXml(String xmlString, String absolutePath) throws ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(new InputSource(new StringReader(xmlString)));  
-        TransformerFactory tranFactory = TransformerFactory.newInstance();  
-        Transformer aTransformer = tranFactory.newTransformer();
-        aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        Source src = new DOMSource( doc );  
-        Result dest = new StreamResult( new File(absolutePath));  
-        aTransformer.transform( src, dest ); 
-    }
-    
-    public Document readXml(String absolutePath) throws ParserConfigurationException, SAXException, IOException {
-        DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();  
-        DocumentBuilder db =dbf.newDocumentBuilder();  
-        return (Document) db.parse(absolutePath);
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,7 +84,6 @@ public class LookupPatients extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 350));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -261,16 +199,16 @@ public class LookupPatients extends javax.swing.JFrame {
         // Select Patient
         int row = jTable1.getSelectedRow();
         HashMap hm = new HashMap();
-        hm.put(TAG_PATIENTID, (String) jTable1.getValueAt(row, 0));
-        hm.put(TAG_PATIENTNAME, (String) jTable1.getValueAt(row, 1));
-        hm.put(TAG_PATIENTBRM, (String) jTable1.getValueAt(row, 2));
-        hm.put(TAG_DOCID, (String) jTable1.getValueAt(row, 3));
-        hm.put(TAG_DOCNAME, (String) jTable1.getValueAt(row, 4));
+        hm.put(ClientService.TAG_PATIENTID, (String) jTable1.getValueAt(row, 0));
+        hm.put(ClientService.TAG_PATIENTNAME, (String) jTable1.getValueAt(row, 1));
+        hm.put(ClientService.TAG_PATIENTBRM, (String) jTable1.getValueAt(row, 2));
+        hm.put(ClientService.TAG_DOCID, (String) jTable1.getValueAt(row, 3));
+        hm.put(ClientService.TAG_DOCNAME, (String) jTable1.getValueAt(row, 4));
         int rowWm = this.wm.jTable1.getSelectedRow();
-        this.wm.jTable1.setValueAt(hm.get(TAG_PATIENTID), rowWm, 0);
-        this.wm.jTable1.setValueAt(hm.get(TAG_PATIENTNAME), rowWm, 1);
-        this.wm.jTable1.setValueAt(hm.get(TAG_PATIENTBRM), rowWm, 2);
-        this.wm.jTable1.setValueAt(hm.get(TAG_DOCID), rowWm, 4);
+        this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
+        this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTNAME), rowWm, 1);
+        this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTBRM), rowWm, 2);
+        this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_DOCID), rowWm, 4);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
     
@@ -281,6 +219,6 @@ public class LookupPatients extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    protected javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
