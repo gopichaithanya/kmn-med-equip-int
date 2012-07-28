@@ -3,10 +3,22 @@
         targetNamespace="http://localhost:9090/kmn/schemas/types"
         xmlns:tns="http://localhost:9090/kmn/schemas/types"
         elementFormDefault="qualified">
-<!--schema xmlns="http://www.w3.org/2001/XMLSchema"
-        targetNamespace="http://www.springframework.org/spring-ws/samples/airline/schemas/types"
-        xmlns:tns="http://www.springframework.org/spring-ws/samples/airline/schemas/types"
-        elementFormDefault="qualified"-->
+
+    <complexType name="PatientInfo">
+        <all>
+            <element name="resPageNumber" type="int"/>
+            <element name="resRowThisPage" type="int"/>
+            <element name="resRowPerPage" type="int"/>
+            <element name="resRowTotal" type="int"/>
+            <element name="patients">
+                <complexType>
+                    <sequence>
+                        <element name="patient" type="tns:Patient" maxOccurs="9"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </all>
+    </complexType>
 
     <complexType name="Patient">
         <sequence>
@@ -18,7 +30,7 @@
         </sequence>
     </complexType>
 
-    <complexType name="Flight">
+    <!--complexType name="Flight">
         <sequence>
             <element name="number" type="tns:FlightNumber"/>
             <element name="departureTime" type="dateTime"/>
@@ -83,6 +95,6 @@
             <enumeration value="business"/>
             <enumeration value="first"/>
         </restriction>
-    </simpleType>
+    </simpleType-->
 
 </schema>

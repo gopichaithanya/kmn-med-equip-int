@@ -1,21 +1,23 @@
 package id.co.kmn.services.wsdl.server;
 
-import id.co.kmn.services.wsdl.client.GetPatientListResponse;
-import id.co.kmn.services.wsdl.client.ObjectFactory;
-import id.co.kmn.services.wsdl.server.bean.Patient;
-import id.co.kmn.services.wsdl.server.service.KmnService;
+//import id.co.kmn.services.wsdl.client.GetPatientListResponse;
+//import id.co.kmn.services.wsdl.client.ObjectFactory;
+import id.co.kmn.services.wsdl.server.bean.PatientInfo;
+import id.co.kmn.services.wsdl.server.schema.ObjectFactory;
+import id.co.kmn.services.wsdl.server.schema.support.SchemaConversionUtils;
+import id.co.kmn.services.wsdl.server.service.KmnServiceMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.*;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.util.List;
 
-import static id.co.kmn.services.wsdl.server.KmnEndPointContants.GET_PATIENTS_REQUEST;
-import static id.co.kmn.services.wsdl.server.KmnEndPointContants.MESSAGES_NAMESPACE;
+import static id.co.kmn.services.wsdl.WebServiceConstant.GET_PATIENTS_REQUEST;
+import static id.co.kmn.services.wsdl.WebServiceConstant.MESSAGES_NAMESPACE;
 
 /**
  * Endpoint that handles the KMN Web Service messages using a combination of JAXB2 marshalling and XPath
@@ -32,11 +34,11 @@ public class KmnEndpoint {
 
     private final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
-    private final KmnService kmnService;
+    private final KmnServiceMethod kmnServiceMethod;
 
     @Autowired
-    public KmnEndpoint(KmnService kmnService) {
-        this.kmnService = kmnService;
+    public KmnEndpoint(KmnServiceMethod kmnServiceMethod) {
+        this.kmnServiceMethod = kmnServiceMethod;
     }
 
     /**
@@ -52,7 +54,7 @@ public class KmnEndpoint {
     @PayloadRoot(localPart = GET_PATIENTS_REQUEST, namespace = MESSAGES_NAMESPACE)
     @Namespace(prefix = "m", uri = MESSAGES_NAMESPACE)
     @ResponsePayload
-    public GetPatientListResponse getPatients(@XPathParam("//m:reqKeyword") String reqKeyword,
+    public JAXBElement<id.co.kmn.services.wsdl.server.schema.PatientInfo> getPatients(@XPathParam("//m:reqKeyword") String reqKeyword,
                                          @XPathParam("//m:reqClinicId") String reqClinicId,
                                          @XPathParam("//m:reqPageNumber") int reqPageNumber,
                                          @XPathParam("//m:reqRowPerPage") int reqRowPerPage)
@@ -61,21 +63,29 @@ public class KmnEndpoint {
             logger.debug("Received GetPatientsRequest '" + reqKeyword + "' id: '" + reqClinicId + "' page: "
                     + reqPageNumber + "reqRowPerPage: " + reqRowPerPage);
         }
-        List<Patient> patients = kmnService.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
-
-        GetPatientListResponse response = objectFactory.createGetPatientListResponse();
-        response.setResPageNumber(1);
-        response.setResRowPerPage(10);
-        response.setResRowsXML("Test Result");
-        response.setResRowThisPage(2);
-        response.setResRowTotal(2);
-
-//        for (id.co.kmn.services.wsdl.server.bean.Patient patient : patients) {
-//            response.getResRowsXML().add(SchemaConversionUtils.toSchemaType(patient));
-//        }
-
-        return response;
+        //List<Patient> patients = kmnServiceMethod.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
+        PatientInfo patientInfo = kmnServiceMethod.getPatientInfo(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
+        return objectFactory.createGetPatientsResponse(SchemaConversionUtils.toSchemaType(patientInfo));
     }
+//    public GetPatientListResponse getPatients(@XPathParam("//m:reqKeyword") String reqKeyword,
+//                                         @XPathParam("//m:reqClinicId") String reqClinicId,
+//                                         @XPathParam("//m:reqPageNumber") int reqPageNumber,
+//                                         @XPathParam("//m:reqRowPerPage") int reqRowPerPage)
+//            throws DatatypeConfigurationException, ParserConfigurationException {
+//        if (logger.isDebugEnabled()) {
+//            logger.debug("Received GetPatientsRequest '" + reqKeyword + "' id: '" + reqClinicId + "' page: "
+//                    + reqPageNumber + "reqRowPerPage: " + reqRowPerPage);
+//        }
+//        //List<Patient> patients = kmnServiceMethod.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
+//        PatientInfo patientInfo = kmnServiceMethod.getPatientInfo(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
+//        GetPatientListResponse response = objectFactory.createGetPatientListResponse();
+//        response.setResPageNumber(patientInfo.getResPageNumber());
+//        response.setResRowPerPage(patientInfo.getResRowPerPage());
+//        response.setResRowsXML(patientInfo.getPatients().toString());
+//        response.setResRowThisPage(patientInfo.getResRowThisPage());
+//        response.setResRowTotal(patientInfo.getResRowTotal());
+//        return response;
+//    }
 //
 //    /**
 //     * This endpoint method uses marshalling to handle message with a <code>&lt;BookFlightRequest&gt;</code> payload.

@@ -1,5 +1,6 @@
 package id.co.kmn.services.wsdl.test;
 
+import static id.co.kmn.services.wsdl.WebServiceConstant.*;
 /**
  * @author <a href="valeo.gumilang@gmail.com">Valeo Gumilang</a>
  * @Date 7/27/12
@@ -7,8 +8,7 @@ package id.co.kmn.services.wsdl.test;
  */
 public class TestSaaj {
     public static void main(String[] args) throws Exception {
-        String url = "http://localhost:9090/kmn/services";
-        SaajGetPatients getPatients = new SaajGetPatients(url);
+        SaajGetPatients getPatients = new SaajGetPatients(LOCAL_NAMESPACE_URI);
         getPatients.getPatients();
     }
 }

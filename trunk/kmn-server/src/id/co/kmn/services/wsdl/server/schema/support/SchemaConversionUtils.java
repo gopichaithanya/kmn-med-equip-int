@@ -1,6 +1,7 @@
 package id.co.kmn.services.wsdl.server.schema.support;
 
-import id.co.kmn.services.wsdl.server.bean.Patient;
+import id.co.kmn.services.wsdl.server.schema.Patient;
+import id.co.kmn.services.wsdl.server.schema.PatientInfo;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
@@ -40,6 +41,22 @@ public abstract class SchemaConversionUtils {
             schemaPatients.add(toSchemaType(domainPatient));
         }
         return schemaPatients;
+    }
+
+    public static PatientInfo toSchemaType(id.co.kmn.services.wsdl.server.bean.PatientInfo domainPatientInfo)
+            throws DatatypeConfigurationException {
+        PatientInfo schemaPatientInfo = new PatientInfo();
+        //List<Patient> schemaPatients = new ArrayList<Patient>(domainPatientInfo.getPatients().size());
+        PatientInfo.Patients schemaPatients = new PatientInfo.Patients();
+        for (id.co.kmn.services.wsdl.server.bean.Patient domainPatient : domainPatientInfo.getPatients()) {
+            schemaPatients.getPatient().add(toSchemaType(domainPatient));
+        }
+        schemaPatientInfo.setPatients(schemaPatients);
+        schemaPatientInfo.setResPageNumber(domainPatientInfo.getResPageNumber());
+        schemaPatientInfo.setResRowPerPage(domainPatientInfo.getResRowPerPage());
+        schemaPatientInfo.setResRowThisPage(domainPatientInfo.getResRowThisPage());
+        schemaPatientInfo.setResRowTotal(domainPatientInfo.getResRowTotal());
+        return schemaPatientInfo;
     }
 
     public static XMLGregorianCalendar toXMLGregorianCalendar(DateTime dateTime) throws DatatypeConfigurationException {

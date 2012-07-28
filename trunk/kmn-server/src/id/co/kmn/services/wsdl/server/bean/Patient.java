@@ -6,6 +6,12 @@ package id.co.kmn.services.wsdl.server.bean;
  * Time: 11:53 AM
  */
 public class Patient {
+    public static final String TAG_PATIENTINFO = "PATIENTINFO";
+    public static final String TAG_PATIENTID = "PATIENTID";
+    public static final String TAG_PATIENTNAME = "PATIENTNAME";
+    public static final String TAG_PATIENTBRM = "PATIENTBRM";
+    public static final String TAG_DOCID = "DOCID";
+    public static final String TAG_DOCNAME = "DOCNAME";
     private String patientId;
     private String patientName;
     private String patientBrm;

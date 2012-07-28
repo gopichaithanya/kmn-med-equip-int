@@ -1,5 +1,5 @@
 
-package id.co.kmn.services.wsdl.client;
+package id.co.kmn.services.wsdl.server.schema;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,13 +17,13 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
+ *       &lt;all>
  *         &lt;element name="resPageNumber" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="resRowThisPage" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="resRowPerPage" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="resRowTotal" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="resRowsXML" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
+ *       &lt;/all>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -33,14 +33,11 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "resPageNumber",
-    "resRowThisPage",
-    "resRowPerPage",
-    "resRowTotal",
-    "resRowsXML"
+
 })
 @XmlRootElement(name = "getPatientListResponse", namespace = "http://localhost:9090/kmn/schemas/messages")
 public class GetPatientListResponse {
+
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages")
     protected int resPageNumber;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages")

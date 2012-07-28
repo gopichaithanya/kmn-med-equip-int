@@ -1,7 +1,10 @@
 
 package id.co.kmn.services.wsdl.client;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.namespace.QName;
 
 
 /**
@@ -20,7 +23,7 @@ import javax.xml.bind.annotation.XmlRegistry;
  */
 @XmlRegistry
 public class ObjectFactory {
-
+    private final static QName _GetPatientsResponse_QNAME = new QName("http://localhost:9090/kmn/schemas/messages", "GetPatientsResponse");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: id.co.kmn.services.wsdl.client
@@ -59,6 +62,15 @@ public class ObjectFactory {
      */
     public GetPatientList createGetPatientList() {
         return new GetPatientList();
+    }
+
+    /**
+     * Create an instance of {@link javax.xml.bind.JAXBElement }{@code <}{@link String }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "http://localhost:9090/kmn/schemas/messages", name = "GetPatientsResponse")
+    public JAXBElement<String> createGetPatientsResponse(String value) {
+        return new JAXBElement<String>(_GetPatientsResponse_QNAME, String.class, null, value);
     }
 
 }
