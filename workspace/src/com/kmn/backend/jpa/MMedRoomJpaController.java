@@ -21,7 +21,8 @@ import javax.persistence.EntityNotFoundException;
 public class MMedRoomJpaController {
 
     public MMedRoomJpaController() {
-        emf = Persistence.createEntityManagerFactory("workspacePU");
+        //emf = Persistence.createEntityManagerFactory("workspacePU");
+        emf = DBManagerFactory.getInstance().getEntityManager();
     }
     private EntityManagerFactory emf = null;
 
