@@ -21,7 +21,8 @@ import javax.persistence.EntityNotFoundException;
 public class MMedProducerJpaController {
 
     public MMedProducerJpaController() {
-        emf = Persistence.createEntityManagerFactory("workspacePU");
+        //emf = Persistence.createEntityManagerFactory("workspacePU");
+        emf = DBManagerFactory.getInstance().getEntityManager();
     }
     private EntityManagerFactory emf = null;
 

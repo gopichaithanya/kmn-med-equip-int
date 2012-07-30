@@ -133,8 +133,13 @@ public class Login extends javax.swing.JDialog implements Confirm  {
 
     @Action
     public void loginUser() {
-        controller = new LoginController(mainview);
-        controller.processLogin(this, this);
+        try {
+            controller = new LoginController(mainview);
+            controller.processLogin(this, this);
+        }
+        catch(Exception e) {
+            this.onError(e);
+        }
     }
 
     public JPasswordField getjPassword() {
@@ -185,7 +190,13 @@ public class Login extends javax.swing.JDialog implements Confirm  {
 
     //@Override
     public void onError(Throwable t) {
-        JOptionPane.showMessageDialog(this, t.getMessage());
+        String mssg = "";
+        if(t.getCause().toString().indexOf("Hibernate") > 0) mssg = "Database Error..."+"\n";
+        else mssg = t.getMessage()+"\n";
+
+        mssg = mssg.concat("Please Contact Administrator");
+        
+        JOptionPane.showMessageDialog(this, mssg);
     }
 
     public LoginController getController() {

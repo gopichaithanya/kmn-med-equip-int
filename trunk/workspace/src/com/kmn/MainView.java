@@ -115,6 +115,7 @@ public class MainView extends FrameView {
             loginBox = new Login(this, true);
             loginBox.setLocationRelativeTo(mainFrame);
         }
+
         MainApps.getApplication().show(loginBox);
     }
 

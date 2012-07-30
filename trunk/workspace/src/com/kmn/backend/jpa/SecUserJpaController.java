@@ -22,7 +22,8 @@ import javax.persistence.EntityNotFoundException;
 public class SecUserJpaController {
 
     public SecUserJpaController() {
-        emf = Persistence.createEntityManagerFactory("workspacePU");
+        //emf = Persistence.createEntityManagerFactory("workspacePU");
+        emf = DBManagerFactory.getInstance().getEntityManager();
     }
     private EntityManagerFactory emf = null;
 

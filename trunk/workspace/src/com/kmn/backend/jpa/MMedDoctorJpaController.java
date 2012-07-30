@@ -22,7 +22,8 @@ public class MMedDoctorJpaController {
     private EntityManagerFactory emf = null;
 
     public MMedDoctorJpaController() {
-        emf = Persistence.createEntityManagerFactory("workspacePU");
+        //emf = Persistence.createEntityManagerFactory("workspacePU");
+        emf = DBManagerFactory.getInstance().getEntityManager();
     }
 
     public EntityManager getEntityManager() {
