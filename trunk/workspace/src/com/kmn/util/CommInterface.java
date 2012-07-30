@@ -6,39 +6,27 @@ package com.kmn.util;
 
 import com.kmn.controller.InterfaceEvent;
 import com.kmn.gui.workspace.ModelInterface;
-//import gnu.io.CommPortIdentifier;
-//import gnu.io.PortInUseException;
-//import gnu.io.SerialPort;
-//import gnu.io.SerialPortEvent;
-//import gnu.io.SerialPortEventListener;
-//import gnu.io.UnsupportedCommOperationException;
-import javax.comm.CommPort;
-import javax.comm.CommPortIdentifier;
-import javax.comm.SerialPort;
-import javax.comm.NoSuchPortException;
-import javax.comm.PortInUseException;
-import javax.comm.SerialPortEvent;
-import javax.comm.SerialPortEventListener;
-import javax.comm.UnsupportedCommOperationException;
-
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.StringTokenizer;
-import java.util.TooManyListenersException;
+import javax.comm.*;
 
 /**
  *
  * @author Hermanto
  */
 public class CommInterface implements SerialPortEventListener, ModelInterface, Serializable {
-    private static final long serialVersionUID = -8352659530536077973L;
+    public static final String MSG_NO_COMM_PORT = "No comm ports found!";
+    public static final String MSG_NOT_EXIST = " does not exist!";
+    public static final String MSG_LINE_MON = "Need 2 ports for line monitor!";
+    public static final String MSG_NO_PORT = "No serial ports found!";
+    public static final String MSG_DETECTED = "Detected ";
+    public static final String MSG_IN_USE_BY = " in use by ";
+    public static final String CRLF = "\r\n";
+    static final long serialVersionUID = -8352659530536077973L;
     @SuppressWarnings("rawtypes")
-	Enumeration portList;
+    Enumeration portList;
     CommPortIdentifier portId;
     //private SerialPort port;
     //private List<String> respon = new ArrayList<String>();
@@ -92,8 +80,8 @@ public class CommInterface implements SerialPortEventListener, ModelInterface, S
              */
             portList =  CommPortIdentifier.getPortIdentifiers();
             if (portList == null) {
-                System.out.println("No comm ports found!");
-                this.event.onMessage("No comm ports found!");
+                System.out.println(MSG_NO_COMM_PORT);
+                this.event.onMessage(MSG_NO_COMM_PORT);
                 return;
             }
             while (portList.hasMoreElements()) {
@@ -101,22 +89,15 @@ public class CommInterface implements SerialPortEventListener, ModelInterface, S
                  *  Get the specific port
                  */
                 portId = (CommPortIdentifier) portList.nextElement();
-                if(portId.getName().equalsIgnoreCase("COM3")
-                        ||portId.getName().equalsIgnoreCase("COM31")
-                        ||portId.getName().equalsIgnoreCase("COM32")
-                        ||portId.getName().equalsIgnoreCase("COM88")) {
-                    System.out.println("Detected " + portId.getName() + " in ignore list");	
-                }else{
-                    this.addPort(portId);
-                }
+                this.addPort(portId);
             }
         } else {
             try {
                 portId = CommPortIdentifier.getPortIdentifier(port);
                 this.addPort(portId);
             } catch (NoSuchPortException e) {
-                System.out.println(port + " does not exist!");
-                this.event.onMessage(port + " does not exist!");
+                System.out.println(port + MSG_NOT_EXIST);
+                this.event.onMessage(port + MSG_NOT_EXIST);
             }
         }
     	if (portNum > 0) {
@@ -124,14 +105,14 @@ public class CommInterface implements SerialPortEventListener, ModelInterface, S
                 if (portNum >= 2) {
                     portObj[0].setLineMonitor(portObj[1], true);
                 } else {
-                    System.out.println("Need 2 ports for line monitor!");
-                    this.event.onMessage("Need 2 ports for line monitor!");
+                    System.out.println(MSG_LINE_MON);
+                    this.event.onMessage(MSG_LINE_MON);
                     System.exit(0);
                 }
             }
         } else {
-            System.out.println("No serial ports found!");
-            this.event.onMessage("No serial ports found!");
+            System.out.println(MSG_NO_PORT);
+            this.event.onMessage(MSG_NO_PORT);
             System.exit(0);
         }
     }
@@ -154,21 +135,21 @@ public class CommInterface implements SerialPortEventListener, ModelInterface, S
         if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
             //  Is the port in use?	 
             if (portId.isCurrentlyOwned()) {
-                    System.out.println("Detected " + portId.getName()
-                                        + " in use by " + portId.getCurrentOwner());
-                    this.event.onMessage("Detected " + portId.getName()
-                                        + " in use by " + portId.getCurrentOwner());
+                    System.out.println(MSG_DETECTED + portId.getName()
+                                        + MSG_IN_USE_BY + portId.getCurrentOwner());
+                    this.event.onMessage(MSG_DETECTED + portId.getName()
+                                        + MSG_IN_USE_BY + portId.getCurrentOwner());
             }
             /*
              *  Open the port and add it to our GUI
              */
             try {
                 portObj[portNum] = new SerialPortObject(portId, threaded, friendly,
-                                                                    silentReceive, modemMode, rcvDelay, this.event);
+                                    silentReceive, modemMode, rcvDelay, this.event);
                 this.portNum++;
             } catch (PortInUseException e) {
-                System.out.println(portId.getName() + " in use by " + e.currentOwner);
-                this.event.onMessage(portId.getName() + " in use by " + e.currentOwner);
+                System.out.println(portId.getName() + MSG_IN_USE_BY + e.currentOwner);
+                this.event.onMessage(portId.getName() + MSG_IN_USE_BY + e.currentOwner);
             }
         }
     }
@@ -182,7 +163,7 @@ public class CommInterface implements SerialPortEventListener, ModelInterface, S
                 bufferEnd += n;
                 if ((bufferRead[bufferEnd - 1] == 10) && (bufferRead[bufferEnd - 2] == 13)) {
                     buffer = new String(bufferRead, 0, bufferEnd - 2);
-                    StringTokenizer st = new StringTokenizer(buffer, "\r\n");
+                    StringTokenizer st = new StringTokenizer(buffer, CRLF);
                     while (st.hasMoreTokens()) {
                         sbuf = st.nextToken();
                         eventResponse.append(sbuf);
