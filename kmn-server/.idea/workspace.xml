@@ -101,33 +101,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="KmnServiceMethod.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/service/KmnServiceMethod.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="16" selection-start="1215" selection-end="1215" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SaajGetPatients.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/test/SaajGetPatients.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="62" selection-start="2345" selection-end="2345" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WebServiceConstant.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/WebServiceConstant.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="95" selection-start="1023" selection-end="1064" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="KmnService_Service.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/service/KmnService_Service.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -165,6 +138,24 @@
         </entry>
       </file>
       <file leaf-file-name="Patient.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/Patient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="40" column="13" selection-start="1348" selection-end="1348" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GetPatientListResponse.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/GetPatientListResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="38" column="13" selection-start="1346" selection-end="1346" vertical-scroll-proportion="-2.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Patient.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/Patient.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="50" column="45" selection-start="1444" selection-end="1444" vertical-scroll-proportion="0.0">
@@ -173,10 +164,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="KmnServiceMethodImpl.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="KmnServiceMethodImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/service/impl/KmnServiceMethodImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="13" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.2954925">
+            <state line="39" column="13" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PatientInfoParser.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/PatientInfoParser.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="13" selection-start="612" selection-end="612" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PatientInfoFactory.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/PatientInfoFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="22" selection-start="175" selection-end="175" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1906,7 +1915,7 @@
       <recent name="id.ac.idu.kurikulum.dao.impl" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TestSaaj">
+  <component name="RunManager" selected="Tomcat Server.tomcat">
     <configuration default="false" name="Atm" type="Application" factoryName="Application" temporary="true">
       <extension name="coverage" enabled="false" merge="false" />
       <option name="MAIN_CLASS_NAME" value="Atm" />
@@ -2207,8 +2216,8 @@
       <item index="0" class="java.lang.String" itemvalue="Application.Atm" />
       <item index="1" class="java.lang.String" itemvalue="Application.AtmSimulator" />
       <item index="2" class="java.lang.String" itemvalue="Application.TestGetPatientList" />
-      <item index="3" class="java.lang.String" itemvalue="Application.TestSaaj" />
-      <item index="4" class="java.lang.String" itemvalue="Tomcat Server.tomcat" />
+      <item index="3" class="java.lang.String" itemvalue="Tomcat Server.tomcat" />
+      <item index="4" class="java.lang.String" itemvalue="Application.TestSaaj" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -2287,6 +2296,7 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988802" sideWeight="0.67198837" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33333334" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.325723" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33046472" sideWeight="0.21917808" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35572782" sideWeight="0.22222222" order="1" side_tool="true" content_ui="tabs" />
@@ -2300,7 +2310,6 @@
       <window_info id="soapUI Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33333334" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="soapUI Navigator" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2390,21 +2399,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/GetPatientsRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="56" selection-start="1819" selection-end="1819" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/Patient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="13" selection-start="1348" selection-end="1348" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/support/SchemaConversionUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="0" selection-start="2227" selection-end="2227" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.6.0_11/src.zip!/javax/xml/transform/Transformer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="27" column="8" selection-start="954" selection-end="973" vertical-scroll-proportion="0.0" />
@@ -2452,11 +2446,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/PatientInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="16" selection-start="2030" selection-end="2030" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/Patient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="50" column="45" selection-start="1444" selection-end="1444" vertical-scroll-proportion="0.0" />
@@ -2464,7 +2453,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/service/impl/KmnServiceMethodImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="13" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.2954925">
+        <state line="39" column="13" selection-start="1504" selection-end="1504" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/PatientInfoParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="13" selection-start="612" selection-end="612" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/PatientInfoFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="22" selection-start="175" selection-end="175" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/PatientInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="16" selection-start="2030" selection-end="2030" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/Patient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="13" selection-start="1348" selection-end="1348" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/GetPatientListResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="13" selection-start="1346" selection-end="1346" vertical-scroll-proportion="-2.0">
           <folding />
         </state>
       </provider>
