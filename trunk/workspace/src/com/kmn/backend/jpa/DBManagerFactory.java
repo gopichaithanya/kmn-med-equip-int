@@ -47,6 +47,7 @@ public class DBManagerFactory implements PropertiesController {
         dbProps.put("hibernate.connection.driver_class", prop.getProperty(DB_DRIVER) );
         dbProps.put("hibernate.connection.password", prop.getProperty(DB_PASSWORD).toString());
         dbProps.put("hibernate.connection.username", prop.getProperty(DB_USER_NAME).toString());
+        dbProps.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         EntityManagerFactory fact = Persistence.createEntityManagerFactory("workspacePU", dbProps);
         
         return fact;

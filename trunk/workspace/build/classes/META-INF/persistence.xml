@@ -10,13 +10,12 @@
     <class>com.kmn.backend.entity.MMedEquiptype</class>
     <class>com.kmn.backend.entity.MMedOfficer</class>
     <class>com.kmn.backend.entity.MMedEquipment</class>
-    <properties>
+    <!--<properties>
       <property name="hibernate.connection.username" value="kmn"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
       <property name="hibernate.connection.password" value="tiga#333"/>
       <property name="hibernate.connection.url" value="jdbc:mysql://192.168.13.10:3306/kmn"/>
-      <!--property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/kmn"/-->
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
-    </properties>
+    </properties>-->
   </persistence-unit>
 </persistence>
