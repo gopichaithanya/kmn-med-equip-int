@@ -6,7 +6,6 @@ package com.kmn.gui.workspace;
 
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
-import com.sun.pdfview.PagePanel;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
@@ -15,8 +14,12 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -25,6 +28,7 @@ import javax.swing.JOptionPane;
 public class ViewOutput extends javax.swing.JFrame {
     public static String PDF_FILE_EXT = ".pdf";
     public static String JPG_FILE_EXT = ".jpg";
+    public static String XML_FILE_EXT = ".xml";
     WorkspaceModel wm;
     /**
      * Creates new form ViewOutput
@@ -33,33 +37,39 @@ public class ViewOutput extends javax.swing.JFrame {
         initComponents();
         this.wm = wm;
         if(file == null) {
-            renderXml((String) wm.jTable1.getValueAt(wm.jTable1.getSelectedRow(), 5));
+            //renderXml((String) wm.jTable1.getValueAt(wm.jTable1.getSelectedRow(), 5));
         } else if(file.getName().contains(PDF_FILE_EXT)) {
             renderPdf(file);
         } else if (file.getName().contains(JPG_FILE_EXT)) {
             renderImage(file);
+        } else if (file.getName().contains(XML_FILE_EXT)) {
+            renderXml(file);
         }
     }
     
-    private void renderXml(String XmlStr) {
-//        this.remove(jLabel1);
-//        JPanel panel = new JPanel();
-//        JTextArea textArea = new JTextArea(200,100);
-//        textArea.setVisible(true);
-//        textArea.append(XmlStr);
-//        panel.add(textArea);
-//        jScrollPane1.add(panel);
-        JOptionPane.showMessageDialog(this, XmlStr);
-        //jLabel1.setText(XmlStr);
-        //this.pack();
-        //this.setVisible(true);
-        //this.dispose();
+    private void renderXml(String xmlStr) {
+        JOptionPane.showMessageDialog(this, xmlStr);
+    }
+    
+    private void renderXml(File file) {
+//        try {
+//            CommViewer cv = new CommViewer(this, file);
+//            this.jLabel1.setVisible(false);
+//            this.add(cv);
+//            this.pack();
+//            this.setVisible(true);
+//        } catch (ParserConfigurationException ex) {
+//            Logger.getLogger(ViewOutput.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SAXException ex) {
+//            Logger.getLogger(ViewOutput.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(ViewOutput.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
     
     private void renderImage(File file) {
         ImageIcon gbr = new ImageIcon(file.getAbsolutePath());
         jLabel1.setIcon(gbr);
-        //this.pack();
         this.setVisible(true);
     }
     
@@ -112,11 +122,6 @@ public class ViewOutput extends javax.swing.JFrame {
                 true, // fill background with white
                 true  // block until drawing is done
                 );
-        
-        //show the image in a frame
-        //JFrame frame = new JFrame("PDF Test");
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //frame.add(new JLabel(new ImageIcon(img)));
         jLabel1.setIcon(new ImageIcon(img));
         this.pack();
         this.setVisible(true);

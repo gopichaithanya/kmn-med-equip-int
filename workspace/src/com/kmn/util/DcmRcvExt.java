@@ -18,6 +18,14 @@ import org.dcm4che2.tool.dcmrcv.DcmRcv;
  * @author valeo
  */
 public class DcmRcvExt extends DcmRcv {
+    public static final String FS = "/";
+    public static final String DIR_SUFFIX = ".out";
+    public static final String FILE_XML = "/output.xml";
+    public static final String FILE_JPG = "/output.jpg";
+    public static final String MSG_XML_CONV = "Start XML Conversion";
+    public static final String MSG_JPG_CONV = "Start Jpeg Conversion";
+    public static final String MSG_NO_PIXEL = "Dicom file does not contain pixel data";
+    
     private String destinationExt;
     private InterfaceEvent event;
 
@@ -49,23 +57,23 @@ public class DcmRcvExt extends DcmRcv {
         String iuid = rq.getString(Tag.AffectedSOPInstanceUID);
         super.onCStoreRQ(as, pcid, rq, dataStream, tsuid, rsp);
         //convert to xml
-        String iPath = getDestinationExt()+"\\"+iuid;
-        String subDir = getDestinationExt()+"\\"+iuid+".out";
-        String oPath = subDir + "\\output.xml";
-        String jpgPath = subDir + "\\output.jpg";
-        System.out.println("Start Xml Conversion");
-        this.event.onMessage("Start Xml Conversion");
+        String iPath = getDestinationExt() + FS + iuid;
+        String subDir = getDestinationExt() + FS + iuid + DIR_SUFFIX;
+        String oPath = subDir + FILE_XML;
+        String jpgPath = subDir + FILE_JPG;
+        System.out.println(MSG_XML_CONV);
+        this.event.onMessage(MSG_XML_CONV);
         Dcm2XmlExt dcm2XmlExt = new Dcm2XmlExt(iPath, oPath);
         //convert to jpg
         try {
-            System.out.println("Start Jpeg Conversion");
-            this.event.onMessage("Start Jpeg Conversion");
+            System.out.println(MSG_JPG_CONV);
+            this.event.onMessage(MSG_JPG_CONV);
             Dcm2JpgExt dcm2JpgExt = new Dcm2JpgExt(iPath, jpgPath);
         } catch (NullPointerException e) {
-            System.out.println("Dicom file does not contain pixel data");
-            this.event.onMessage("Dicom file does not contain pixel data");
+            System.out.println(MSG_NO_PIXEL);
+            this.event.onMessage(MSG_NO_PIXEL);
         } finally {
-            this.event.onReceive(getDestinationExt()+"\\"+iuid);
+            this.event.onReceive(getDestinationExt()+FS+iuid);
         }
     }
 }

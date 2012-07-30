@@ -6,6 +6,7 @@ package com.kmn.ws;
 
 import static com.kmn.ws.WebServiceConstants.LOCAL_NAMESPACE_URI;
 import com.kmn.ws.bean.PatientInfo;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -30,6 +31,33 @@ import org.xml.sax.SAXException;
  * @author valeo
  */
 public class ClientService {
+    public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+    public static final String XML_ROOT_PREFIX = "<root>";
+    public static final String XML_ROOT_SUFFIX = "</root>";
+    public static final String XML_COMM_PREFIX = "<comm>\r\n";
+    public static final String XML_COMM_SUFFIX = "</comm>";
+    public static final String XML_ATTR_PREFIX = "<attr name=\"";
+    public static final String XML_ATTR_MID = "\" selected=\"false\">";
+    public static final String XML_ATTR_SUFFIX = "</attr>\r\n";
+    public static final String TAG_COMM = "comm";
+    public static final String TAG_ATTR = "attr";
+    public static final String ATTR_NAME = "name";
+    public static final String ATTR_SELECTED = "selected";
+    
+    public static final String DESC = "desc";
+    public static final String CHR_SPACE = " ";
+    /* XML Predefined entities */
+    public static final String AMP = "&";
+    public static final String AMP_PE = "&amp;";
+    public static final String LT = "<";
+    public static final String LT_PE = "&lt;";
+    public static final String GT = ">"; 
+    public static final String GT_PE = "&gt;";
+    public static final String APOS = "\'";
+    public static final String APOS_PE = "&apos;";
+    public static final String QUOT = "\"";
+    public static final String QUOT_PE = "&quot;";
+    
     public static final String RESPONSE = "<SOAP-ENV:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" ><SOAP-ENV:Body><getPatientListResponse xmlns=\"http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/\">"
     +"<resPageNumber>1</resPageNumber>"
     +"<resRowThisPage>2</resRowThisPage>"
@@ -70,9 +98,9 @@ public class ClientService {
             Document tempDoc = readXml(TEMP_XML_PATH);
             String resRowsXML = tempDoc.getElementsByTagName(TAG_RESROWSXML).item(0).getFirstChild().getNodeValue();
             //Create temp data XML
-            StringBuilder sb = new StringBuilder("<root>");
+            StringBuilder sb = new StringBuilder(XML_ROOT_PREFIX);
             sb.append(resRowsXML);
-            sb.append("</root>");
+            sb.append(XML_ROOT_SUFFIX);
             createXml(sb.toString(), TEMP_XML_DATA_PATH);
             //Read temp data XML
             Document doc = readXml(TEMP_XML_DATA_PATH);
@@ -89,8 +117,6 @@ public class ClientService {
                 data3 = getStringNodeValue(n3.item(i));
                 data4 = getStringNodeValue(n4.item(i));
                 data5 = getStringNodeValue(n5.item(i));
-                String line = data1 + " " + data2 + " " + data3+ " " + data4+ " " + data5;
-                System.out.println(line);
                 patients.add(new Object[]{data1,data2,data3,data4,data5});
             }
         } catch (Exception e) {
@@ -106,7 +132,13 @@ public class ClientService {
         return result;
     }
     
-    public void createXml(String xmlString, String absolutePath) throws ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+    public Document createXml(String xmlString, String absolutePath) throws ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+        File file = new File(absolutePath);
+        if(!file.exists()) {
+            file.getParentFile().mkdirs();
+            //file.createNewFile();
+            //file.createNewFile();
+        }
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();  
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new InputSource(new StringReader(xmlString)));  
@@ -116,11 +148,44 @@ public class ClientService {
         Source src = new DOMSource( doc );  
         Result dest = new StreamResult( new File(absolutePath));  
         aTransformer.transform( src, dest ); 
+        return doc;
     }
     
     public Document readXml(String absolutePath) throws ParserConfigurationException, SAXException, IOException {
         DocumentBuilderFactory dbf=DocumentBuilderFactory.newInstance();  
         DocumentBuilder db =dbf.newDocumentBuilder();  
         return (Document) db.parse(absolutePath);
+    }
+    
+    public Document convertMessageToXml(String messageFormat, String messageString, String absolutePath) {
+        try {
+            BufferedReader br = new BufferedReader(new StringReader(messageString));
+            StringBuilder sb = new StringBuilder(XML_HEADER+XML_COMM_PREFIX);
+            String strLine;
+            int count = 1;
+            //Read File Line By Line
+            while ((strLine = br.readLine()) != null)   {
+                // Print the content on the console
+                if(!strLine.isEmpty()) {
+                    sb.append(XML_ATTR_PREFIX);
+                    sb.append(DESC);
+                    sb.append(count);
+                    sb.append(XML_ATTR_MID);
+                    strLine = strLine.replaceAll(AMP, AMP_PE);
+                    strLine = strLine.replaceAll(LT, LT_PE);
+                    strLine = strLine.replaceAll(GT, GT_PE);
+                    strLine = strLine.replaceAll(APOS, APOS_PE);
+                    strLine = strLine.replaceAll(QUOT, QUOT_PE);
+                    sb.append(strLine);
+                    sb.append(XML_ATTR_SUFFIX);
+                    count++;
+                }
+            }
+            sb.append(XML_COMM_SUFFIX);
+            return createXml(sb.toString().trim(), absolutePath);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

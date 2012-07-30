@@ -7,6 +7,7 @@ package com.kmn.gui.workspace;
 import com.kmn.ws.ClientService;
 import com.kmn.ws.bean.Patient;
 import com.kmn.ws.bean.PatientInfo;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,6 +38,9 @@ import org.xml.sax.SAXException;
 public class LookupPatients extends javax.swing.JFrame {
     private WorkspaceModel wm;
     private PatientInfo patientInfo;
+    private static final String DEFAULT_CLINIC_ID = "8";
+    private static final int DEFAULT_PAGE_NUMBER = 1;
+    private static final int DEFAULT_ROW_PER_PAGE = 10;
     /**
      * Creates new form LookupPatients
      */
@@ -43,26 +48,30 @@ public class LookupPatients extends javax.swing.JFrame {
         initComponents();
     }
     
-    public LookupPatients(WorkspaceModel wm) {
+    public LookupPatients(WorkspaceModel wm) throws SOAPException, MalformedURLException, IOException, TransformerException {
         this.wm = wm;
         this.setTitle(wm.owner.getTitleAt(wm.owner.getSelectedIndex()));
         initComponents();
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
         ClientService cs = new ClientService();
-        try {
-            patientInfo = cs.retrievePatients(jTextField1.getText(), "8", 1, 10);
-            for (Patient p : patientInfo.getPatients()) {
-                model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
-                    p.getPatientBrm(), p.getDocId(), p.getDocName()});
-            }
-        } catch (SOAPException ex) {
-            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TransformerException ex) {
-            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        patientInfo = cs.retrievePatients(jTextField1.getText(), DEFAULT_CLINIC_ID, 
+                DEFAULT_PAGE_NUMBER, DEFAULT_ROW_PER_PAGE);
+        for (Patient p : patientInfo.getPatients()) {
+            model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
+                p.getPatientBrm(), p.getDocId(), p.getDocName()});
+        }
+    }
+    
+    public LookupPatients(WorkspaceModel wm, String clinicId, int pageNumber, int rowPerPage) throws SOAPException, MalformedURLException, IOException, TransformerException {
+        this.wm = wm;
+        this.setTitle(wm.owner.getTitleAt(wm.owner.getSelectedIndex()));
+        initComponents();
+        DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
+        ClientService cs = new ClientService();
+        patientInfo = cs.retrievePatients(jTextField1.getText(), clinicId, pageNumber, rowPerPage);
+        for (Patient p : patientInfo.getPatients()) {
+            model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
+                p.getPatientBrm(), p.getDocId(), p.getDocName()});
         }
     }
     

@@ -16,22 +16,25 @@ import java.util.Date;
  * @author valeo
  */
 public class DicomInterface implements ModelInterface, Serializable {
+    public static final String SDF = "ddMMMyyyyHHmmss";
+    public static final String AE = "DCMRCV";
+    public static final String JFPH = "yy/MM/dd/HH/mm/ss";
+    public static final String MSG_START_LISTENING = "Start Server listening on port ";
+    
     private DcmRcvExt dcmrcv;
     private InterfaceEvent event;
     private int port;
+    
     public DicomInterface(InterfaceEvent event, String ip, int port
             , String applicationEntity, String destination) {
         this.event = event;
         Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMMyyyyHHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat(SDF);
         sdf.format(now);
-        String ae = (!applicationEntity.isEmpty())?applicationEntity:"DCMRCV";
-        //this.dcmrcv = new DcmRcv(ae);
+        String ae = (!applicationEntity.isEmpty())?applicationEntity:AE;
         this.dcmrcv = new DcmRcvExt(ae, event);
         this.dcmrcv.setPort(port);
         this.port = port;
-        //this.dcmrcv.setAEtitle(applicationEntity);
-        //this.dcmrcv.setHostname(ip);
         if (!destination.isEmpty()) {
             dcmrcv.setDestination(destination);
             dcmrcv.setDestinationExt(destination);
@@ -39,14 +42,15 @@ public class DicomInterface implements ModelInterface, Serializable {
         dcmrcv.setPackPDV(false);
         dcmrcv.setTcpNoDelay(false);
         dcmrcv.setJournal(destination);
-        dcmrcv.setJournalFilePathFormat("yy/MM/dd/HH/mm/ss");
+        dcmrcv.setJournalFilePathFormat(JFPH);
         this.dcmrcv.initTransferCapability();
     }
+    
     @Override
     public void connect() {
         try {
             this.dcmrcv.start();
-            this.event.onMessage("Start Server listening on port "+ this.port);
+            this.event.onMessage(MSG_START_LISTENING + this.port);
         } catch (IOException e) {
             e.printStackTrace();
         }

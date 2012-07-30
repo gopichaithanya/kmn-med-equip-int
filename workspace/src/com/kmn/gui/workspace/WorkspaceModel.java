@@ -17,41 +17,60 @@ import com.kmn.controller.InterfaceEvent;
 import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
+import com.kmn.ws.ClientService;
+import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.comm.SerialPort;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.soap.SOAPException;
+import javax.xml.transform.TransformerException;
+import org.xml.sax.SAXException;
 
 /**
  *
  * @author Hermanto
  */
 public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent {
-    public static String TEMP_DIR = "C:\\kmntmp";
-    public static String OUTPUT_PDF = ".out\\output.pdf";
-    public static String OUTPUT_JPG = ".out\\output.jpg";
-    public static String OUTPUT_XML = ".out\\output.xml";
-    public static String DICOM = "DICOM";
-    public static String LOCAL_IP = "127.0.0.1";
-    public static String AP_NAME = "DCMRCV";
-    public static String SDF = "E, dd MMM yyyy HH:mm:ss Z";
-    public static String MSG_SELECT_ROW = "Please select a data row.";
-    /** Equipment Properties File Mapping - Flow Control */
+    /*Message Strings*/
+    public static final String MSG_LOADING_PATIENTS = "Loading Patients...";
+    public static final String MSG_EMPTY = "";
+    public static final String MSG_NOT_SUPPORTED = "Not supported yet.";
+    public static final String MSG_ERROR = "[ERROR]: ";
+    public static final String MSG_CAUSE = "\n[CAUSE]: ";
+    public static final String MSG_SELECT_ROW = "Please select a data row.";
+    public static final String MSG_NO_FILE = "Output result file does not exist.";
+    /* Connection String Constants */
+    public static final String TEMP_DIR = "C:/kmntmp";
+    public static final String OUTPUT_PDF = ".out/output.pdf";
+    public static final String OUTPUT_JPG = ".out/output.jpg";
+    public static final String OUTPUT_XML = ".out/output.xml";
+    public static final String DICOM = "DICOM";
+    public static final String LOCAL_IP = "127.0.0.1";
+    public static final String AP_NAME = "DCMRCV";
+    public static final String SDF = "E, dd MMM yyyy HH:mm:ss Z";
+    public static final String SDF_DIR = "ddMMMyyyyHHmmss";
+    /* Equipment Properties File Mapping - Flow Control */
     public static final String FLOW_NONE = "None";
     public static final String FLOW_XONXOFF = "Xon / Xoff";
     public static final String FLOW_XONXOFFOUT = "Xon / Xoff out";
     public static final String FLOW_HARDWARE = "Hardware";
     public static final String FLOW_RTSCTS_IN = "RTCS In";
     public static final String FLOW_RTSCTS_OUT = "RTCS Out";
-    /** Equipment Properties File Mapping - Parity */
+    /* Equipment Properties File Mapping - Parity */
     public static final String PARITY_NONE = "None";
     public static final String PARITY_ODD = "Odd";
     public static final String PARITY_EVEN = "Even";
     public static final String PARITY_MARK = "Mark";
     public static final String PARITY_SPACE = "Space";
-    /** Equipment Properties File Mapping - Stop Bits */
+    /* Equipment Properties File Mapping - Stop Bits */
     public static final String STOPBITS_1 = "1";
     public static final String STOPBITS_1_5 = "1.5";
     public static final String STOPBITS_2 = "2";
@@ -62,6 +81,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     private ModelInterface modelinterface;
     private DicomInterface dicomInterface;
     private CommInterface commInterface;
+    
+    
 
     /** Creates new form WorkspaceModel */
     public WorkspaceModel() {
@@ -240,15 +261,26 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                 file = new File(filePath+OUTPUT_PDF);
                 if(!file.exists()) {
                     file = new File(filePath+OUTPUT_JPG);
-                    if(!file.exists()) {
-                        file = null;  
-                    }
                 }
-            } catch (NullPointerException e) {   
-                file = new File(filePath+OUTPUT_JPG);
+                if(!file.exists()) {
+                    file = new File(filePath);
+                    if(!file.exists()) {
+                        JOptionPane.showMessageDialog(this, MSG_NO_FILE);
+                    } else {
+                        XmlViewer xv = new XmlViewer(this, file);
+                    }
+                } else {
+                    ViewOutput vo = new ViewOutput(this, file);
+                }
+            } catch (NullPointerException ex) {   
+                Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+            }catch (ParserConfigurationException ex) {
+                Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SAXException ex) {
+                Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
             }
-            ViewOutput vo = new ViewOutput(this, file);
-            //vo.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
         }
@@ -258,8 +290,27 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         // Lookup Patient
         int row = jTable1.getSelectedRow();
         if (row > -1) {
-            LookupPatients lookupPatients = new LookupPatients(this);
-            lookupPatients.setVisible(true);
+            try {
+                this.onMessage(MSG_LOADING_PATIENTS);
+                LookupPatients lookupPatients = new LookupPatients(this);
+                lookupPatients.setVisible(true);
+            } catch (SOAPException ex) {
+                String msg = MSG_ERROR + ex.getMessage() + 
+                        MSG_CAUSE + ex.getCause().getCause().getCause().getMessage();
+                JOptionPane.showMessageDialog(this, msg);
+                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MalformedURLException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TransformerException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                this.onMessage(MSG_EMPTY);
+            }
         } else {
             JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
         }
@@ -288,7 +339,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     //@Override
     public void onSend() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(MSG_NOT_SUPPORTED);
     }
 
     //@Override
@@ -300,16 +351,22 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         }
         //MainApps.getApplication().show(statusBox);
         Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(SDF);
-        sdf.format(now);
+        SimpleDateFormat sdf = new SimpleDateFormat(SDF_DIR);
+        String path = TEMP_DIR+"/"+sdf.format(now)+OUTPUT_XML;
+        ClientService cs = new ClientService();
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
-        model.addRow(new Object[]{null,null,null,now,null,message});
+        cs.convertMessageToXml(MSG_EMPTY, message, path);
+        if(message.contains(TEMP_DIR)) {
+            model.addRow(new Object[]{null,null,null,now,null,message});
+        } else {
+            model.addRow(new Object[]{null,null,null,now,null,path});
+        }
         while(!jLabel1.getText().isEmpty()) {
             try {
                 synchronized (this) {
                     wait(1000);
                 }
-                jLabel1.setText("");
+                jLabel1.setText(MSG_EMPTY);
             } catch (InterruptedException e) {
             }
         }
@@ -318,7 +375,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     //@Override
     public void onError(Throwable t) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException(MSG_NOT_SUPPORTED);
     }
 
     //@Override
@@ -336,14 +393,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     private void receiveEquipmentData() {
         if (equip.getInterfaceType().equalsIgnoreCase(DICOM)) {
-            //this.dicomInterface = new DicomInterface(this, "127.0.0.1", Integer.valueOf(equip.getPort()), "DCMRCV", "C:\\kmntmp");
             this.modelinterface = new DicomInterface(this, LOCAL_IP, Integer.valueOf(equip.getPort()), AP_NAME, TEMP_DIR);
-            //this.dicomInterface.connect();
          } else {
-            //this.commInterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
-            //       , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
-            //        , getParityInt(equip.getParity()), getFlowInt(equip.getFlow()));
-            //this.commInterface.connect();
             this.modelinterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
                     , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
                     , getParityInt(equip.getParity()), 
