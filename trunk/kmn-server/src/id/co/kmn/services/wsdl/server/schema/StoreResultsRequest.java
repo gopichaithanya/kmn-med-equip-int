@@ -28,8 +28,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="imageId" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="trxDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="timeStamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
- *         &lt;element name="dataLocation" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/>
- *         &lt;element name="dataOutput" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="dataLocation" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="dataOutput" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/>
  *         &lt;element name="xmlData" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="creatorId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/all>
@@ -66,9 +66,9 @@ public class StoreResultsRequest {
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages", required = true)
     protected XMLGregorianCalendar timeStamp;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages", required = true)
-    protected byte[] dataLocation;
+    protected String dataLocation;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages", required = true)
-    protected String dataOutput;
+    protected byte[] dataOutput;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages", required = true)
     protected String xmlData;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages", required = true)
@@ -279,9 +279,10 @@ public class StoreResultsRequest {
      * 
      * @return
      *     possible object is
-     *     byte[]
+     *     {@link String }
+     *     
      */
-    public byte[] getDataLocation() {
+    public String getDataLocation() {
         return dataLocation;
     }
 
@@ -290,10 +291,11 @@ public class StoreResultsRequest {
      * 
      * @param value
      *     allowed object is
-     *     byte[]
+     *     {@link String }
+     *     
      */
-    public void setDataLocation(byte[] value) {
-        this.dataLocation = ((byte[]) value);
+    public void setDataLocation(String value) {
+        this.dataLocation = value;
     }
 
     /**
@@ -301,10 +303,9 @@ public class StoreResultsRequest {
      * 
      * @return
      *     possible object is
-     *     {@link String }
-     *     
+     *     byte[]
      */
-    public String getDataOutput() {
+    public byte[] getDataOutput() {
         return dataOutput;
     }
 
@@ -313,11 +314,10 @@ public class StoreResultsRequest {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
-     *     
+     *     byte[]
      */
-    public void setDataOutput(String value) {
-        this.dataOutput = value;
+    public void setDataOutput(byte[] value) {
+        this.dataOutput = ((byte[]) value);
     }
 
     /**
