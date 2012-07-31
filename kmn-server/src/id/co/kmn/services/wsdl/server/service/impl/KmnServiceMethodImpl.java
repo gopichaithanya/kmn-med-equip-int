@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.soap.SOAPException;
 import javax.xml.transform.TransformerException;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -117,6 +118,36 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
     @Override
     public StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId, int imageId, DateTime trxDate, DateTime timeStamp, String dataLocation, byte[] dataOutput, String xmlData, String creatorId) {
         //save to Database;
+        //notify cis;
+        StoreResultsResponse response = new StoreResultsResponse();
+        try {
+            CisService cs = new CisService(CIS_NAMESPACE_URI);
+            cs.putPatientData(patientId, equipmentId, dataLocation, xmlData, trxDate);
+            response.setSuccess(true);
+            response.setResult("resStatusXML");
+            return response;
+        } catch (SOAPException e) {
+            e.printStackTrace();
+            response.setResult(e.getMessage());
+            response.setSuccess(false);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            response.setResult(e.getMessage());
+            response.setSuccess(false);
+        } catch (TransformerException e) {
+            e.printStackTrace();
+            response.setResult(e.getMessage());
+            response.setSuccess(false);
+        } catch (IOException e) {
+            e.printStackTrace();
+            response.setResult(e.getMessage());
+            response.setSuccess(false);
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+            response.setResult(e.getMessage());
+            response.setSuccess(false);
+        }
+
         System.out.println("branchId: "+branchId);
         System.out.println("patientId: "+patientId);
         System.out.println("patientCode: "+patientCode);
@@ -128,11 +159,8 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
         System.out.println("timeStamp: "+timeStamp);
         System.out.println("dataLocation: "+dataLocation);
         System.out.println("dataOutput: "+dataOutput);
-        System.out.println("xmlData: "+xmlData);
-        System.out.println("creatorId: "+creatorId);
-        StoreResultsResponse response = new StoreResultsResponse();
-        response.setSuccess(true);
-        response.setResult("test result");
+        System.out.println("xmlData: " + xmlData);
+        System.out.println("creatorId: " + creatorId);
         return response;
     }
 
