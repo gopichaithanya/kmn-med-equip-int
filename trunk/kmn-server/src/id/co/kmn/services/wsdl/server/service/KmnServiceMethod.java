@@ -3,6 +3,7 @@ package id.co.kmn.services.wsdl.server.service;
 import com.sun.xml.internal.ws.message.ByteArrayAttachment;
 import id.co.kmn.services.wsdl.server.bean.Patient;
 import id.co.kmn.services.wsdl.server.bean.PatientInfo;
+import id.co.kmn.services.wsdl.server.schema.StoreResultsResponse;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public interface KmnServiceMethod {
      * @param creatorId
      * @return the boolean success result
      */
-    Boolean storeResults(String branchId, String patientId, String patientCode, String patientName,
+    StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName,
            String remark, int equipmentId, int imageId,DateTime trxDate, DateTime timeStamp,
-           String dataLocation, ByteArrayAttachment dataOutput, String xmlData, String creatorId);
+           String dataLocation, byte[] dataOutput, String xmlData, String creatorId);
 }
