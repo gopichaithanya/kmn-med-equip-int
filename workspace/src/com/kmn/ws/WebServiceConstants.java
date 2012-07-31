@@ -11,6 +11,7 @@ package com.kmn.ws;
 public interface WebServiceConstants {
     public static final String NAME_PREFIX = "kmn";
     public static final String LOCAL_NAMESPACE_URI = "http://localhost:9090/kmn/services";
+    //public static final String LOCAL_NAMESPACE_URI = "http://192.168.13.10:8080/kmn/services";
     public static final String MESSAGES_NAMESPACE = "http://localhost:9090/kmn/schemas/messages";
     public static final String GET_PATIENTS_REQUEST = "GetPatientsRequest";
     public static final String STORE_RESULTS_REQUEST = "StoreResultsRequest";

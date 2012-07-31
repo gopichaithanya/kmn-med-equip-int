@@ -124,6 +124,7 @@ public class ClientConnector {
         SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
         Name name = envelope.createName(STORE_RESULTS_REQUEST, NAME_PREFIX, MESSAGES_NAMESPACE);
         SOAPBodyElement body = message.getSOAPBody().addBodyElement(name);
+        
         this.addElement(envelope, body, BRANCHID, NAME_PREFIX, MESSAGES_NAMESPACE, branchId);
         this.addElement(envelope, body, PATIENTID, NAME_PREFIX, MESSAGES_NAMESPACE, patientId);
         this.addElement(envelope, body, PATIENTCODE, NAME_PREFIX, MESSAGES_NAMESPACE, patientCode);
@@ -137,22 +138,25 @@ public class ClientConnector {
         //this.addElement(envelope, body, TRXDATE, NAME_PREFIX, MESSAGES_NAMESPACE, "");
         //this.addElement(envelope, body, TIMESTAMP, NAME_PREFIX, MESSAGES_NAMESPACE, "");
         this.addElement(envelope, body, DATALOCATION, NAME_PREFIX, MESSAGES_NAMESPACE, dataLocation);
-        //this.addElement(envelope, body, DATAOUTPUT, NAME_PREFIX, MESSAGES_NAMESPACE, dataOutput.asByteArray().);
-        dataOutput.writeTo(message);
-        Name dataOutputName = envelope.createName(DATAOUTPUT, NAME_PREFIX, MESSAGES_NAMESPACE);
-        SOAPElement dataOutputElement = body.addChildElement(name);
+        this.addElement(envelope, body, DATAOUTPUT, NAME_PREFIX, MESSAGES_NAMESPACE, String.valueOf(dataOutput.asByteArray()));
+        //dataOutput.writeTo(message);
+        //Name dataOutputName = envelope.createName(DATAOUTPUT, NAME_PREFIX, MESSAGES_NAMESPACE);
+        //SOAPElement dataOutputElement = body.addChildElement(name);
         //dataOutputElement.setValue(new String(dataOutput.asByteArray()));
-        dataOutputElement.setValue("test");
+        //dataOutputElement.setValue("test");
         this.addElement(envelope, body, XMLDATA, NAME_PREFIX, MESSAGES_NAMESPACE, xmlData);
         this.addElement(envelope, body, CREATORID, NAME_PREFIX, MESSAGES_NAMESPACE, creatorId);
         
         return message;
     }
     
-    private void addElement(SOAPEnvelope envelope, SOAPBodyElement body, String localName, String prefix, String uri, String value) throws SOAPException {
+    private void addElement(SOAPEnvelope envelope, SOAPBodyElement body, String localName
+            , String prefix, String uri, Object value) throws SOAPException {
+        
         Name name = envelope.createName(localName, prefix, uri);
         SOAPElement reqKeywordElement = body.addChildElement(name);
-        reqKeywordElement.setValue(value);
+        
+        reqKeywordElement.setValue((String) value);
     }
     
     private Boolean writeStoreResultsResponse(SOAPMessage message) throws SOAPException, TransformerException {
