@@ -32,6 +32,35 @@
 
     <element name="GetPatientsResponse" type="types:PatientInfo"/>
 
+    <element name="StoreResultsRequest">
+        <complexType>
+            <all>
+                <element name="branchId" type="string"/>
+                <element name="patientId" type="string"/>
+                <element name="patientCode" type="string"/>
+                <element name="patientName" type="string"/>
+                <element name="remark" type="string"/>
+                <element name="equipmentId" type="int"/>
+                <element name="imageId" type="int"/>
+                <element name="trxDate" type="dateTime"/>
+                <element name="timeStamp" type="dateTime"/>
+                <element name="dataLocation" type="string"/>
+                <element name="dataOutput" type="base64Binary"/>
+                <element name="xmlData" type="string"/>
+                <element name="creatorId" type="string"/>
+            </all>
+        </complexType>
+    </element>
+
+    <element name="StoreResultsResponse">
+        <complexType>
+            <all>
+                <element name="success" type="boolean"/>
+                <element name="result" type="string"/>
+            </all>
+        </complexType>
+    </element>
+
     <!--element name="GetFlightsRequest">
         <complexType>
             <all>

@@ -5,6 +5,7 @@ import id.co.kmn.administrasi.dao.SystemDAO;
 import id.co.kmn.services.wsdl.client.CisService;
 import id.co.kmn.services.wsdl.server.bean.Patient;
 import id.co.kmn.services.wsdl.server.bean.PatientInfo;
+import id.co.kmn.services.wsdl.server.schema.StoreResultsResponse;
 import id.co.kmn.services.wsdl.server.service.KmnServiceMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -111,6 +112,28 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
             patientInfo = generateDefaultPatientInfo();
         }
         return patientInfo;
+    }
+
+    @Override
+    public StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId, int imageId, DateTime trxDate, DateTime timeStamp, String dataLocation, byte[] dataOutput, String xmlData, String creatorId) {
+        //save to Database;
+        System.out.println("branchId: "+branchId);
+        System.out.println("patientId: "+patientId);
+        System.out.println("patientCode: "+patientCode);
+        System.out.println("patientName: "+patientName);
+        System.out.println("remark: "+remark);
+        System.out.println("equipmentId: "+equipmentId);
+        System.out.println("imageId: "+imageId);
+        System.out.println("trxDate: "+trxDate);
+        System.out.println("timeStamp: "+timeStamp);
+        System.out.println("dataLocation: "+dataLocation);
+        System.out.println("dataOutput: "+dataOutput);
+        System.out.println("xmlData: "+xmlData);
+        System.out.println("creatorId: "+creatorId);
+        StoreResultsResponse response = new StoreResultsResponse();
+        response.setSuccess(true);
+        response.setResult("test result");
+        return response;
     }
 
     public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId, int imageId, DateTime trxDate, DateTime timeStamp, String dataLocation, ByteArrayAttachment dataOutput, String xmlData, String creatorId) {

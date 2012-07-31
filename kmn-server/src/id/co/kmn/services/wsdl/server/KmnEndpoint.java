@@ -4,6 +4,8 @@ package id.co.kmn.services.wsdl.server;
 //import id.co.kmn.services.wsdl.client.ObjectFactory;
 import id.co.kmn.services.wsdl.server.bean.PatientInfo;
 import id.co.kmn.services.wsdl.server.schema.ObjectFactory;
+import id.co.kmn.services.wsdl.server.schema.StoreResultsRequest;
+import id.co.kmn.services.wsdl.server.schema.StoreResultsResponse;
 import id.co.kmn.services.wsdl.server.schema.support.SchemaConversionUtils;
 import id.co.kmn.services.wsdl.server.service.KmnServiceMethod;
 import org.apache.commons.logging.Log;
@@ -16,8 +18,7 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import static id.co.kmn.services.wsdl.WebServiceConstant.GET_PATIENTS_REQUEST;
-import static id.co.kmn.services.wsdl.WebServiceConstant.MESSAGES_NAMESPACE;
+import static id.co.kmn.services.wsdl.WebServiceConstant.*;
 
 /**
  * Endpoint that handles the KMN Web Service messages using a combination of JAXB2 marshalling and XPath
@@ -63,7 +64,6 @@ public class KmnEndpoint {
             logger.debug("Received GetPatientsRequest '" + reqKeyword + "' id: '" + reqClinicId + "' page: "
                     + reqPageNumber + "reqRowPerPage: " + reqRowPerPage);
         }
-        //List<Patient> patients = kmnServiceMethod.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
         PatientInfo patientInfo = kmnServiceMethod.getPatientInfo(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
         return objectFactory.createGetPatientsResponse(SchemaConversionUtils.toSchemaType(patientInfo));
     }
@@ -87,6 +87,27 @@ public class KmnEndpoint {
 //        return response;
 //    }
 //
+    /**
+     * This endpoint method uses marshalling to handle message with a <code>&lt;BookFlightRequest&gt;</code> payload.
+     *
+     * @param request the JAXB2 representation of a <code>&lt;BookFlightRequest&gt;</code>
+     * @return the JAXB2 representation of a <code>&lt;BookFlightResponse&gt;</code>
+     */
+    @PayloadRoot(localPart = STORE_RESULTS_REQUEST, namespace = MESSAGES_NAMESPACE)
+    @ResponsePayload
+    public StoreResultsResponse storeResults(@RequestPayload StoreResultsRequest request)  {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Received StoreResultsRequest: '" + request.getPatientName() + "' on '" +
+                    request.getTrxDate().toXMLFormat() + "' for " + request.getXmlData());
+        }
+        StoreResultsResponse response = kmnServiceMethod.storeResults(request.getBranchId(),
+            request.getPatientId(),request.getPatientCode(), request.getPatientName(),
+            request.getRemark(), request.getEquipmentId(), request.getImageId(),
+            SchemaConversionUtils.toDateTime(request.getTrxDate()),
+            SchemaConversionUtils.toDateTime(request.getTimeStamp()), request.getDataLocation(),
+            request.getDataOutput(), request.getXmlData(), request.getCreatorId());
+        return objectFactory.createStoreResultsResponse();
+    }
 //    /**
 //     * This endpoint method uses marshalling to handle message with a <code>&lt;BookFlightRequest&gt;</code> payload.
 //     *
