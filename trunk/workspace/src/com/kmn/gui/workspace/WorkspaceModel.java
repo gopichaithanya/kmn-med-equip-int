@@ -345,9 +345,21 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                     String dataLocation = filePath;
                     String creatorId = "admin";
                     
-                    byte[] bytes = cs.getByteArrayFromXmlFile(filePath); 
-                    ByteArrayAttachment dataOutput = new ByteArrayAttachment(patientId, bytes, null);
-                    String xmlData = cs.getStringFromXmlFile(filePath);
+                    byte[] bytes;
+                    ByteArrayAttachment dataOutput = null;
+                    String xmlData;
+                    if(filePath.contains(OUTPUT_XML)) {
+                        //autoreff
+                        bytes = cs.getByteArrayFromXmlFile(filePath); 
+                        dataOutput = new ByteArrayAttachment(patientId, bytes, null);
+                        xmlData = cs.getStringFromXmlFile(filePath);
+                    } else {
+                        //dicom File 
+                        //bytes = cs.getByteArrayFromFile(filePath+OUTPUT_PDF);
+                        //bytes = cs.getByteArrayFromFile(filePath+OUTPUT_JPG); 
+                        //dataOutput = new ByteArrayAttachment(patientId, bytes, null);
+                        xmlData = cs.getStringFromXmlFile(filePath+OUTPUT_XML);
+                    }
                     
                     cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId
                             , imageId, trxDate, timeStamp, dataLocation, dataOutput, xmlData, creatorId);
