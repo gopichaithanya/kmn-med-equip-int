@@ -344,12 +344,14 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                     DateTime timeStamp = trxDate;
                     String dataLocation = filePath;
                     String creatorId = "admin";
+                    
                     byte[] bytes = cs.getByteArrayFromXmlFile(filePath); 
                     ByteArrayAttachment dataOutput = new ByteArrayAttachment(patientId, bytes, null);
                     String xmlData = cs.getStringFromXmlFile(filePath);
-                    cs.storeResults(branchId, patientId, patientCode, patientName,
-                    remark, equipmentId, imageId, trxDate, timeStamp,
-                    dataLocation, dataOutput, xmlData, creatorId);
+                    
+                    cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId
+                            , imageId, trxDate, timeStamp, dataLocation, dataOutput, xmlData, creatorId);
+                    
                 } catch (SOAPException ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage());
                     Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
