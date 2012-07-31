@@ -1,7 +1,10 @@
 package id.co.kmn.services.wsdl.client;
 
 import id.co.kmn.services.wsdl.server.bean.PatientInfo;
+import org.joda.time.DateTime;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.soap.*;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -64,7 +67,7 @@ public class CisService {
     private SOAPMessage createGetPatientsRequest(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage) throws SOAPException {
         SOAPMessage message = messageFactory.createMessage();
         SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
-        Name getPatientsRequestName = envelope.createName(CIS_GET_PATIENT_LIST_REQUEST, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        Name getPatientsRequestName = envelope.createName(CIS_GET_PATIENT_LIST, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPBodyElement getPatientsRequestElement = message.getSOAPBody().addBodyElement(getPatientsRequestName);
         Name reqKeywordName = envelope.createName(REQKEYWORD, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPElement reqKeywordElement = getPatientsRequestElement.addChildElement(reqKeywordName);
@@ -103,6 +106,70 @@ public class CisService {
     }
 
     private void parseResult(Name name, String content) {
+//            <xsd:element name="reqPatientId" type="xsd:string">
+//            <xsd:element name="reqDeviceId" type="xsd:int">
+//            <xsd:element name="reqImageURL" type="xsd:string">
+//            <xsd:element name="reqDataXML" type="xsd:string">
+//          <xsd:element name="reqDatetime" type="xsd:dateTime">
+    }
 
+    public String putPatientData(String reqPatientId, int reqDeviceId, String reqImageURL, String reqDataXML, DateTime reqDatetime) throws SOAPException, IOException, TransformerException, DatatypeConfigurationException {
+        SOAPMessage request = createPutPatientDataRequest(reqPatientId, reqDeviceId, reqImageURL, reqDataXML, reqDatetime);
+        SOAPConnection connection = connectionFactory.createConnection();
+        SOAPMessage response = connection.call(request, url);
+        String result = "failed";
+        if (!response.getSOAPBody().hasFault()) {
+            result = writePutPatientDataResponse(response);
+        } else {
+            SOAPFault fault = response.getSOAPBody().getFault();
+            System.err.println(MSG_SOAP_FAULT_HEAD);
+            System.err.println(MSG_SOAP_FAULT_CODE + fault.getFaultCode());
+            System.err.println(MSG_SOAP_FAULT_DESC + fault.getFaultString());
+        }
+        return result;
+    }
+
+    private SOAPMessage createPutPatientDataRequest(String reqPatientId, int reqDeviceId, String reqImageURL, String reqDataXML, DateTime reqDatetime) throws SOAPException, DatatypeConfigurationException {
+        SOAPMessage message = messageFactory.createMessage();
+        SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
+        Name getPatientsRequestName = envelope.createName("putPatientData", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        SOAPBodyElement getPatientsRequestElement = message.getSOAPBody().addBodyElement(getPatientsRequestName);
+        Name reqKeywordName = envelope.createName("reqPatientId", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        SOAPElement reqKeywordElement = getPatientsRequestElement.addChildElement(reqKeywordName);
+        reqKeywordElement.setValue(reqPatientId);
+        Name reqClinicIdName = envelope.createName("reqDeviceId", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        SOAPElement reqClinicIdElement = getPatientsRequestElement.addChildElement(reqClinicIdName);
+        reqClinicIdElement.setValue(String.valueOf(reqDeviceId));
+        Name reqPageNumberName = envelope.createName("reqImageURL", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        SOAPElement reqPageNumberElement = getPatientsRequestElement.addChildElement(reqPageNumberName);
+        reqPageNumberElement.setValue(String.valueOf(reqImageURL));
+        Name reqRowPerPageName = envelope.createName("reqDataXML", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        SOAPElement reqRowPerPageElement = getPatientsRequestElement.addChildElement(reqRowPerPageName);
+        reqRowPerPageElement.setValue(String.valueOf(reqDataXML));
+        Name reqDatetimeName = envelope.createName("reqDatetime", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        SOAPElement reqDatetimeElement = getPatientsRequestElement.addChildElement(reqDatetimeName);
+        DatatypeFactory factory = DatatypeFactory.newInstance();
+        reqDatetimeElement.setValue(factory.newXMLGregorianCalendar(reqDatetime.toGregorianCalendar()).toXMLFormat());
+        return message;
+    }
+
+    private String writePutPatientDataResponse(SOAPMessage message) throws SOAPException, TransformerException {
+        SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
+        Name getPatientsResponseName = envelope.createName("putPatientDataResponse", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        SOAPBodyElement getPatientsResponseElement = (SOAPBodyElement) message.getSOAPBody().getFirstChild();
+        Iterator iterator = getPatientsResponseElement.getChildElements();
+        Transformer transformer = transfomerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        int count = 1;
+        while (iterator.hasNext()) {
+            System.out.println("writePutPatientDataResponse: " + count);
+            SOAPElement soapElement = (SOAPElement) iterator.next();
+            //patientInfo.setVariable(soapElement);
+            DOMSource source = new DOMSource(soapElement);
+            transformer.transform(source, new StreamResult(System.out));
+            System.out.println("--------");
+        }
+        return "resultString";
     }
 }

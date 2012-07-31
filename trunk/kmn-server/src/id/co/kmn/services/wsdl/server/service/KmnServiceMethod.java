@@ -1,6 +1,5 @@
 package id.co.kmn.services.wsdl.server.service;
 
-import com.sun.xml.internal.ws.message.ByteArrayAttachment;
 import id.co.kmn.services.wsdl.server.bean.Patient;
 import id.co.kmn.services.wsdl.server.bean.PatientInfo;
 import id.co.kmn.services.wsdl.server.schema.StoreResultsResponse;
