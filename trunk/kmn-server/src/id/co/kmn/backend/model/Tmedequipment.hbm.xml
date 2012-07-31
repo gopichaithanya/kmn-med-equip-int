@@ -47,9 +47,6 @@
         <property name="dataOutput" type="blob">
             <column name="DATA_OUTPUT"/>
         </property>
-        <property name="dataLocation" type="string">
-            <column name="DATA_LOCATION" length="100"/>
-        </property>
         <property name="createDate" type="date">
             <column name="CREATE_DATE" length="10" />
         </property>
