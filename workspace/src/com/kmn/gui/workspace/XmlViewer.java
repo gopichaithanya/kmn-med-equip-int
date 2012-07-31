@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
@@ -23,21 +24,25 @@ public class XmlViewer extends javax.swing.JFrame {
     
     WorkspaceModel vo;
     private List<Object[]> tableContents = new ArrayList<Object[]>();
+    private Document doc;
+    private ClientService clientService = new ClientService();
+    private File file;
     /**
      * Creates new form XmlViewer
      */
     public XmlViewer(WorkspaceModel vo, File file) throws ParserConfigurationException, SAXException, IOException {
         this.vo = vo;
+        this.file = file;
         initComponents();
         renderXml(file);
     }
     
     private void renderXml(File file) throws ParserConfigurationException, SAXException, IOException {
         ClientService cs = new ClientService();
-        Document doc = cs.readXml(file.getAbsolutePath());
+        this.doc = cs.readXml(file.getAbsolutePath());
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
-        NodeList rootNode = doc.getElementsByTagName(ClientService.TAG_COMM);
-        NodeList n1 = doc.getElementsByTagName(ClientService.TAG_ATTR);
+        //NodeList rootNode = this.doc.getElementsByTagName(ClientService.TAG_COMM);
+        NodeList n1 = this.doc.getElementsByTagName(ClientService.TAG_ATTR);
         String data1, data2, data3;
         for (int i = 0; i < n1.getLength(); i++) {
             data1 = cs.getStringNodeValue(n1.item(i).getAttributes().getNamedItem(ClientService.ATTR_NAME));
@@ -134,7 +139,13 @@ public class XmlViewer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here: save button
+        try {
+            this.clientService.saveXml(doc, this.file.getAbsolutePath());
+            //JOptionPane.showMessageDialog(this, this.clientService.toString(this.doc));
+            this.dispose();
+        } catch(Exception e){
+            
+        } 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -142,14 +153,17 @@ public class XmlViewer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MousePressed
-         int row = jTable1.getSelectedRow();
+        int row = jTable1.getSelectedRow();
         if (row > -1) {
             String boolStr = (String) jTable1.getValueAt(row, 1);
-            boolean bool = boolStr.equals("true");
+            NodeList n1 = this.doc.getElementsByTagName(ClientService.TAG_ATTR);
+            boolean bool = boolStr.equals(ClientService.TRUE);
             if(bool){
-                jTable1.setValueAt("false", row, 1);
+                jTable1.setValueAt(ClientService.FALSE, row, 1);
+                this.clientService.setStringNodeValue(n1.item(row).getAttributes().getNamedItem(ClientService.ATTR_SELECTED),ClientService.FALSE);
             } else {
-                jTable1.setValueAt("true", row, 1);
+                jTable1.setValueAt(ClientService.TRUE, row, 1);
+                this.clientService.setStringNodeValue(n1.item(row).getAttributes().getNamedItem(ClientService.ATTR_SELECTED),ClientService.TRUE);
             }
         } 
     }//GEN-LAST:event_jTable1MousePressed
