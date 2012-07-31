@@ -11,14 +11,13 @@
 
 package com.kmn.gui.workspace;
 
-import com.kmn.gui.workspace.ModelInterface;
 import com.kmn.MainApps;
 import com.kmn.controller.InterfaceEvent;
 import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
 import com.kmn.ws.ClientService;
-import java.awt.event.ActionEvent;
+import com.sun.xml.internal.ws.message.ByteArrayAttachment;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -27,11 +26,17 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.comm.SerialPort;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPException;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
+import org.joda.time.DateTime;
 import org.xml.sax.SAXException;
 
 /**
@@ -46,6 +51,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     public static final String MSG_ERROR = "[ERROR]: ";
     public static final String MSG_CAUSE = "\n[CAUSE]: ";
     public static final String MSG_SELECT_ROW = "Please select a data row.";
+    public static final String MSG_INPUT_PATIENT = "Please input patient data.";
     public static final String MSG_NO_FILE = "Output result file does not exist.";
     /* Connection String Constants */
     public static final String TEMP_DIR = "C:/kmntmp";
@@ -81,6 +87,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     private ModelInterface modelinterface;
     private DicomInterface dicomInterface;
     private CommInterface commInterface;
+    private ClientService cs;
     
     
 
@@ -317,13 +324,65 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Save Row
+        int row = jTable1.getSelectedRow();
+        if (row > -1) {
+            String patientId = (String) jTable1.getValueAt(row, 0);
+            if(patientId == null || patientId.isEmpty()){
+                JOptionPane.showMessageDialog(this, MSG_INPUT_PATIENT);
+            } else {
+                this.cs = new ClientService();
+                try {
+                    String filePath = (String) jTable1.getValueAt(row, 5);
+                    String branchId = "8";
+                    String patientCode = (String) jTable1.getValueAt(row, 2); 
+                    String patientName = (String) jTable1.getValueAt(row, 1);
+                    DateTime dt = (DateTime) jTable1.getValueAt(row, 3);
+                    String remark = cs.convertDateTimeToString(dt); 
+                    int equipmentId = Integer.valueOf(this.equip.getCode());
+                    int imageId = 0;
+                    DateTime trxDate = dt;
+                    DateTime timeStamp = trxDate;
+                    String dataLocation = filePath;
+                    String creatorId = "admin";
+                    byte[] bytes = cs.getByteArrayFromXmlFile(filePath); 
+                    ByteArrayAttachment dataOutput = new ByteArrayAttachment(patientId, bytes, null);
+                    String xmlData = cs.getStringFromXmlFile(filePath);
+                    cs.storeResults(branchId, patientId, patientCode, patientName,
+                    remark, equipmentId, imageId, trxDate, timeStamp,
+                    dataLocation, dataOutput, xmlData, creatorId);
+                } catch (SOAPException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DatatypeConfigurationException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParserConfigurationException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SAXException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TransformerConfigurationException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                        Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TransformerException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-//        Point p = evt.getPoint(); 
-//        int selectedRow = jTable1.rowAtPoint(p);
-//        int row = jTable1.getSelectedRow();
+// Do something;
     }//GEN-LAST:event_jTable1MouseClicked
 
 
@@ -352,14 +411,22 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         //MainApps.getApplication().show(statusBox);
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat(SDF_DIR);
+        DateTime trxDate = new DateTime(now);
+        DatatypeFactory factory = null;
+        try {
+            factory = DatatypeFactory.newInstance();
+        } catch (DatatypeConfigurationException ex) {
+            Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String trxDateStr = factory.newXMLGregorianCalendar(trxDate.toGregorianCalendar()).toXMLFormat();
         String path = TEMP_DIR+"/"+sdf.format(now)+OUTPUT_XML;
         ClientService cs = new ClientService();
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
         cs.convertMessageToXml(MSG_EMPTY, message, path);
         if(message.contains(TEMP_DIR)) {
-            model.addRow(new Object[]{null,null,null,now,null,message});
+            model.addRow(new Object[]{null,null,null,trxDate,null,message});
         } else {
-            model.addRow(new Object[]{null,null,null,now,null,path});
+            model.addRow(new Object[]{null,null,null,trxDate,null,path});
         }
         while(!jLabel1.getText().isEmpty()) {
             try {

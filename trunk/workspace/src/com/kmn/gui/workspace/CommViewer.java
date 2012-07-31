@@ -23,6 +23,7 @@ import sun.java2d.Disposer;
 public class CommViewer extends javax.swing.JFrame {
     
     WorkspaceModel vo;
+    Document document;
     /**
      * Creates new form CommViewer
      */
@@ -34,13 +35,11 @@ public class CommViewer extends javax.swing.JFrame {
     
     private void renderXml(File file) throws ParserConfigurationException, SAXException, IOException {
         ClientService cs = new ClientService();
-        Document doc = cs.readXml(file.getAbsolutePath());
+        this.document = cs.readXml(file.getAbsolutePath());
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
         List<Object[]> tableContents = new ArrayList<Object[]>();
-        NodeList rootNode = doc.getElementsByTagName(ClientService.TAG_COMM);
-        NodeList n1 = doc.getElementsByTagName(ClientService.TAG_ATTR);
-        //NodeList n2 = doc.getElementsByTagName(TAG_PATIENTNAME);
-        //NodeList n3 = doc.getElementsByTagName(TAG_PATIENTBRM);
+        //NodeList rootNode = this.document.getElementsByTagName(ClientService.TAG_COMM);
+        NodeList n1 = this.document.getElementsByTagName(ClientService.TAG_ATTR);
         String data1, data2, data3;
         for (int i = 0; i < n1.getLength(); i++) {
             data1 = cs.getStringNodeValue(n1.item(i).getAttributes().getNamedItem(ClientService.ATTR_NAME));
