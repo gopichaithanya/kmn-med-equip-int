@@ -4,17 +4,21 @@
  */
 package com.kmn.ws;
 
+import com.kmn.util.IOUtils;
 import static com.kmn.ws.WebServiceConstants.*;
 import com.kmn.ws.bean.PatientInfo;
-import com.sun.xml.internal.ws.message.ByteArrayAttachment;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.List;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.soap.*;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -97,15 +101,16 @@ public class ClientConnector {
         return patientInfo;
     }
     
-    public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName,
-           String remark, int equipmentId, int imageId,DateTime trxDate, DateTime timeStamp,
-           String dataLocation, ByteArrayAttachment dataOutput, String xmlData, String creatorId) throws SOAPException, TransformerException, DatatypeConfigurationException {
+    public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId
+            , int imageId,DateTime trxDate, DateTime timeStamp, String dataLocation, File dataOutput, String xmlData
+            , String creatorId) throws SOAPException, TransformerException, DatatypeConfigurationException, MalformedURLException, FileNotFoundException, IOException {
         
-        SOAPMessage request = createStoreResultsRequest(branchId, patientId, patientCode, patientName,
-           remark, equipmentId, imageId, trxDate, timeStamp,
-           dataLocation, dataOutput, xmlData, creatorId);
+        SOAPMessage request = createStoreResultsRequest(branchId, patientId, patientCode, patientName, remark, equipmentId
+                , imageId, trxDate, timeStamp, dataLocation, dataOutput, xmlData, creatorId);
+        
         SOAPConnection connection = connectionFactory.createConnection();
         SOAPMessage response = connection.call(request, url);
+        
         if (!response.getSOAPBody().hasFault()) {
             return writeStoreResultsResponse(response);
         } else {
@@ -119,7 +124,9 @@ public class ClientConnector {
     
     private SOAPMessage createStoreResultsRequest(String branchId, String patientId, String patientCode, String patientName,
            String remark, int equipmentId, int imageId, DateTime trxDate, DateTime timeStamp,
-           String dataLocation, ByteArrayAttachment dataOutput, String xmlData, String creatorId) throws SOAPException, DatatypeConfigurationException {
+           String dataLocation, File dataOutput, String xmlData, String creatorId)
+           throws SOAPException, DatatypeConfigurationException, MalformedURLException, FileNotFoundException, IOException {
+        
         SOAPMessage message = messageFactory.createMessage();
         SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
         Name name = envelope.createName(STORE_RESULTS_REQUEST, NAME_PREFIX, MESSAGES_NAMESPACE);
@@ -135,15 +142,13 @@ public class ClientConnector {
         DatatypeFactory factory = DatatypeFactory.newInstance();
         this.addElement(envelope, body, TRXDATE, NAME_PREFIX, MESSAGES_NAMESPACE, factory.newXMLGregorianCalendar(trxDate.toGregorianCalendar()).toXMLFormat());
         this.addElement(envelope, body, TIMESTAMP, NAME_PREFIX, MESSAGES_NAMESPACE, factory.newXMLGregorianCalendar(timeStamp.toGregorianCalendar()).toXMLFormat());
-        //this.addElement(envelope, body, TRXDATE, NAME_PREFIX, MESSAGES_NAMESPACE, "");
-        //this.addElement(envelope, body, TIMESTAMP, NAME_PREFIX, MESSAGES_NAMESPACE, "");
         this.addElement(envelope, body, DATALOCATION, NAME_PREFIX, MESSAGES_NAMESPACE, dataLocation);
-        this.addElement(envelope, body, DATAOUTPUT, NAME_PREFIX, MESSAGES_NAMESPACE, String.valueOf(dataOutput.asByteArray()));
-        //dataOutput.writeTo(message);
-        //Name dataOutputName = envelope.createName(DATAOUTPUT, NAME_PREFIX, MESSAGES_NAMESPACE);
-        //SOAPElement dataOutputElement = body.addChildElement(name);
-        //dataOutputElement.setValue(new String(dataOutput.asByteArray()));
-        //dataOutputElement.setValue("test");
+
+        DataHandler dh = new DataHandler(new FileDataSource(dataOutput));
+        AttachmentPart ap = message.createAttachmentPart(dh);
+        ap.setContentId(DATAOUTPUT);
+        message.addAttachmentPart(ap);
+        
         this.addElement(envelope, body, XMLDATA, NAME_PREFIX, MESSAGES_NAMESPACE, xmlData);
         this.addElement(envelope, body, CREATORID, NAME_PREFIX, MESSAGES_NAMESPACE, creatorId);
         

@@ -17,7 +17,6 @@ import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
 import com.kmn.ws.ClientService;
-import com.sun.xml.internal.ws.message.ByteArrayAttachment;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -345,24 +344,21 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                     String dataLocation = filePath;
                     String creatorId = "admin";
                     
-                    byte[] bytes;
-                    ByteArrayAttachment dataOutput = null;
+                    File dataOutput = null;
                     String xmlData;
                     if(filePath.contains(OUTPUT_XML)) {
                         //autoreff
-                        bytes = cs.getByteArrayFromXmlFile(filePath); 
-                        dataOutput = new ByteArrayAttachment(patientId, bytes, null);
+                        dataOutput = new File(filePath);
                         xmlData = cs.getStringFromXmlFile(filePath);
                     } else {
                         //dicom File 
-                        //bytes = cs.getByteArrayFromFile(filePath+OUTPUT_PDF);
-                        //bytes = cs.getByteArrayFromFile(filePath+OUTPUT_JPG); 
-                        //dataOutput = new ByteArrayAttachment(patientId, bytes, null);
+                        dataOutput = new File(filePath+OUTPUT_PDF);
+                        if(!dataOutput.exists()) dataOutput = new File(filePath+OUTPUT_JPG);
                         xmlData = cs.getStringFromXmlFile(filePath+OUTPUT_XML);
                     }
                     
-                    cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId
-                            , imageId, trxDate, timeStamp, dataLocation, dataOutput, xmlData, creatorId);
+                    cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
+                            , dataLocation, dataOutput, xmlData, creatorId);
                     
                 } catch (SOAPException ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage());

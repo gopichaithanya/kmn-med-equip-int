@@ -6,7 +6,6 @@ package com.kmn.ws;
 
 import static com.kmn.ws.WebServiceConstants.LOCAL_NAMESPACE_URI;
 import com.kmn.ws.bean.PatientInfo;
-import com.sun.xml.internal.ws.message.ByteArrayAttachment;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -90,11 +89,14 @@ public class ClientService {
         ClientConnector cc = new ClientConnector(LOCAL_NAMESPACE_URI);
         return cc.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
     }
-    public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName,
-           String remark, int equipmentId, int imageId,DateTime trxDate, DateTime timeStamp,
-           String dataLocation, ByteArrayAttachment dataOutput, String xmlData, String creatorId) throws SOAPException, MalformedURLException, IOException, TransformerException, DatatypeConfigurationException {
+    public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId
+            , int imageId,DateTime trxDate, DateTime timeStamp, String dataLocation, File dataOutput, String xmlData
+            , String creatorId) throws SOAPException, MalformedURLException, IOException, TransformerException, DatatypeConfigurationException {
+
         ClientConnector cc = new ClientConnector(LOCAL_NAMESPACE_URI);
-        return cc.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp, dataLocation, dataOutput, xmlData, creatorId);
+        
+        return cc.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate , timeStamp
+                , dataLocation, dataOutput, xmlData, creatorId);
     }
     public List<Object[]> retrieveLocalPatients() {
         List<Object[]> patients = new ArrayList<Object[]>();
