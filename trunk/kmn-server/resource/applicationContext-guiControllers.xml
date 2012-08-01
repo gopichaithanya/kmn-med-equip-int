@@ -192,6 +192,22 @@
         <property name="equipmentService" ref="equipmentService"/>
     </bean>
 
+    <!-- Transaction -->
+    <bean id="transactionMainCtrl" class="id.co.kmn.webui.administrasi.transaction.TransactionMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="transactionService" ref="transactionService"/>
+        <property name="transactionListCtrl" ref="transactionListCtrl"/>
+        <property name="transactionDetailCtrl" ref="transactionDetailCtrl"/>
+    </bean>
+    <bean id="transactionListCtrl" class="id.co.kmn.webui.administrasi.transaction.TransactionListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="transactionService" ref="transactionService"/>
+    </bean>
+    <bean id="transactionDetailCtrl" class="id.co.kmn.webui.administrasi.transaction.TransactionDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="transactionService" ref="transactionService"/>
+    </bean>
+
     <!-- Orders -->
     <bean id="orderListCtrl" class="id.co.kmn.webui.order.OrderListCtrl"
           parent="basisCtrl" scope="prototype">

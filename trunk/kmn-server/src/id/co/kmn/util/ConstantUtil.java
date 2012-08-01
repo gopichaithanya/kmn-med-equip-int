@@ -69,5 +69,8 @@ public class ConstantUtil {
     public static String EQUIPMENT_NAME = "name";
     public static String EQUIPMENT_PROD_NAME = "mmedproducer.prodName";
     public static String EQUIPMENT_TYPE_NAME = "mmedequiptype.typeName";
+    public static String BRANCH_CODE = "branchCode";
+    public static String LAST_NAME = "lastName";
+
 
 }
