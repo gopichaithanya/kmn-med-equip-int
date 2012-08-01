@@ -4,7 +4,7 @@
  */
 package com.kmn.ws;
 
-import com.kmn.util.IOUtils;
+//import com.kmn.util.IOUtils;
 import static com.kmn.ws.WebServiceConstants.*;
 import com.kmn.ws.bean.PatientInfo;
 import java.io.ByteArrayInputStream;
