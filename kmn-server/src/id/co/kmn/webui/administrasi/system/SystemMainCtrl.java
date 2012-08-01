@@ -11,8 +11,6 @@ import id.co.kmn.util.ConstantUtil;
 import id.co.kmn.webui.administrasi.report.MpegawaiSimpleDJReport;
 import id.co.kmn.webui.util.*;
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Component;
@@ -221,7 +219,7 @@ public class SystemMainCtrl extends GFCBaseCtrl implements Serializable {
 
         // ++ create the searchObject and init sorting ++//
         HibernateSearchObject<Mmedsystem> soSystem = new HibernateSearchObject<Mmedsystem>(Mmedsystem.class, getSystemListCtrl().getCountRows());
-        soSystem.addSort(ConstantUtil.TYPE_NAME, false);
+        soSystem.addSort(ConstantUtil.SYSTEM_KEY, false);
 
         // Change the BindingListModel.
         if (getSystemListCtrl().getBinder() != null) {
@@ -255,8 +253,8 @@ public class SystemMainCtrl extends GFCBaseCtrl implements Serializable {
 
             // ++ create the searchObject and init sorting ++//
             HibernateSearchObject<Mmedsystem> soSystem = new HibernateSearchObject<Mmedsystem>(Mmedsystem.class, getSystemListCtrl().getCountRows());
-            soSystem.addFilter(new Filter(ConstantUtil.TYPE_CODE, "%" + txtb_System_Code.getValue() + "%", Filter.OP_ILIKE));
-            soSystem.addSort(ConstantUtil.TYPE_CODE, false);
+            soSystem.addFilter(new Filter(ConstantUtil.SYSTEM_KEY, "%" + txtb_System_Code.getValue() + "%", Filter.OP_ILIKE));
+            soSystem.addSort(ConstantUtil.SYSTEM_KEY, false);
 
             // Change the BindingListModel.
             if (getSystemListCtrl().getBinder() != null) {
@@ -290,8 +288,8 @@ public class SystemMainCtrl extends GFCBaseCtrl implements Serializable {
 
             // ++ create the searchObject and init sorting ++//
             HibernateSearchObject<Mmedsystem> soSystem = new HibernateSearchObject<Mmedsystem>(Mmedsystem.class, getSystemListCtrl().getCountRows());
-            soSystem.addFilter(new Filter(ConstantUtil.TYPE_NAME, "%" + txtb_System_Name.getValue() + "%", Filter.OP_ILIKE));
-            soSystem.addSort(ConstantUtil.TYPE_NAME, false);
+            soSystem.addFilter(new Filter(ConstantUtil.SYSTEM_VALUE, "%" + txtb_System_Name.getValue() + "%", Filter.OP_ILIKE));
+            soSystem.addSort(ConstantUtil.SYSTEM_VALUE, false);
 
             // Change the BindingListModel.
             if (getSystemListCtrl().getBinder() != null) {
