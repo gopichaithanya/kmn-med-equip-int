@@ -55,6 +55,7 @@
                 <value>id/co/kmn/backend/model/Mmedequiptype.hbm.xml</value>
                 <value>id/co/kmn/backend/model/Mmedsystem.hbm.xml</value>
                 <value>id/co/kmn/backend/model/Mmedequipment.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Tmedequipment.hbm.xml</value>
             </list>
         </property>
     </bean>
@@ -127,6 +128,7 @@
     <bean id="equipTypeDAO" class="id.co.kmn.administrasi.dao.impl.EquipTypeDAOImpl" parent="baseDAOImpl"/>
     <bean id="systemDAO" class="id.co.kmn.administrasi.dao.impl.SystemDAOImpl" parent="baseDAOImpl"/>
     <bean id="equipmentDAO" class="id.co.kmn.administrasi.dao.impl.EquipmentDAOImpl" parent="baseDAOImpl"/>
+    <bean id="transactionDAO" class="id.co.kmn.administrasi.dao.impl.TransactionDAOImpl" parent="baseDAOImpl"/>
 
     <!-- ====================================================== -->
     <!--                      SERVICE beans                     -->
@@ -147,6 +149,9 @@
     </bean>
     <bean name="equipmentService" class="id.co.kmn.administrasi.service.impl.EquipmentServiceImpl">
         <property name="equipmentDAO" ref="equipmentDAO"/>
+    </bean>
+    <bean name="transactionService" class="id.co.kmn.administrasi.service.impl.TransactionServiceImpl">
+        <property name="transactionDAO" ref="transactionDAO"/>
     </bean>
 
     <bean name="brancheService" class="id.co.kmn.backend.service.impl.BrancheServiceImpl">

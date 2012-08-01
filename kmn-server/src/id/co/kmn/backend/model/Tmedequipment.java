@@ -56,7 +56,6 @@ public class Tmedequipment implements java.io.Serializable {
     SecUser secUser) {
        this.id = id;
        this.branchCode = branchCode;
-       this.branchCode = branchCode;
        this.patientId = patientId;
        this.patientCode = patientCode;
        this.firstName = firstName;
@@ -73,7 +72,7 @@ public class Tmedequipment implements java.io.Serializable {
        this.creatorId = creatorId;
        this.lastUpdate = lastUpdate;
        this.lastUserId = lastUserId;
-        this.secUser = secUser;
+       this.secUser = secUser;
     }
 
     public int getId() {
