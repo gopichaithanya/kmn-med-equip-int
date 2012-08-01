@@ -1,7 +1,10 @@
 package id.co.kmn.services.wsdl.server.service.impl;
 
 import com.sun.xml.internal.ws.message.ByteArrayAttachment;
+import id.co.kmn.administrasi.dao.EquipmentDAO;
 import id.co.kmn.administrasi.dao.SystemDAO;
+import id.co.kmn.administrasi.dao.TransactionDAO;
+import id.co.kmn.backend.model.Tmedequipment;
 import id.co.kmn.services.wsdl.client.CisService;
 import id.co.kmn.services.wsdl.server.bean.Patient;
 import id.co.kmn.services.wsdl.server.bean.PatientInfo;
@@ -18,12 +21,16 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.soap.SOAPException;
 import javax.xml.transform.TransformerException;
 import javax.xml.ws.soap.SOAPFaultException;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static id.co.kmn.services.wsdl.WebServiceConstant.*;
+import static id.co.kmn.services.wsdl.WebServiceConstant.CIS_NAMESPACE_URI;
+import static id.co.kmn.services.wsdl.WebServiceConstant.CIS_WSDL_URL;
 
 /**
  * @author <a href="valeo.gumilang@gmail.com">Valeo Gumilang</a>
@@ -35,7 +42,8 @@ import static id.co.kmn.services.wsdl.WebServiceConstant.*;
 public class KmnServiceMethodImpl implements KmnServiceMethod {
     private static final Log logger = LogFactory.getLog(KmnServiceMethodImpl.class);
     private SystemDAO systemDAO;
-    //private TrxEquipmentDao trxEquipmentDao;
+    private TransactionDAO transactionDAO;
+    private EquipmentDAO equipmentDAO;
     //private TrxEquipmentSecurityService trxEquipmentSecurityService = new StubTrxEquipmentSecurityService();
 
 //    @Autowired
@@ -43,8 +51,10 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
 //        this.trxEquipmentDao = trxEquipmentDao;
 //    }
     @Autowired
-    public KmnServiceMethodImpl(SystemDAO systemDAO) {
+    public KmnServiceMethodImpl(SystemDAO systemDAO, TransactionDAO transactionDAO, EquipmentDAO equipmentDAO) {
         this.systemDAO = systemDAO;
+        this.transactionDAO = transactionDAO;
+        this.equipmentDAO = equipmentDAO;
     }
 
 //    @Autowired(required = false)
@@ -117,10 +127,38 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
 
     @Override
     public StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId, int imageId, DateTime trxDate, DateTime timeStamp, String dataLocation, byte[] dataOutput, String xmlData, String creatorId) {
-        //save to Database;
-        //notify cis;
+
         StoreResultsResponse response = new StoreResultsResponse();
         try {
+            //save to Database;
+            Tmedequipment trx = transactionDAO.getNew();
+            trx.setBranchCode(branchId);
+            trx.setPatientId(patientId);
+            trx.setPatientCode(patientCode);
+            trx.setLastName(patientName);
+            trx.setRemark(remark);
+            trx.setMmedequipment(equipmentDAO.getById(equipmentId));
+            trx.setImageId(String.valueOf(imageId));
+            trx.setTrxDate(trxDate.toDate());
+            trx.setTimestamp(timeStamp.toDate());
+            trx.setDataLocation(dataLocation);
+            trx.setDataOutput(dataOutput);
+            trx.setCreatorId(creatorId);
+            transactionDAO.saveOrUpdate(trx);
+            // save image to localserver in public location
+            String path = systemDAO.getByCode("IMAGE_DIR").getSystemValue();
+            dataLocation = dataLocation.replaceFirst("C:/kmntmp", "");
+            File file = new File(path+dataLocation);
+            if(!file.exists()){
+                file.mkdirs();
+            }
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bos.write(dataOutput);
+            bos.flush();
+            bos.close();
+
+            //notify cis;
+
             CisService cs = new CisService(CIS_NAMESPACE_URI);
             cs.putPatientData(patientId, equipmentId, dataLocation, xmlData, trxDate);
             response.setSuccess(true);
@@ -147,20 +185,6 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
             response.setResult(e.getMessage());
             response.setSuccess(false);
         }
-
-        System.out.println("branchId: "+branchId);
-        System.out.println("patientId: "+patientId);
-        System.out.println("patientCode: "+patientCode);
-        System.out.println("patientName: "+patientName);
-        System.out.println("remark: "+remark);
-        System.out.println("equipmentId: "+equipmentId);
-        System.out.println("imageId: "+imageId);
-        System.out.println("trxDate: "+trxDate);
-        System.out.println("timeStamp: "+timeStamp);
-        System.out.println("dataLocation: "+dataLocation);
-        System.out.println("dataOutput: "+dataOutput);
-        System.out.println("xmlData: " + xmlData);
-        System.out.println("creatorId: " + creatorId);
         return response;
     }
 
