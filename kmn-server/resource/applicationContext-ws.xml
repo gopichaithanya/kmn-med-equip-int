@@ -16,6 +16,16 @@
             <property name="validateRequest" value="true"/>
             <property name="validateResponse" value="true"/>
         </bean>
+        <sws:payloadRoot localPart="MessageEndpointInterceptorAdapter" namespaceUri="http://localhost:9090/kmn/schemas/messages">
+            <bean class="org.springframework.ws.server.endpoint.interceptor.EndpointInterceptorAdapter">
+            </bean>
+        </sws:payloadRoot>
+        <!--sws:payloadRoot namespaceUri="http://localhost:9090/kmn/schemas/messages">
+            <bean class="id.co.kmn.services.wsdl.server.MessageEndpointInterceptorAdapter"/>
+        </sws:payloadRoot>
+        <sws:soapAction value="http://localhost:9090/kmn/schemas/messages/StoreResultsRequest">
+            <bean class="id.co.kmn.services.wsdl.server.MessageEndpointInterceptorAdapter"/>
+        </sws:soapAction-->
         <!--sws:payloadRoot localPart="GetFrequentFlyerMileageRequest" namespaceUri="http://localhost:9090/kmn/schemas/messages">
             <bean class="org.springframework.ws.soap.security.xwss.XwsSecurityInterceptor">
                 <property name="secureResponse" value="false"/>

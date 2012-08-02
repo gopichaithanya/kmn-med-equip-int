@@ -4,7 +4,6 @@ import id.co.kmn.administrasi.service.RoomService;
 import id.co.kmn.backend.model.Mmedroom;
 import id.co.kmn.backend.util.HibernateSearchObject;
 import id.co.kmn.util.ConstantUtil;
-import id.co.kmn.webui.administrasi.room.RoomMainCtrl;
 import id.co.kmn.webui.util.GFCBaseListCtrl;
 import org.apache.log4j.Logger;
 import org.zkoss.util.resource.Labels;
@@ -131,10 +130,10 @@ public class RoomListCtrl extends GFCBaseListCtrl<Mmedroom> implements Serializa
 
         // not used listheaders must be declared like ->
         // lh.setSortAscending(""); lh.setSortDescending("")
-        listheader_RoomList_Code.setSortAscending(new FieldComparator(ConstantUtil.PRODUCER_CODE, true));
-        listheader_RoomList_Code.setSortDescending(new FieldComparator(ConstantUtil.PRODUCER_CODE, false));
-        listheader_RoomList_Name.setSortAscending(new FieldComparator(ConstantUtil.PRODUCER_NAME, true));
-        listheader_RoomList_Name.setSortDescending(new FieldComparator(ConstantUtil.PRODUCER_NAME, false));
+        listheader_RoomList_Code.setSortAscending(new FieldComparator(ConstantUtil.ROOM_CODE, true));
+        listheader_RoomList_Code.setSortDescending(new FieldComparator(ConstantUtil.ROOM_CODE, false));
+        listheader_RoomList_Name.setSortAscending(new FieldComparator(ConstantUtil.ROOM_NAME, true));
+        listheader_RoomList_Name.setSortDescending(new FieldComparator(ConstantUtil.ROOM_NAME, false));
         listheader_RoomList_Description.setSortAscending(new FieldComparator(ConstantUtil.DESCRIPTION, true));
         listheader_RoomList_Description.setSortDescending(new FieldComparator(ConstantUtil.DESCRIPTION, false));
         listheader_RoomList_Status.setSortAscending(new FieldComparator(ConstantUtil.ACTIVE_STATUS, true));

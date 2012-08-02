@@ -59,7 +59,7 @@
                                                 value="@{controller.equipment.name}" readonly="true"
                                                 constraint="no empty" maxlength="50" width="50%"/>
                                     </row>
-                                    <row>
+                                    <!--row>
                                         <label value="Cabang" />
                                         <hbox>
                                             <textbox id="txtb_branch" value="@{controller.equipment.branchCode}"
@@ -68,7 +68,7 @@
                                                 image="/images/icons/btn_search2_16x16.gif"
                                                 tooltiptext="Cari Cabang"/>
                                         </hbox>
-                                    </row>
+                                    </row-->
                                     <row>
                                         <label value="Ruangan" />
                                         <hbox>

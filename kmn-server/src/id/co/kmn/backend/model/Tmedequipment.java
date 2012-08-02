@@ -1,5 +1,6 @@
 package id.co.kmn.backend.model;
 
+import java.sql.Blob;
 import java.util.Date;
 
 /**
@@ -16,12 +17,12 @@ public class Tmedequipment implements java.io.Serializable {
     private String lastName;
     private String remark;
     private Mmedequipment mmedequipment;
-    private String imageId;
+    private int imageId;
     private Date trxDate;
     private String cisStatus;
     private Date timestamp;
     private String dataLocation;
-    private byte[] dataOutput;
+    private Blob dataOutput;
     private Date createDate;
     private String creatorId;
     private Date lastUpdate;
@@ -43,12 +44,12 @@ public class Tmedequipment implements java.io.Serializable {
     String lastName,
     String remark,
     Mmedequipment mmedequipment,
-    String imageId,
+    int imageId,
     Date trxDate,
     String cisStatus,
     Date timestamp,
     String dataLocation,
-    byte[] dataOutput,
+    Blob dataOutput,
     Date createDate,
     String creatorId,
     Date lastUpdate,
@@ -139,11 +140,11 @@ public class Tmedequipment implements java.io.Serializable {
         this.mmedequipment = mmedequipment;
     }
 
-    public String getImageId() {
+    public int getImageId() {
         return imageId;
     }
 
-    public void setImageId(String imageId) {
+    public void setImageId(int imageId) {
         this.imageId = imageId;
     }
 
@@ -179,11 +180,11 @@ public class Tmedequipment implements java.io.Serializable {
         this.dataLocation = dataLocation;
     }
 
-    public byte[] getDataOutput() {
+    public Blob getDataOutput() {
         return dataOutput;
     }
 
-    public void setDataOutput(byte[] dataOutput) {
+    public void setDataOutput(Blob dataOutput) {
         this.dataOutput = dataOutput;
     }
 

@@ -34,7 +34,7 @@
                     <listhead sizable="true">
                         <listheader id="listheader_TransactionList_Code"
                                     sclass="FDListBoxHeader1" image="/images/icons/create_doc.gif"
-                                    label="Cabang" sort="auto"
+                                    label="Kode Cabang" sort="auto"
                                     width="20%"/>
                         <listheader id="listheader_TransactionList_Name"
                                     sclass="FDListBoxHeader1" image="/images/icons/create_doc.gif"
@@ -59,7 +59,7 @@
                                   style="padding-left: 5px"/>
                         <listcell label="@{transaction.mmedequipment.mmedequiptype.typeName}"
                                   style="padding-left: 5px"/>
-                        <listcell label="@{transaction.mmedequipment.equipName}"
+                        <listcell label="@{transaction.mmedequipment.name}"
                                   style="padding-left: 5px"/>
                     </listitem>
 
