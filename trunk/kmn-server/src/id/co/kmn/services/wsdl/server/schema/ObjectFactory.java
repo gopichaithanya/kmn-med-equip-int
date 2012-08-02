@@ -34,35 +34,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetPatientListResponse }
+     * Create an instance of {@link StoreResultsResponse }
      * 
      */
-    public GetPatientListResponse createGetPatientListResponse() {
-        return new GetPatientListResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetPatientsRequest }
-     * 
-     */
-    public GetPatientsRequest createGetPatientsRequest() {
-        return new GetPatientsRequest();
-    }
-
-    /**
-     * Create an instance of {@link PatientInfo }
-     * 
-     */
-    public PatientInfo createPatientInfo() {
-        return new PatientInfo();
-    }
-
-    /**
-     * Create an instance of {@link PatientInfo.Patients }
-     * 
-     */
-    public PatientInfo.Patients createPatientInfoPatients() {
-        return new PatientInfo.Patients();
+    public StoreResultsResponse createStoreResultsResponse() {
+        return new StoreResultsResponse();
     }
 
     /**
@@ -74,6 +50,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link PatientInfo.Patients }
+     * 
+     */
+    public PatientInfo.Patients createPatientInfoPatients() {
+        return new PatientInfo.Patients();
+    }
+
+    /**
+     * Create an instance of {@link GetPatientListResponse }
+     * 
+     */
+    public GetPatientListResponse createGetPatientListResponse() {
+        return new GetPatientListResponse();
+    }
+
+    /**
      * Create an instance of {@link StoreResultsRequest }
      * 
      */
@@ -82,11 +74,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link StoreResultsResponse }
+     * Create an instance of {@link PatientInfo }
      * 
      */
-    public StoreResultsResponse createStoreResultsResponse() {
-        return new StoreResultsResponse();
+    public PatientInfo createPatientInfo() {
+        return new PatientInfo();
+    }
+
+    /**
+     * Create an instance of {@link GetPatientsRequest }
+     * 
+     */
+    public GetPatientsRequest createGetPatientsRequest() {
+        return new GetPatientsRequest();
     }
 
     /**

@@ -105,7 +105,7 @@ public class KmnEndpoint {
             request.getRemark(), request.getEquipmentId(), request.getImageId(),
             SchemaConversionUtils.toDateTime(request.getTrxDate()),
             SchemaConversionUtils.toDateTime(request.getTimeStamp()), request.getDataLocation(),
-            request.getDataOutput(), request.getXmlData(), request.getCreatorId());
+            /*request.getDataOutput(),*/ request.getXmlData(), request.getCreatorId());
         return objectFactory.createStoreResultsResponse();
     }
 //    /**

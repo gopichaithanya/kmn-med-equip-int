@@ -66,10 +66,38 @@ public class CisService {
 
     private SOAPMessage createGetPatientsRequest(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage) throws SOAPException {
         SOAPMessage message = messageFactory.createMessage();
+        message.getSOAPHeader().detachNode();
+        //message.getSOAPPart().getEnvelope().createQName("\"http://www.w3.org/2001/XMLSchema-instance\"", "xsi");
+        //message.getSOAPPart().getEnvelope().createName("\"http://www.w3.org/2001/XMLSchema-instance\"", "xsi", "\"http://www.w3.org/2001/XMLSchema-instance\"");
+        message.getSOAPPart().getEnvelope().addNamespaceDeclaration("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
+//        Accept: text/xml
+//        Accept: multipart/*
+//        Accept: application/soap
+//        Content-Length: 398
+//        Content-Type: text/xml; charset=utf-8
+//        SOAPAction: "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/getPatientList"
+
+        MimeHeaders mimeHeader = message.getMimeHeaders();
+        mimeHeader.removeAllHeaders();
+        mimeHeader.addHeader("Accept", "text/xml");
+        mimeHeader.addHeader("Accept", "multipart/*");
+        mimeHeader.addHeader("Accept", "application/soap");
+        mimeHeader.addHeader("Content-Length", "398");
+        mimeHeader.addHeader("Content-Type", "text/xml; charset=utf-8");
+        mimeHeader.addHeader("SOAPAction", "\"http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/getPatientList\"");
+
+        //change header's attribute
+        //mimeHeader.setHeader("SOAPAction", "\"http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/getPatientList\"");
+        //if you want to add new header's attribute use:
+        //mimeHeader.addHeader("SOAPAction", "\"http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/getPatientList\"");
+        //Name headerName = envelope.createName("", "xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        //message.getSOAPHeader().addAttribute(headerName, "http://www.w3.org/2001/XMLSchema-instance");
+        //SOAPHeaderElement headerElement =  message.getSOAPHeader().addHeaderElement(headerName);
+
         Name getPatientsRequestName = envelope.createName(CIS_GET_PATIENT_LIST, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPBodyElement getPatientsRequestElement = message.getSOAPBody().addBodyElement(getPatientsRequestName);
-        Name reqKeywordName = envelope.createName(REQKEYWORD, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        Name reqKeywordName = envelope.createName("%"+REQKEYWORD+"%", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPElement reqKeywordElement = getPatientsRequestElement.addChildElement(reqKeywordName);
         reqKeywordElement.setValue(reqKeyword);
         Name reqClinicIdName = envelope.createName(REQCLINICID, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
@@ -131,7 +159,27 @@ public class CisService {
 
     private SOAPMessage createPutPatientDataRequest(String reqPatientId, int reqDeviceId, String reqImageURL, String reqDataXML, DateTime reqDatetime) throws SOAPException, DatatypeConfigurationException {
         SOAPMessage message = messageFactory.createMessage();
+        message.getSOAPHeader().detachNode();
+        //message.getSOAPPart().getEnvelope().createQName("\"http://www.w3.org/2001/XMLSchema-instance\"", "xsi");
+        //message.getSOAPPart().getEnvelope().createName("\"http://www.w3.org/2001/XMLSchema-instance\"", "xsi", "\"http://www.w3.org/2001/XMLSchema-instance\"");
+        message.getSOAPPart().getEnvelope().addNamespaceDeclaration("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
+//        Accept: text/xml
+//        Accept: multipart/*
+//        Accept: application/soap
+//        Content-Length: 398
+//        Content-Type: text/xml; charset=utf-8
+//        SOAPAction: "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/getPatientList"
+
+        MimeHeaders mimeHeader = message.getMimeHeaders();
+        mimeHeader.removeAllHeaders();
+        mimeHeader.addHeader("Accept", "text/xml");
+        mimeHeader.addHeader("Accept", "multipart/*");
+        mimeHeader.addHeader("Accept", "application/soap");
+        mimeHeader.addHeader("Content-Length", "398");
+        mimeHeader.addHeader("Content-Type", "text/xml; charset=utf-8");
+        mimeHeader.addHeader("SOAPAction", "\"http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/putPatientData\"");
+
         Name getPatientsRequestName = envelope.createName("putPatientData", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPBodyElement getPatientsRequestElement = message.getSOAPBody().addBodyElement(getPatientsRequestName);
         Name reqKeywordName = envelope.createName("reqPatientId", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);

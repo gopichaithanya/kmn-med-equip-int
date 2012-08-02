@@ -29,7 +29,7 @@ public interface WebServiceConstant {
     public static final String CIS_WSDL_URL = "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat.wsdl";
     public static final String CIS_NAMESPACE_URI = "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/";
     public static final String CIS_SOAP_ENV_PREFIX = "";
-    public static final String CIS_SOAP_ENV_URI = "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat";
+    public static final String CIS_SOAP_ENV_URI = "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/";
     public static final String CIS_GET_PATIENT_LIST = "getPatientList";
     public static final String CIS_GET_PATIENT_LIST_REQUEST = "getPatientListRequest";
     public static final String REQKEYWORD = "reqKeyword";

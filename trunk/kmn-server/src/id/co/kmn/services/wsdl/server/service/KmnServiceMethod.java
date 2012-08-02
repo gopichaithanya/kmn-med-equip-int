@@ -47,12 +47,11 @@ public interface KmnServiceMethod {
      * @param trxDate
      * @param timeStamp
      * @param dataLocation
-     * @param dataOutput
      * @param xmlData
      * @param creatorId
      * @return the boolean success result
      */
     StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName,
            String remark, int equipmentId, int imageId,DateTime trxDate, DateTime timeStamp,
-           String dataLocation, byte[] dataOutput, String xmlData, String creatorId);
+           String dataLocation, String xmlData, String creatorId);
 }
