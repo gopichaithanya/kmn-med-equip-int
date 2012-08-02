@@ -4,6 +4,7 @@
  */
 package com.kmn.ws;
 
+import com.kmn.controller.props.ServerProperties;
 import static com.kmn.ws.WebServiceConstants.LOCAL_NAMESPACE_URI;
 import com.kmn.ws.bean.PatientInfo;
 import java.io.*;
@@ -21,8 +22,12 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.joda.time.DateTime;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.traversal.DocumentTraversal;
+import org.w3c.dom.traversal.NodeFilter;
+import org.w3c.dom.traversal.NodeIterator;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -81,19 +86,24 @@ public class ClientService {
     public static final String TAG_DOCNAME = "DOCNAME";
     public static final String TEMP_XML_PATH = "C:\\kmntmp\\tempXml.xml";
     public static final String TEMP_XML_DATA_PATH = "C:\\kmntmp\\tempDataXml.xml";
+    private String URI = LOCAL_NAMESPACE_URI;
     
     public ClientService() {
-        
+        ServerProperties sp = new ServerProperties(null);
+        sp.load();
+        sp.getIp();
+        sp.getPort();
+        URI = "http://"+sp.getIp()+":"+sp.getPort()+"/kmn/services";
     }
     public PatientInfo retrievePatients(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage) throws SOAPException, MalformedURLException, IOException, TransformerException {
-        ClientConnector cc = new ClientConnector(LOCAL_NAMESPACE_URI);
+        ClientConnector cc = new ClientConnector(URI);
         return cc.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
     }
     public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId
             , int imageId,DateTime trxDate, DateTime timeStamp, String dataLocation, File dataOutput, String xmlData
             , String creatorId) throws SOAPException, MalformedURLException, IOException, TransformerException, DatatypeConfigurationException {
 
-        ClientConnector cc = new ClientConnector(LOCAL_NAMESPACE_URI);
+        ClientConnector cc = new ClientConnector(URI);
         
         return cc.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate , timeStamp
                 , dataLocation, dataOutput, xmlData, creatorId);
@@ -241,5 +251,22 @@ public class ClientService {
     public String convertDateTimeToString(DateTime dateTime) throws DatatypeConfigurationException {
         DatatypeFactory factory = DatatypeFactory.newInstance();
         return factory.newXMLGregorianCalendar(dateTime.toGregorianCalendar()).toXMLFormat();
+    }
+    
+    public String getParsedStringFromXmlFile(String absolutePath) throws TransformerConfigurationException, TransformerException, ParserConfigurationException, SAXException, IOException {
+        Document doc = readXml(absolutePath);
+        DocumentTraversal traversal = (DocumentTraversal) doc;
+        Node a = doc.getDocumentElement();
+        NodeIterator iterator = traversal.createNodeIterator(a, NodeFilter.SHOW_ELEMENT, null, true);
+        for (Node n = iterator.nextNode(); n != null; n = iterator.nextNode()) {
+            Element e = (Element) n;
+            if(e.getAttribute(ATTR_SELECTED).equals("false")){
+                a.removeChild(n);
+            } else {
+                e.removeAttribute(ATTR_SELECTED);
+                e.removeAttribute(ATTR_NAME);
+            }
+        }
+        return toString(a.getOwnerDocument());
     }
 }
