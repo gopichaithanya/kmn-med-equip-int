@@ -251,8 +251,8 @@ public class EquipmentMainCtrl extends GFCBaseCtrl implements Serializable {
 
             // ++ create the searchObject and init sorting ++//
             HibernateSearchObject<Mmedequipment> soEquipment = new HibernateSearchObject<Mmedequipment>(Mmedequipment.class, getEquipmentListCtrl().getCountRows());
-            soEquipment.addFilter(new Filter(ConstantUtil.TYPE_CODE, "%" + txtb_Equipment_Code.getValue() + "%", Filter.OP_ILIKE));
-            soEquipment.addSort(ConstantUtil.TYPE_CODE, false);
+            soEquipment.addFilter(new Filter(ConstantUtil.EQUIPMENT_CODE, "%" + txtb_Equipment_Code.getValue() + "%", Filter.OP_ILIKE));
+            soEquipment.addSort(ConstantUtil.EQUIPMENT_CODE, false);
 
             // Change the BindingListModel.
             if (getEquipmentListCtrl().getBinder() != null) {
@@ -286,8 +286,8 @@ public class EquipmentMainCtrl extends GFCBaseCtrl implements Serializable {
 
             // ++ create the searchObject and init sorting ++//
             HibernateSearchObject<Mmedequipment> soEquipment = new HibernateSearchObject<Mmedequipment>(Mmedequipment.class, getEquipmentListCtrl().getCountRows());
-            soEquipment.addFilter(new Filter(ConstantUtil.TYPE_NAME, "%" + txtb_Equipment_Name.getValue() + "%", Filter.OP_ILIKE));
-            soEquipment.addSort(ConstantUtil.TYPE_NAME, false);
+            soEquipment.addFilter(new Filter(ConstantUtil.EQUIPMENT_NAME, "%" + txtb_Equipment_Name.getValue() + "%", Filter.OP_ILIKE));
+            soEquipment.addSort(ConstantUtil.EQUIPMENT_NAME, false);
 
             // Change the BindingListModel.
             if (getEquipmentListCtrl().getBinder() != null) {

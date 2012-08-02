@@ -134,10 +134,10 @@ public class TransactionListCtrl extends GFCBaseListCtrl<Tmedequipment> implemen
         listheader_TransactionList_Code.setSortDescending(new FieldComparator(ConstantUtil.BRANCH_CODE, false));
         listheader_TransactionList_Name.setSortAscending(new FieldComparator(ConstantUtil.LAST_NAME, true));
         listheader_TransactionList_Name.setSortDescending(new FieldComparator(ConstantUtil.LAST_NAME, false));
-        listheader_TransactionList_Producer.setSortAscending(new FieldComparator("mmedequipment.equipCode", true));
-        listheader_TransactionList_Producer.setSortDescending(new FieldComparator("mmedequipment.equipCode", false));
-        listheader_TransactionList_Type.setSortAscending(new FieldComparator("mmedequipment.equipName", true));
-        listheader_TransactionList_Type.setSortDescending(new FieldComparator("mmedequipment.equipName", false));
+        listheader_TransactionList_Producer.setSortAscending(new FieldComparator("mmedequipment.equipmentCode", true));
+        listheader_TransactionList_Producer.setSortDescending(new FieldComparator("mmedequipment.equipmentCode", false));
+        listheader_TransactionList_Type.setSortAscending(new FieldComparator("mmedequipment.name", true));
+        listheader_TransactionList_Type.setSortDescending(new FieldComparator("mmedequipment.name", false));
 
         // ++ create the searchObject and init sorting ++//
         // ++ create the searchObject and init sorting ++//

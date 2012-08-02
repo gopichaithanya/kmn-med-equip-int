@@ -34,18 +34,21 @@ public class CisService {
     private MessageFactory messageFactory;
     private URL url;
     private TransformerFactory transfomerFactory;
+    private String CIS_SOAP_ENV_URI;
 
     public CisService() throws SOAPException, MalformedURLException {
         connectionFactory = SOAPConnectionFactory.newInstance();
         messageFactory = MessageFactory.newInstance();
         transfomerFactory = TransformerFactory.newInstance();
         this.url = new URL(DEFAULT_CIS_URL);
+        this.CIS_SOAP_ENV_URI = DEFAULT_CIS_URL;
     }
     public CisService(String url) throws SOAPException, MalformedURLException {
         connectionFactory = SOAPConnectionFactory.newInstance();
         messageFactory = MessageFactory.newInstance();
         transfomerFactory = TransformerFactory.newInstance();
         this.url = new URL(url);
+        this.CIS_SOAP_ENV_URI = url;
     }
 
     public PatientInfo getPatients(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage) throws SOAPException, IOException, TransformerException {
@@ -67,8 +70,6 @@ public class CisService {
     private SOAPMessage createGetPatientsRequest(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage) throws SOAPException {
         SOAPMessage message = messageFactory.createMessage();
         message.getSOAPHeader().detachNode();
-        //message.getSOAPPart().getEnvelope().createQName("\"http://www.w3.org/2001/XMLSchema-instance\"", "xsi");
-        //message.getSOAPPart().getEnvelope().createName("\"http://www.w3.org/2001/XMLSchema-instance\"", "xsi", "\"http://www.w3.org/2001/XMLSchema-instance\"");
         message.getSOAPPart().getEnvelope().addNamespaceDeclaration("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
 //        Accept: text/xml
@@ -87,19 +88,11 @@ public class CisService {
         mimeHeader.addHeader("Content-Type", "text/xml; charset=utf-8");
         mimeHeader.addHeader("SOAPAction", "\"http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/getPatientList\"");
 
-        //change header's attribute
-        //mimeHeader.setHeader("SOAPAction", "\"http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/getPatientList\"");
-        //if you want to add new header's attribute use:
-        //mimeHeader.addHeader("SOAPAction", "\"http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/getPatientList\"");
-        //Name headerName = envelope.createName("", "xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        //message.getSOAPHeader().addAttribute(headerName, "http://www.w3.org/2001/XMLSchema-instance");
-        //SOAPHeaderElement headerElement =  message.getSOAPHeader().addHeaderElement(headerName);
-
         Name getPatientsRequestName = envelope.createName(CIS_GET_PATIENT_LIST, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPBodyElement getPatientsRequestElement = message.getSOAPBody().addBodyElement(getPatientsRequestName);
-        Name reqKeywordName = envelope.createName("%"+REQKEYWORD+"%", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
+        Name reqKeywordName = envelope.createName(REQKEYWORD, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPElement reqKeywordElement = getPatientsRequestElement.addChildElement(reqKeywordName);
-        reqKeywordElement.setValue(reqKeyword);
+        reqKeywordElement.setValue("%"+reqKeyword+"%");
         Name reqClinicIdName = envelope.createName(REQCLINICID, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPElement reqClinicIdElement = getPatientsRequestElement.addChildElement(reqClinicIdName);
         reqClinicIdElement.setValue(reqClinicId);
@@ -133,14 +126,6 @@ public class CisService {
         return patientInfo;
     }
 
-    private void parseResult(Name name, String content) {
-//            <xsd:element name="reqPatientId" type="xsd:string">
-//            <xsd:element name="reqDeviceId" type="xsd:int">
-//            <xsd:element name="reqImageURL" type="xsd:string">
-//            <xsd:element name="reqDataXML" type="xsd:string">
-//          <xsd:element name="reqDatetime" type="xsd:dateTime">
-    }
-
     public String putPatientData(String reqPatientId, int reqDeviceId, String reqImageURL, String reqDataXML, DateTime reqDatetime) throws SOAPException, IOException, TransformerException, DatatypeConfigurationException {
         SOAPMessage request = createPutPatientDataRequest(reqPatientId, reqDeviceId, reqImageURL, reqDataXML, reqDatetime);
         SOAPConnection connection = connectionFactory.createConnection();
@@ -160,8 +145,6 @@ public class CisService {
     private SOAPMessage createPutPatientDataRequest(String reqPatientId, int reqDeviceId, String reqImageURL, String reqDataXML, DateTime reqDatetime) throws SOAPException, DatatypeConfigurationException {
         SOAPMessage message = messageFactory.createMessage();
         message.getSOAPHeader().detachNode();
-        //message.getSOAPPart().getEnvelope().createQName("\"http://www.w3.org/2001/XMLSchema-instance\"", "xsi");
-        //message.getSOAPPart().getEnvelope().createName("\"http://www.w3.org/2001/XMLSchema-instance\"", "xsi", "\"http://www.w3.org/2001/XMLSchema-instance\"");
         message.getSOAPPart().getEnvelope().addNamespaceDeclaration("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
 //        Accept: text/xml
@@ -218,6 +201,6 @@ public class CisService {
             transformer.transform(source, new StreamResult(System.out));
             System.out.println("--------");
         }
-        return "resultString";
+        return "writePutPatientDataResponse";
     }
 }

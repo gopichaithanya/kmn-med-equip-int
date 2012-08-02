@@ -1,12 +1,14 @@
 package id.co.kmn.webui.administrasi.equipment;
 
 import id.co.kmn.administrasi.service.EquipmentService;
-import id.co.kmn.backend.model.*;
+import id.co.kmn.backend.model.Mmedequipment;
+import id.co.kmn.backend.model.Mmedequiptype;
+import id.co.kmn.backend.model.Mmedproducer;
+import id.co.kmn.backend.model.Mmedroom;
 import id.co.kmn.util.Codec;
 import id.co.kmn.webui.util.GFCBaseCtrl;
 import id.co.kmn.webui.util.GFCListModelCtrl;
 import id.co.kmn.webui.util.ListBoxUtil;
-import id.co.kmn.webui.util.searchdialogs.BranchExtendedSearchListBox;
 import id.co.kmn.webui.util.searchdialogs.ProducerLookup;
 import id.co.kmn.webui.util.searchdialogs.RoomLookup;
 import id.co.kmn.webui.util.searchdialogs.TypeLookup;
@@ -43,7 +45,7 @@ public class EquipmentDetailCtrl extends GFCBaseCtrl implements Serializable {
 
     protected Textbox txtb_code; // autowired
     protected Textbox txtb_name; // autowired
-    protected Textbox txtb_branch; // autowired
+    //protected Textbox txtb_branch; // autowired
     protected Textbox txtb_room; // autowired
     protected Textbox txtb_producer; // autowired
     protected Textbox txtb_type; // autowired
@@ -51,7 +53,7 @@ public class EquipmentDetailCtrl extends GFCBaseCtrl implements Serializable {
     protected Button button_EquipmentDialog_PrintEquipment; // autowired
     protected Listbox list_status;
     protected Bandbox cmb_status;
-    protected Button btnSearchBranch;
+    //protected Button btnSearchBranch;
     protected Button btnSearchRoom;
     protected Button btnSearchProducer;
     protected Button btnSearchType;
@@ -169,7 +171,7 @@ public class EquipmentDetailCtrl extends GFCBaseCtrl implements Serializable {
         txtb_status.setReadonly(b);
         list_status.setDisabled(b);
         cmb_status.setDisabled(b);
-        btnSearchBranch.setDisabled(b);
+        //btnSearchBranch.setDisabled(b);
         btnSearchRoom.setDisabled(b);
         btnSearchProducer.setDisabled(b);
         btnSearchType.setDisabled(b);
@@ -179,25 +181,25 @@ public class EquipmentDetailCtrl extends GFCBaseCtrl implements Serializable {
      *
      * @param event
      */
-    public void onClick$btnSearchBranch(Event event) {
-        doSearchBranch(event);
-    }
+//    public void onClick$btnSearchBranch(Event event) {
+//        doSearchBranch(event);
+//    }
     /**
      * Opens the Search and Get Dialog.<br>
      * It appends/changes object for the current bean.<br>
      *
      * @param event
      */
-    private void doSearchBranch(Event event) {
-        Branche obj =  BranchExtendedSearchListBox.show(windowEquipmentDetail);
-
-        if (obj != null) {
-            txtb_branch.setValue(String.valueOf(obj.getId()));
-            Mmedequipment equipment = getEquipment();
-            equipment.setBranchCode(String.valueOf(obj.getId()));
-            setEquipment(equipment);
-        }
-    }
+//    private void doSearchBranch(Event event) {
+//        Branche obj =  BranchExtendedSearchListBox.show(windowEquipmentDetail);
+//
+//        if (obj != null) {
+//            txtb_branch.setValue(String.valueOf(obj.getId()));
+//            Mmedequipment equipment = getEquipment();
+//            equipment.setBranchCode(String.valueOf(obj.getId()));
+//            setEquipment(equipment);
+//        }
+//    }
     /**
      * If the Button 'ExtendedSearch' is clicked.<br>
      *

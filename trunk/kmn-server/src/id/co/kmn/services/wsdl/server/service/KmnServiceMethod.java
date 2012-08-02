@@ -4,6 +4,7 @@ import id.co.kmn.services.wsdl.server.bean.Patient;
 import id.co.kmn.services.wsdl.server.bean.PatientInfo;
 import id.co.kmn.services.wsdl.server.schema.StoreResultsResponse;
 import org.joda.time.DateTime;
+import org.springframework.ws.mime.Attachment;
 
 import java.util.List;
 
@@ -53,5 +54,5 @@ public interface KmnServiceMethod {
      */
     StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName,
            String remark, int equipmentId, int imageId,DateTime trxDate, DateTime timeStamp,
-           String dataLocation, String xmlData, String creatorId);
+           String dataLocation, String xmlData, String creatorId, Attachment attachment);
 }

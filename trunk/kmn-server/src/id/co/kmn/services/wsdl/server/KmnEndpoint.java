@@ -11,7 +11,9 @@ import id.co.kmn.services.wsdl.server.service.KmnServiceMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ws.mime.Attachment;
 import org.springframework.ws.server.endpoint.annotation.*;
+import org.springframework.ws.soap.SoapMessage;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -95,19 +97,26 @@ public class KmnEndpoint {
      */
     @PayloadRoot(localPart = STORE_RESULTS_REQUEST, namespace = MESSAGES_NAMESPACE)
     @ResponsePayload
-    public StoreResultsResponse storeResults(@RequestPayload StoreResultsRequest request)  {
+    public StoreResultsResponse storeResults(@RequestPayload StoreResultsRequest request, SoapMessage message)  {
         if (logger.isDebugEnabled()) {
             logger.debug("Received StoreResultsRequest: '" + request.getPatientName() + "' on '" +
                     request.getTrxDate().toXMLFormat() + "' for " + request.getXmlData());
         }
+        Attachment attachment = message.getAttachment("dataOutput");
+        System.out.println("attachment size: "+attachment.getSize());
+
         StoreResultsResponse response = kmnServiceMethod.storeResults(request.getBranchId(),
             request.getPatientId(),request.getPatientCode(), request.getPatientName(),
             request.getRemark(), request.getEquipmentId(), request.getImageId(),
             SchemaConversionUtils.toDateTime(request.getTrxDate()),
             SchemaConversionUtils.toDateTime(request.getTimeStamp()), request.getDataLocation(),
-            /*request.getDataOutput(),*/ request.getXmlData(), request.getCreatorId());
-        return objectFactory.createStoreResultsResponse();
+            request.getXmlData(), request.getCreatorId(), attachment);
+        //return objectFactory.createStoreResultsResponse();
+        return response;
     }
+
+
+
 //    /**
 //     * This endpoint method uses marshalling to handle message with a <code>&lt;BookFlightRequest&gt;</code> payload.
 //     *
