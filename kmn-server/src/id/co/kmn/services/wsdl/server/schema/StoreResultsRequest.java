@@ -29,7 +29,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="trxDate" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="timeStamp" type="{http://www.w3.org/2001/XMLSchema}dateTime"/>
  *         &lt;element name="dataLocation" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="dataOutput" type="{http://www.w3.org/2001/XMLSchema}base64Binary"/>
  *         &lt;element name="xmlData" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="creatorId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/all>
@@ -67,8 +66,6 @@ public class StoreResultsRequest {
     protected XMLGregorianCalendar timeStamp;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages", required = true)
     protected String dataLocation;
-    @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages", required = true)
-    protected byte[] dataOutput;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages", required = true)
     protected String xmlData;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/messages", required = true)
@@ -296,28 +293,6 @@ public class StoreResultsRequest {
      */
     public void setDataLocation(String value) {
         this.dataLocation = value;
-    }
-
-    /**
-     * Gets the value of the dataOutput property.
-     * 
-     * @return
-     *     possible object is
-     *     byte[]
-     */
-    public byte[] getDataOutput() {
-        return dataOutput;
-    }
-
-    /**
-     * Sets the value of the dataOutput property.
-     * 
-     * @param value
-     *     allowed object is
-     *     byte[]
-     */
-    public void setDataOutput(byte[] value) {
-        this.dataOutput = ((byte[]) value);
     }
 
     /**

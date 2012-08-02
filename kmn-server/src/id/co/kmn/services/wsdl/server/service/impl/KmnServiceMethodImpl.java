@@ -126,7 +126,7 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
     }
 
     @Override
-    public StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId, int imageId, DateTime trxDate, DateTime timeStamp, String dataLocation, byte[] dataOutput, String xmlData, String creatorId) {
+    public StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId, int imageId, DateTime trxDate, DateTime timeStamp, String dataLocation, String xmlData, String creatorId) {
 
         StoreResultsResponse response = new StoreResultsResponse();
         try {
@@ -142,7 +142,7 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
             trx.setTrxDate(trxDate.toDate());
             trx.setTimestamp(timeStamp.toDate());
             trx.setDataLocation(dataLocation);
-            trx.setDataOutput(dataOutput);
+            //trx.setDataOutput(dataOutput);
             trx.setCreatorId(creatorId);
             transactionDAO.saveOrUpdate(trx);
             // save image to localserver in public location
@@ -153,7 +153,7 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
                 file.mkdirs();
             }
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-            bos.write(dataOutput);
+            //bos.write(dataOutput);
             bos.flush();
             bos.close();
 

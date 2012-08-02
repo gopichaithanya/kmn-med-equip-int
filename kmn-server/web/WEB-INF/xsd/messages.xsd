@@ -45,7 +45,7 @@
                 <element name="trxDate" type="dateTime"/>
                 <element name="timeStamp" type="dateTime"/>
                 <element name="dataLocation" type="string"/>
-                <element name="dataOutput" type="base64Binary"/>
+                <!--element name="dataOutput" type="base64Binary"/-->
                 <element name="xmlData" type="string"/>
                 <element name="creatorId" type="string"/>
             </all>
