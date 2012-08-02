@@ -13,6 +13,7 @@ package com.kmn.gui.workspace;
 
 import com.kmn.MainApps;
 import com.kmn.controller.InterfaceEvent;
+import com.kmn.controller.UserSession;
 import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
@@ -52,6 +53,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     public static final String MSG_SELECT_ROW = "Please select a data row.";
     public static final String MSG_INPUT_PATIENT = "Please input patient data.";
     public static final String MSG_NO_FILE = "Output result file does not exist.";
+    public static final String MSG_SAVE_SUCCESS = "Save successful.";
+    public static final String MSG_SAVE_FAILED = "Save failed.";
     /* Connection String Constants */
     public static final String TEMP_DIR = "C:/kmntmp";
     public static final String OUTPUT_PDF = ".out/output.pdf";
@@ -342,24 +345,36 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                     DateTime trxDate = dt;
                     DateTime timeStamp = trxDate;
                     String dataLocation = filePath;
-                    String creatorId = "admin";
+                    String creatorId = "";
+                    if(UserSession.getInstance().getSecuser() != null)
+                        creatorId = UserSession.getInstance().getSecuser().getUsrLoginname();
                     
                     File dataOutput = null;
                     String xmlData;
                     if(filePath.contains(OUTPUT_XML)) {
                         //autoreff
                         dataOutput = new File(filePath);
-                        xmlData = cs.getStringFromXmlFile(filePath);
+                        //xmlData = cs.getStringFromXmlFile(filePath);
+                        xmlData = cs.getParsedStringFromXmlFile(filePath);
                     } else {
                         //dicom File 
                         dataOutput = new File(filePath+OUTPUT_PDF);
-                        if(!dataOutput.exists()) dataOutput = new File(filePath+OUTPUT_JPG);
+                        dataLocation = filePath+OUTPUT_PDF;
+                        if(!dataOutput.exists()) {
+                            dataOutput = new File(filePath+OUTPUT_JPG);
+                            dataLocation = filePath+OUTPUT_JPG; 
+                        }
                         xmlData = cs.getStringFromXmlFile(filePath+OUTPUT_XML);
                     }
                     
-                    cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
-                            , dataLocation, dataOutput, xmlData, creatorId);
-                    
+                    if(cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
+                            , dataLocation, dataOutput, xmlData, creatorId)) {
+                        JOptionPane.showMessageDialog(this, MSG_SAVE_SUCCESS);
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        model.removeRow(row);
+                    } else {
+                        JOptionPane.showMessageDialog(this, MSG_SAVE_FAILED);
+                    }
                 } catch (SOAPException ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage());
                     Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
