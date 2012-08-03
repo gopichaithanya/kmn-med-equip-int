@@ -75,16 +75,24 @@ public class PatientInfo {
     }
 
     public void setVariable(SOAPElement soapElement) {
-        if(soapElement.hasAttribute(RESPAGENUMBER)){
+        if(soapElement.hasAttribute(RESPAGENUMBER) || soapElement.getNodeName().equalsIgnoreCase(RESPAGENUMBER)){
             this.resPageNumber = Integer.valueOf(soapElement.getTextContent());
-        } else if(soapElement.hasAttribute(RESROWTHISPAGE)){
+        } else if(soapElement.hasAttribute(RESROWTHISPAGE) || soapElement.getNodeName().equalsIgnoreCase(RESROWTHISPAGE)){
             this.resRowThisPage = Integer.valueOf(soapElement.getTextContent());
-        } else if(soapElement.hasAttribute(RESROWPERPAGE)){
-            this.resPageNumber = Integer.valueOf(soapElement.getTextContent());
-        } else if(soapElement.hasAttribute(RESROWTOTAL)){
-            this.resPageNumber = Integer.valueOf(soapElement.getTextContent());
-        } else if(soapElement.hasAttribute(PATIENTS)){
-            this.patients = setPatientsByXml(soapElement.getNodeValue());
+        } else if(soapElement.hasAttribute(RESROWPERPAGE) || soapElement.getNodeName().equalsIgnoreCase(RESROWPERPAGE)){
+            this.resRowPerPage = Integer.valueOf(soapElement.getTextContent());
+        } else if(soapElement.hasAttribute(RESROWTOTAL) || soapElement.getNodeName().equalsIgnoreCase(RESROWTOTAL)){
+            this.resRowTotal = Integer.valueOf(soapElement.getTextContent());
+        } else if(soapElement.hasAttribute(PATIENTS) || soapElement.getNodeName().equalsIgnoreCase(PATIENTS)
+                || soapElement.hasAttribute("resRowsXML") || soapElement.getNodeName().equalsIgnoreCase("resRowsXML")){
+            if(soapElement.getNodeValue() != null) {
+                this.patients = setPatientsByXml(soapElement.getNodeValue());
+            } else {
+                if(soapElement.getFirstChild()!= null)
+                    this.patients = setPatientsByXml(soapElement.getFirstChild().getNodeValue());
+                else
+                    this.patients = new ArrayList<Patient> ();
+            }
         }
     }
 
@@ -99,6 +107,7 @@ public class PatientInfo {
             Document doc = builder.parse(new InputSource(new StringReader(sb.toString())));
             DOMSource src = new DOMSource( doc );
             NodeList patientInfo = doc.getElementsByTagName(Patient.TAG_PATIENTINFO);
+            if(patientInfo.getLength() == 0) patientInfo = doc.getElementsByTagName(Patient.TAG_PATIENTID);
             String data1 = "", data2 = "", data3 = "", data4 = "", data5 = "";
             for (int i = 0; i < patientInfo.getLength(); i++) {
                 data1 = getStringNodeValue(doc.getElementsByTagName(Patient.TAG_PATIENTID).item(i));
@@ -112,13 +121,13 @@ public class PatientInfo {
                 patients.add(patient);
             }
         } catch (SAXException e) {
-
+            System.out.println("[ERROR] :" + e.getMessage());
         } catch (IOException e) {
-
+            System.out.println("[ERROR] :" + e.getMessage());
         } catch (ParserConfigurationException e) {
-
+            System.out.println("[ERROR] :" + e.getMessage());
         }
-        return null;
+        return patients;
     }
 
     public String getStringNodeValue(Node node) {
