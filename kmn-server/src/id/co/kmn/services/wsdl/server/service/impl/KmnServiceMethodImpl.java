@@ -12,6 +12,7 @@ import id.co.kmn.services.wsdl.server.bean.Patient;
 import id.co.kmn.services.wsdl.server.bean.PatientInfo;
 import id.co.kmn.services.wsdl.server.schema.StoreResultsResponse;
 import id.co.kmn.services.wsdl.server.service.KmnServiceMethod;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -172,13 +173,19 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
 
     private String saveByteArrayToFile(Attachment attachment, String dataLocation) throws Exception {
         byte[] bytes = IOUtils.toByteArray(attachment.getInputStream());
-        //File tmp = File.createTempFile("somefile", ".dat");
-        //FileUtils.writeByteArrayToFile(tmp, bytes);
+        File tmp = File.createTempFile("TempAlat", ".dat");
+        FileUtils.writeByteArrayToFile(tmp, bytes);
 
         String path = systemDAO.getByCode("IMAGE_DIR").getSystemValue();
         dataLocation = dataLocation.replaceFirst("C:/kmntmp", "");
-        //File.createTempFile("somefile", ".dat", "C:\\");
-        File file = new File(path+dataLocation);
+        File dir = new File(dataLocation);
+        String name = dataLocation.split("/")[1];
+        if(dataLocation.contains(".xml")) name = "/"+name+".xml";
+        if(dataLocation.contains(".pdf")) name = "/"+name+".pdf";
+        if(dataLocation.contains(".jpg")) name = "/"+name+".jpg";
+
+        //File file = new File(path+dataLocation);
+        File file = new File(path+name);
         if(!file.exists()){
             file.getParentFile().mkdirs();
         }
@@ -191,7 +198,8 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
         System.out.println("Wrote real file to: " + file.getAbsolutePath());
         System.out.println("dataLocation: " + dataLocation);
         //return file.getAbsolutePath();
-        return dataLocation;
+        //return dataLocation;
+        return name;
     }
 
     public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId, int imageId, DateTime trxDate, DateTime timeStamp, String dataLocation, ByteArrayAttachment dataOutput, String xmlData, String creatorId) {
