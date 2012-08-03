@@ -41,6 +41,10 @@ public class LookupPatients extends javax.swing.JFrame {
     private static final String DEFAULT_CLINIC_ID = "8";
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int DEFAULT_ROW_PER_PAGE = 10;
+    private String clinicId; 
+    private int pageNumber; 
+    private int rowPerPage;
+    ClientService cs;
     /**
      * Creates new form LookupPatients
      */
@@ -53,22 +57,30 @@ public class LookupPatients extends javax.swing.JFrame {
         this.setTitle(wm.owner.getTitleAt(wm.owner.getSelectedIndex()));
         initComponents();
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
-        ClientService cs = new ClientService();
+        this.cs = new ClientService();
         patientInfo = cs.retrievePatients(jTextField1.getText(), DEFAULT_CLINIC_ID, 
                 DEFAULT_PAGE_NUMBER, DEFAULT_ROW_PER_PAGE);
-        for (Patient p : patientInfo.getPatients()) {
-            model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
-                p.getPatientBrm(), p.getDocId(), p.getDocName()});
+        if (patientInfo != null) {
+            for (Patient p : patientInfo.getPatients()) {
+                model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
+                    p.getPatientBrm(), p.getDocId(), p.getDocName()});
+            }
         }
     }
     
     public LookupPatients(WorkspaceModel wm, String clinicId, int pageNumber, int rowPerPage) throws SOAPException, MalformedURLException, IOException, TransformerException {
         this.wm = wm;
         this.setTitle(wm.owner.getTitleAt(wm.owner.getSelectedIndex()));
+        this.clinicId = clinicId;
+        this.pageNumber = pageNumber;
+        this.rowPerPage = rowPerPage;
         initComponents();
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
-        ClientService cs = new ClientService();
-        patientInfo = cs.retrievePatients(jTextField1.getText(), clinicId, pageNumber, rowPerPage);
+        while(model.getRowCount()>0){
+            model.removeRow(0);
+        }
+        //ClientService cs = new ClientService();
+        patientInfo = this.cs.retrievePatients(jTextField1.getText(), "8", 1, 10);
         for (Patient p : patientInfo.getPatients()) {
             model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
                 p.getPatientBrm(), p.getDocId(), p.getDocName()});
@@ -195,7 +207,27 @@ public class LookupPatients extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Search Patient
+        try {
+            // Search Patient
+            DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
+            while(model.getRowCount()>0){
+                model.removeRow(0);
+            }
+            //ClientService cs = new ClientService();
+            patientInfo = this.cs.retrievePatients(jTextField1.getText(), this.clinicId, this.pageNumber, this.rowPerPage);
+            for (Patient p : patientInfo.getPatients()) {
+                model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
+                    p.getPatientBrm(), p.getDocId(), p.getDocName()});
+            }
+        } catch (SOAPException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -87,25 +87,27 @@ public class ClientService {
     public static final String TEMP_XML_PATH = "C:\\kmntmp\\tempXml.xml";
     public static final String TEMP_XML_DATA_PATH = "C:\\kmntmp\\tempDataXml.xml";
     private String URI = LOCAL_NAMESPACE_URI;
-    
+    private ClientConnector cc;
     public ClientService() {
         ServerProperties sp = new ServerProperties(null);
         sp.load();
         sp.getIp();
         sp.getPort();
         URI = "http://"+sp.getIp()+":"+sp.getPort()+"/kmn/services";
+        //this.cc = new ClientConnector(URI);
     }
     public PatientInfo retrievePatients(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage) throws SOAPException, MalformedURLException, IOException, TransformerException {
-        ClientConnector cc = new ClientConnector(URI);
-        return cc.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
+        //ClientConnector cc = new ClientConnector(URI);
+        if(this.cc==null) this.cc = new ClientConnector(URI);
+        return this.cc.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
     }
     public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId
             , int imageId,DateTime trxDate, DateTime timeStamp, String dataLocation, File dataOutput, String xmlData
             , String creatorId) throws SOAPException, MalformedURLException, IOException, TransformerException, DatatypeConfigurationException {
 
-        ClientConnector cc = new ClientConnector(URI);
-        
-        return cc.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate , timeStamp
+        //ClientConnector cc = new ClientConnector(URI);
+        if(this.cc==null) this.cc = new ClientConnector(URI);
+        return this.cc.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate , timeStamp
                 , dataLocation, dataOutput, xmlData, creatorId);
     }
     public List<Object[]> retrieveLocalPatients() {
