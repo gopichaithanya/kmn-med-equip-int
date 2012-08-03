@@ -55,13 +55,13 @@ public class ClientConnector {
         reqKeywordElement.setValue(reqKeyword);
         Name reqClinicIdName = envelope.createName(REQCLINICID, NAME_PREFIX, MESSAGES_NAMESPACE);
         SOAPElement reqClinicIdElement = getPatientsRequestElement.addChildElement(reqClinicIdName);
-        reqClinicIdElement.setValue(reqClinicId);
+        reqClinicIdElement.setValue((reqClinicId!=null)?reqClinicId:"8");
         Name reqPageNumberName = envelope.createName(REQPAGENUMBER, NAME_PREFIX, MESSAGES_NAMESPACE);
         SOAPElement reqPageNumberElement = getPatientsRequestElement.addChildElement(reqPageNumberName);
-        reqPageNumberElement.setValue(String.valueOf(reqPageNumber));
+        reqPageNumberElement.setValue("1");//String.valueOf(reqPageNumber));
         Name reqRowPerPageName = envelope.createName(REQROWPERPAGE, NAME_PREFIX, MESSAGES_NAMESPACE);
         SOAPElement reqRowPerPageElement = getPatientsRequestElement.addChildElement(reqRowPerPageName);
-        reqRowPerPageElement.setValue(String.valueOf(reqRowPerPage));
+        reqRowPerPageElement.setValue("10");//String.valueOf(reqRowPerPage));
         return message;
     }
 
