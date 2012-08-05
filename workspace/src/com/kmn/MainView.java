@@ -131,6 +131,7 @@ public class MainView extends FrameView {
         if(UserSession.getInstance().getSecuser() == null) showLoginBox();
         else logoutUser();
     }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -144,8 +145,6 @@ public class MainView extends FrameView {
         panelBody = new javax.swing.JPanel();
         tabMain = new javax.swing.JTabbedPane();
         panelWelcome = new javax.swing.JPanel();
-        toolbarWelcome = new javax.swing.JToolBar();
-        buttonLogin2 = new javax.swing.JButton();
         panelInfo = new javax.swing.JPanel();
         labelKmn = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
@@ -203,20 +202,6 @@ public class MainView extends FrameView {
 
         panelWelcome.setName("panelWelcome"); // NOI18N
 
-        toolbarWelcome.setRollover(true);
-        toolbarWelcome.setName("toolbarWelcome"); // NOI18N
-
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getActionMap(MainView.class, this);
-        buttonLogin2.setAction(actionMap.get("showLoginBox")); // NOI18N
-        buttonLogin2.setIcon(resourceMap.getIcon("buttonLogin2.icon")); // NOI18N
-        buttonLogin2.setText(resourceMap.getString("buttonLogin2.text")); // NOI18N
-        buttonLogin2.setToolTipText(resourceMap.getString("buttonLogin2.toolTipText")); // NOI18N
-        buttonLogin2.setFocusable(false);
-        buttonLogin2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonLogin2.setName("buttonLogin2"); // NOI18N
-        buttonLogin2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        toolbarWelcome.add(buttonLogin2);
-
         panelInfo.setBackground(resourceMap.getColor("panelInfo.background")); // NOI18N
         panelInfo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelInfo.setName("panelInfo"); // NOI18N
@@ -246,14 +231,12 @@ public class MainView extends FrameView {
         panelWelcome.setLayout(panelWelcomeLayout);
         panelWelcomeLayout.setHorizontalGroup(
             panelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(toolbarWelcome, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
             .addComponent(panelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelWelcomeLayout.setVerticalGroup(
             panelWelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelWelcomeLayout.createSequentialGroup()
-                .addComponent(toolbarWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(35, 35, 35)
                 .addComponent(panelInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -291,8 +274,14 @@ public class MainView extends FrameView {
         openMenuItem.setText(resourceMap.getString("openMenuItem.text")); // NOI18N
         openMenuItem.setEnabled(false);
         openMenuItem.setName("openMenuItem"); // NOI18N
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openWorkspace(evt);
+            }
+        });
         fileMenu.add(openMenuItem);
 
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getActionMap(MainView.class, this);
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
@@ -458,6 +447,7 @@ public class MainView extends FrameView {
         btnOpen.setIcon(resourceMap.getIcon("btnOpen.icon")); // NOI18N
         btnOpen.setText(resourceMap.getString("btnOpen.text")); // NOI18N
         btnOpen.setToolTipText(resourceMap.getString("btnOpen.toolTipText")); // NOI18N
+        btnOpen.setEnabled(false);
         btnOpen.setFocusable(false);
         btnOpen.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnOpen.setName("btnOpen"); // NOI18N
@@ -541,6 +531,10 @@ public class MainView extends FrameView {
         setToolBar(toolBar);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void openWorkspace(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openWorkspace
+        this.openWorkspace();
+    }//GEN-LAST:event_openWorkspace
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEquipment;
     private javax.swing.JButton btnFind;
@@ -548,7 +542,6 @@ public class MainView extends FrameView {
     private javax.swing.JButton btnOpen;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton buttonDb;
-    private javax.swing.JButton buttonLogin2;
     private javax.swing.JButton buttonServer;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
@@ -581,7 +574,6 @@ public class MainView extends FrameView {
     private javax.swing.JPanel statusPanel;
     private javax.swing.JTabbedPane tabMain;
     private javax.swing.JToolBar toolBar;
-    private javax.swing.JToolBar toolbarWelcome;
     private javax.swing.JLabel userIconLabel;
     private javax.swing.JLabel userLoginLabel;
     // End of variables declaration//GEN-END:variables
@@ -645,10 +637,6 @@ public class MainView extends FrameView {
         return progressBar;
     }
 
-    public JButton getButtonLogin2() {
-        return buttonLogin2;
-    }
-
     public JTabbedPane getTabMain() {
         return tabMain;
     }
@@ -659,7 +647,9 @@ public class MainView extends FrameView {
             JFrame mainFrame = MainApps.getApplication().getMainFrame();
             setupDbBox = new SetupDatabase(this, true);
             setupDbBox.setLocationRelativeTo(mainFrame);
+            setupDbBox.setResizable(false);
         }
+        
         MainApps.getApplication().show(setupDbBox);
     }
 
@@ -669,6 +659,7 @@ public class MainView extends FrameView {
             JFrame mainFrame = MainApps.getApplication().getMainFrame();
             setupServerBox = new SetupServer(this, true);
             setupServerBox.setLocationRelativeTo(mainFrame);
+            setupServerBox.setResizable(false);
         }
         MainApps.getApplication().show(setupServerBox);
     }
@@ -679,6 +670,7 @@ public class MainView extends FrameView {
             JFrame mainFrame = MainApps.getApplication().getMainFrame();
             setupEquipmentBox = new SetupEquipment(this, true);
             setupEquipmentBox.setLocationRelativeTo(mainFrame);
+            setupEquipmentBox.setResizable(false);
         }
         MainApps.getApplication().show(setupEquipmentBox);
     }
@@ -689,6 +681,7 @@ public class MainView extends FrameView {
             JFrame mainFrame = MainApps.getApplication().getMainFrame();
             openBox = new OpenDialog(this, true);
             openBox.setLocationRelativeTo(mainFrame);
+            openBox.setResizable(false);
         }
         MainApps.getApplication().show(openBox);
     }

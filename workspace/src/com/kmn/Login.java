@@ -191,8 +191,13 @@ public class Login extends javax.swing.JDialog implements Confirm  {
     //@Override
     public void onError(Throwable t) {
         String mssg = "";
-        if(t.getCause().toString().indexOf("Hibernate") > 0) mssg = "Database Error..."+"\n";
-        else mssg = t.getMessage()+"\n";
+        try {
+            if(t.getCause().toString().indexOf("Hibernate") > 0) mssg = "Database Error..."+"\n";
+            else mssg = t.getMessage()+"\n";
+        }
+        catch(Exception e) {
+            mssg = "Application Error\n";
+        }
 
         mssg = mssg.concat("Please Contact Administrator");
         

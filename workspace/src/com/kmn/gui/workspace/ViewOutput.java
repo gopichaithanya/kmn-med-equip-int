@@ -4,6 +4,7 @@
  */
 package com.kmn.gui.workspace;
 
+import com.kmn.MainApps;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
 import java.awt.Image;
@@ -14,18 +15,14 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
-import org.xml.sax.SAXException;
 
 /**
  *
  * @author valeo
  */
-public class ViewOutput extends javax.swing.JFrame {
+public class ViewOutput extends javax.swing.JDialog {
     public static String PDF_FILE_EXT = ".pdf";
     public static String JPG_FILE_EXT = ".jpg";
     public static String XML_FILE_EXT = ".xml";
@@ -34,7 +31,9 @@ public class ViewOutput extends javax.swing.JFrame {
      * Creates new form ViewOutput
      */
     public ViewOutput(WorkspaceModel wm, File file) {
+        super(MainApps.getApplication().getMainFrame(), true);
         initComponents();
+        
         this.wm = wm;
         if(file == null) {
             //renderXml((String) wm.jTable1.getValueAt(wm.jTable1.getSelectedRow(), 5));

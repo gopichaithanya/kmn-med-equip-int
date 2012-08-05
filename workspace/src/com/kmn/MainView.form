@@ -73,45 +73,19 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="toolbarWelcome" alignment="0" pref="683" max="32767" attributes="0"/>
                           <Component id="panelInfo" alignment="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="toolbarWelcome" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                               <Component id="panelInfo" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Container class="javax.swing.JToolBar" name="toolbarWelcome">
-                      <Properties>
-                        <Property name="rollover" type="boolean" value="true"/>
-                        <Property name="name" type="java.lang.String" value="toolbarWelcome" noResource="true"/>
-                      </Properties>
-
-                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-                      <SubComponents>
-                        <Component class="javax.swing.JButton" name="buttonLogin2">
-                          <Properties>
-                            <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
-                              <action class="com.kmn.MainView" id="showLoginBox" methodName="showLoginBox"/>
-                            </Property>
-                            <Property name="icon" type="javax.swing.Icon" resourceKey="buttonLogin2.icon"/>
-                            <Property name="text" type="java.lang.String" resourceKey="buttonLogin2.text"/>
-                            <Property name="toolTipText" type="java.lang.String" resourceKey="buttonLogin2.toolTipText"/>
-                            <Property name="focusable" type="boolean" value="false"/>
-                            <Property name="horizontalTextPosition" type="int" value="0"/>
-                            <Property name="name" type="java.lang.String" value="buttonLogin2" noResource="true"/>
-                            <Property name="verticalTextPosition" type="int" value="3"/>
-                          </Properties>
-                        </Component>
-                      </SubComponents>
-                    </Container>
                     <Container class="javax.swing.JPanel" name="panelInfo">
                       <Properties>
                         <Property name="background" type="java.awt.Color" resourceKey="panelInfo.background"/>
@@ -192,6 +166,9 @@
                 <Property name="enabled" type="boolean" value="false"/>
                 <Property name="name" type="java.lang.String" value="openMenuItem" noResource="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openWorkspace"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="exitMenuItem">
               <Properties>
@@ -504,6 +481,7 @@
             <Property name="icon" type="javax.swing.Icon" resourceKey="btnOpen.icon"/>
             <Property name="text" type="java.lang.String" resourceKey="btnOpen.text"/>
             <Property name="toolTipText" type="java.lang.String" resourceKey="btnOpen.toolTipText"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
             <Property name="name" type="java.lang.String" value="btnOpen" noResource="true"/>

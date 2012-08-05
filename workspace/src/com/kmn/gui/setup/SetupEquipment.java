@@ -365,5 +365,9 @@ public class SetupEquipment extends javax.swing.JDialog implements Confirm {
     public void saveEquipment() {
         propEuipment.store();
         setVisible(false);
+
+        int confirm = JOptionPane.showConfirmDialog(this,
+                "You must restart application for the changes to take effect", "Restart", 2);
+        if(confirm == 0) MainApps.getApplication().close();
     }
 }

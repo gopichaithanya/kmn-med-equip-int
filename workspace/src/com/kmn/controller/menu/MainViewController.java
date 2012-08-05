@@ -6,7 +6,6 @@
 package com.kmn.controller.menu;
 
 import com.kmn.MainView;
-import com.kmn.backend.entity.SecUser;
 import com.kmn.controller.UserSession;
 
 /**
@@ -40,7 +39,5 @@ public class MainViewController {
         mainview.getLoginMenuItem().setEnabled(!enabled);
         mainview.getLogoutMenuItem().setEnabled(enabled);
         mainview.getProfileMenuItem().setEnabled(enabled);
-
-        mainview.getButtonLogin2().setEnabled(!enabled);
     }
 }
