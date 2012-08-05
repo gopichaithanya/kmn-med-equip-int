@@ -4,12 +4,12 @@
  */
 package com.kmn.gui.workspace;
 
+import com.kmn.MainApps;
 import com.kmn.ws.ClientService;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
  *
  * @author valeo
  */
-public class XmlViewer extends javax.swing.JFrame {
+public class XmlViewer extends javax.swing.JDialog {
     
     WorkspaceModel vo;
     private List<Object[]> tableContents = new ArrayList<Object[]>();
@@ -30,7 +30,9 @@ public class XmlViewer extends javax.swing.JFrame {
     /**
      * Creates new form XmlViewer
      */
-    public XmlViewer(WorkspaceModel vo, File file) throws ParserConfigurationException, SAXException, IOException {
+    public XmlViewer(WorkspaceModel vo, File file)
+            throws ParserConfigurationException, SAXException, IOException {
+        super(MainApps.getApplication().getMainFrame(), true);
         this.vo = vo;
         this.file = file;
         initComponents();
@@ -68,7 +70,10 @@ public class XmlViewer extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("XML Viewer");
+        setName("xmldialog"); // NOI18N
+        setResizable(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -117,23 +122,26 @@ public class XmlViewer extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(47, 47, 47))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(218, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)))
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
+                .addGap(11, 11, 11))
         );
+
+        getAccessibleContext().setAccessibleName("XML Viewer");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

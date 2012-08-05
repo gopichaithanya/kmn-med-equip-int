@@ -39,6 +39,10 @@ public class MainApps extends SingleFrameApplication {
         return Application.getInstance(MainApps.class);
     }
 
+    public void close() {
+        System.exit(100);
+    }
+
     /**
      * Main method launching the application.
      */

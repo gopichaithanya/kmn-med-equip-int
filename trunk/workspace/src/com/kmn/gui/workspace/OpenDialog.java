@@ -16,7 +16,9 @@ import com.kmn.MainView;
 import com.kmn.controller.Confirm;
 import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.controller.props.EquipmentProperties;
+import java.awt.Component;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import org.jdesktop.application.Action;
 
@@ -46,14 +48,19 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        labelOpen = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         comboEquip = new javax.swing.JComboBox();
+        labelOpen = new javax.swing.JLabel();
         buttonOk = new javax.swing.JButton();
         buttonCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getResourceMap(OpenDialog.class);
         setTitle(resourceMap.getString("Form.title")); // NOI18N
+        setFocusTraversalPolicyProvider(true);
+        setFocusableWindowState(false);
+        setIconImage(null);
+        setMinimumSize(new java.awt.Dimension(100, 100));
         setName("Form"); // NOI18N
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -62,10 +69,16 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
             }
         });
 
-        labelOpen.setText(resourceMap.getString("labelOpen.text")); // NOI18N
-        labelOpen.setName("labelOpen"); // NOI18N
+        jPanel1.setEnabled(false);
+        jPanel1.setName("PanelEquipment"); // NOI18N
 
         comboEquip.setName("comboEquip"); // NOI18N
+
+        labelOpen.setFont(resourceMap.getFont("labelOpen.font")); // NOI18N
+        labelOpen.setText(resourceMap.getString("labelOpen.text")); // NOI18N
+        labelOpen.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        labelOpen.setName("labelOpen"); // NOI18N
+        labelOpen.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getActionMap(OpenDialog.class, this);
         buttonOk.setAction(actionMap.get("openNewWorkspace")); // NOI18N
@@ -79,36 +92,46 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
         buttonCancel.setToolTipText(resourceMap.getString("buttonCancel.toolTipText")); // NOI18N
         buttonCancel.setName("buttonCancel"); // NOI18N
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelOpen)
+                        .addGap(18, 18, 18)
+                        .addComponent(comboEquip, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(buttonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelOpen)
+                    .addComponent(comboEquip, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonCancel)
+                    .addComponent(buttonOk))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelOpen)
-                        .addGap(18, 18, 18)
-                        .addComponent(comboEquip, 0, 231, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(buttonOk, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(buttonCancel)
-                        .addGap(75, 75, 75))))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelOpen)
-                    .addComponent(comboEquip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonOk)
-                    .addComponent(buttonCancel))
-                .addContainerGap(17, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -122,21 +145,35 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
     private javax.swing.JButton buttonCancel;
     private javax.swing.JButton buttonOk;
     private javax.swing.JComboBox comboEquip;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelOpen;
     // End of variables declaration//GEN-END:variables
 
     //@Override
     public void onSuccess() {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getResourceMap(OpenDialog.class);
+
         EquipmentDetailProperties equipment = (EquipmentDetailProperties) comboEquip.getSelectedItem();
         String title = equipment.toString();
         JTabbedPane tab = mainView.getTabMain();
         
-        WorkspaceModel model = new WorkspaceModel(tab, equipment);
-        tab.addTab(title, resourceMap.getIcon("file.tabIcon"),  model);
-        tab.setSelectedIndex(tab.getTabCount()-1);
+        boolean isnew = true;
+        Component[] cmp = tab.getComponents();
+        for(int i=0; i<cmp.length; i++) {
+            if(equipment.getCode().equals(cmp[i].getName())) {
+                isnew = false;
+                break;
+            }
+        }
 
-        setVisible(false);
+        if(isnew) {
+            WorkspaceModel model = new WorkspaceModel(tab, equipment);
+            tab.addTab(title, resourceMap.getIcon("file.tabIcon"),  model);
+            tab.setSelectedIndex(tab.getTabCount()-1);
+
+            setVisible(false);
+        }
+        else JOptionPane.showMessageDialog(this, "Equipment window already open");
     }
 
     //@Override

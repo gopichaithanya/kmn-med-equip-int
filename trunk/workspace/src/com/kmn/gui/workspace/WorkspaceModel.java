@@ -101,6 +101,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         this.owner = owner;
         this.equip = equip;
         initComponents();
+        this.setName(equip.getCode());
         receiveEquipmentData();
     }
 
@@ -113,6 +114,11 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        RightMenu1 = new javax.swing.JPopupMenu();
+        ItemOutput = new javax.swing.JMenuItem();
+        ItemPatient = new javax.swing.JMenuItem();
+        ItemSave = new javax.swing.JMenuItem();
+        ItemDelete = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -120,6 +126,49 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
+
+        RightMenu1.setName("RightMenu1"); // NOI18N
+
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.kmn.MainApps.class).getContext().getResourceMap(WorkspaceModel.class);
+        ItemOutput.setText(resourceMap.getString("ItemOutput.text")); // NOI18N
+        ItemOutput.setToolTipText(resourceMap.getString("ItemOutput.toolTipText")); // NOI18N
+        ItemOutput.setName("ItemOutput"); // NOI18N
+        ItemOutput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewOutput(evt);
+            }
+        });
+        RightMenu1.add(ItemOutput);
+
+        ItemPatient.setText(resourceMap.getString("ItemPatient.text")); // NOI18N
+        ItemPatient.setToolTipText(resourceMap.getString("ItemPatient.toolTipText")); // NOI18N
+        ItemPatient.setName("ItemPatient"); // NOI18N
+        ItemPatient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lookupPatient(evt);
+            }
+        });
+        RightMenu1.add(ItemPatient);
+
+        ItemSave.setText(resourceMap.getString("ItemSave.text")); // NOI18N
+        ItemSave.setToolTipText(resourceMap.getString("ItemSave.toolTipText")); // NOI18N
+        ItemSave.setName("ItemSave"); // NOI18N
+        ItemSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                save(evt);
+            }
+        });
+        RightMenu1.add(ItemSave);
+
+        ItemDelete.setText(resourceMap.getString("ItemDelete.text")); // NOI18N
+        ItemDelete.setToolTipText(resourceMap.getString("ItemDelete.toolTipText")); // NOI18N
+        ItemDelete.setName("ItemDelete"); // NOI18N
+        ItemDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete(evt);
+            }
+        });
+        RightMenu1.add(ItemDelete);
 
         setName("Form"); // NOI18N
 
@@ -152,8 +201,11 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable1.getTableHeader().setReorderingAllowed(false);
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                OpenMenu(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                OpenMenu(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -161,50 +213,40 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/save.png"))); // NOI18N
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("com/kmn/gui/workspace/resources/WorkspaceModel"); // NOI18N
         jButton1.setText(bundle.getString("jButton1.save")); // NOI18N
-        jButton1.setName("jButton1");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
+        jButton1.setName("jButton1"); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                save(evt);
             }
         });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/cancel.png"))); // NOI18N
         jButton2.setText(bundle.getString("jButton2.cancel")); // NOI18N
-        jButton2.setName("jButton2");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
+        jButton2.setName("jButton2"); // NOI18N
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                close(evt);
             }
         });
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/login_user.png"))); // NOI18N
         jButton3.setText(bundle.getString("jButton3.lookup")); // NOI18N
-        jButton3.setName("jButton3");
+        jButton3.setName("jButton3"); // NOI18N
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                lookupPatient(evt);
             }
         });
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/loading.gif"))); // NOI18N
-        jLabel1.setName("jLabel1");
+        jLabel1.setName("jLabel1"); // NOI18N
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/file.png"))); // NOI18N
         jButton4.setText("View Output");
-        jButton4.setName("jButton4");
+        jButton4.setName("jButton4"); // NOI18N
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                viewOutput(evt);
             }
         });
 
@@ -215,7 +257,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 677, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -241,29 +283,22 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:
-        //receiveEquipmentData();
-    }//GEN-LAST:event_jButton2MouseClicked
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
-        //receiveEquipmentData();
-    }//GEN-LAST:event_jButton1MouseClicked
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close
         // Cancel Button
         this.modelinterface.close();
         if(this.dicomInterface != null) this.dicomInterface.close();
         if(this.commInterface != null) this.commInterface.close();
         int index = this.owner.getSelectedIndex();
         this.owner.remove(index);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_close
     //To select the path of image file
     private File file;
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    
+    private void viewOutput(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewOutput
         // View Output
         int row = jTable1.getSelectedRow();
+        JFrame mainFrame = MainApps.getApplication().getMainFrame();
+        
         if (row > -1) {
             String filePath = (String) jTable1.getValueAt(row, 5);
             try {
@@ -277,9 +312,12 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                         JOptionPane.showMessageDialog(this, MSG_NO_FILE);
                     } else {
                         XmlViewer xv = new XmlViewer(this, file);
+                        xv.setLocationRelativeTo(mainFrame);
+                        
                     }
                 } else {
                     ViewOutput vo = new ViewOutput(this, file);
+                    vo.setLocationRelativeTo(mainFrame);
                 }
             } catch (NullPointerException ex) {   
                 Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -293,9 +331,9 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         } else {
             JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_viewOutput
     
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void lookupPatient(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lookupPatient
         // Lookup Patient
         int row = jTable1.getSelectedRow();
         if (row > -1) {
@@ -323,9 +361,9 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         } else {
             JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_lookupPatient
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void save(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save
         int row = jTable1.getSelectedRow();
         if (row > -1) {
             String patientId = (String) jTable1.getValueAt(row, 0);
@@ -404,14 +442,26 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         } else {
             JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_save
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-// Do something;
-    }//GEN-LAST:event_jTable1MouseClicked
+    private void OpenMenu(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OpenMenu
+        if(evt.isPopupTrigger())
+            RightMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+    }//GEN-LAST:event_OpenMenu
+
+    private void delete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete
+        int row = jTable1.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.removeRow(row);
+    }//GEN-LAST:event_delete
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem ItemDelete;
+    private javax.swing.JMenuItem ItemOutput;
+    private javax.swing.JMenuItem ItemPatient;
+    private javax.swing.JMenuItem ItemSave;
+    private javax.swing.JPopupMenu RightMenu1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -484,15 +534,20 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     }
 
     private void receiveEquipmentData() {
-        if (equip.getInterfaceType().equalsIgnoreCase(DICOM)) {
-            this.modelinterface = new DicomInterface(this, LOCAL_IP, Integer.valueOf(equip.getPort()), AP_NAME, TEMP_DIR);
-         } else {
-            this.modelinterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
-                    , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
-                    , getParityInt(equip.getParity()), 
-                    getFlowInt(equip.getFlow()));
+        try {
+            if (equip.getInterfaceType().equalsIgnoreCase(DICOM)) {
+                this.modelinterface = new DicomInterface(this, LOCAL_IP, Integer.valueOf(equip.getPort()), AP_NAME, TEMP_DIR);
+             } else {
+                this.modelinterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
+                        , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
+                        , getParityInt(equip.getParity()),
+                        getFlowInt(equip.getFlow()));
+            }
+            this.modelinterface.connect();
         }
-        this.modelinterface.connect();        
+        catch(Exception e) {
+            JOptionPane.showMessageDialog(this, e.toString());
+        }
     }
     
     public Integer getStopBitInt(String string) {
