@@ -26,12 +26,12 @@ set CURRENT_DIR=%cd%
 
 if not "%WORKSPACE_HOME%" == "" goto gotHome
 set WORKSPACE_HOME=%CURRENT_DIR%
-if exist "%WORKSPACE_HOME%\bin\start.bat" goto okHome
+if exist "%WORKSPACE_HOME%\start.bat" goto okHome
 cd ..
 set WORKSPACE_HOME=%cd%
 cd %CURRENT_DIR%
 :gotHome
-if exist "%WORKSPACE_HOME%\bin\start.bat" goto okHome
+if exist "%WORKSPACE_HOME%\start.bat" goto okHome
 echo The WORKSPACE_HOME environment variable is not defined correctly
 echo This environment variable is needed to run this program
 goto end
@@ -53,7 +53,6 @@ if "%JAVA_HOME%"=="" (
   echo        We cannot execute java.
   goto end
 )
-echo %JAVA_HOME%
 if NOT exist "%JAVA_HOME%\bin\java.exe" (
   echo Error: Can not find java executable in %JAVA_HOME%\bin. 
   echo        Please make sure the JAVA_HOME environment variable is defined correctly.
@@ -117,6 +116,9 @@ if "%2%"=="" (
   goto help
 )
 
+:restart
+goto workspace
+
 :workspace
 if /I "%VERBOSE%"=="on" (
   echo Executing: %JAVA_HOME%\bin\java -Djava.compiler=NONE %JVMARGS% -jar %WORKSPACE_JAR% %CMDARGS%
@@ -129,7 +131,8 @@ if not EXIST "%WORKSPACE_JAR%" (
 
 set EXEC_COMMAND="%JAVA_HOME%\bin\java" %JVMARGS% -classpath "%CLASSPATH%" -jar %WORKSPACE_JAR% %CMDARGS% 
 call %EXEC_COMMAND%
- 
+if %errorlevel%==100 ( goto restart )
+
 goto end
 
 :end
