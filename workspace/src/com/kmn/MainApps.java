@@ -4,6 +4,10 @@
 
 package com.kmn;
 
+import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.AbstractAction;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
@@ -40,7 +44,28 @@ public class MainApps extends SingleFrameApplication {
     }
 
     public void close() {
-        System.exit(100);
+        System.exit(0);
+    }
+
+
+    public void restart() {
+        try {
+            Thread.sleep(1000);
+            AbstractAction restartAction = new AbstractAction("restart"){
+                 public void actionPerformed(ActionEvent ae){
+                     try{
+                         System.exit(100);
+                     }catch(Exception ex){
+                         ex.printStackTrace();
+                     }
+                  }
+            };
+            
+            restartAction.actionPerformed(null);
+            
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MainApps.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
