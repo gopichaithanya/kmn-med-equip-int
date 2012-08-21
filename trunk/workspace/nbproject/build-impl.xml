@@ -665,7 +665,7 @@ is divided into following sections:
     <target depends="init" name="-pre-pre-jar">
         <dirname file="${dist.jar}" property="dist.jar.dir"/>
         <mkdir dir="${dist.jar.dir}"/>
-        <mkdir dir="${dist.jar.dir}/bin"/>
+        <copyfile src="${etc.dir}/start.bat" dest="${dist.jar.dir}"/>
     </target>
     <target name="-pre-jar">
         <!-- Empty placeholder for easier customization. -->
