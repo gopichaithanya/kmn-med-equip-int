@@ -62,7 +62,7 @@ public class LookupPatients extends javax.swing.JFrame {
                 DEFAULT_PAGE_NUMBER, DEFAULT_ROW_PER_PAGE);
         if (patientInfo != null) {
             for (Patient p : patientInfo.getPatients()) {
-                model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
+                model.addRow(new Object[]{p.getPatientId(),p.getSingleId(), p.getPatientName(),
                     p.getPatientBrm(), p.getDocId(), p.getDocName()});
             }
         }
@@ -112,11 +112,11 @@ public class LookupPatients extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Patient ID", "Patient Name", "Patient BRM", "Doc ID", "Doc Name"
+                "Patient ID", "Single ID", "Patient Name", "Patient BRM", "Doc ID", "Doc Name"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -170,7 +170,7 @@ public class LookupPatients extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 219, Short.MAX_VALUE)
+                        .addGap(0, 344, Short.MAX_VALUE)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
@@ -181,7 +181,7 @@ public class LookupPatients extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 103, Short.MAX_VALUE))))
+                        .addGap(0, 224, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +217,7 @@ public class LookupPatients extends javax.swing.JFrame {
             //ClientService cs = new ClientService();
             patientInfo = this.cs.retrievePatients(jTextField1.getText(), this.clinicId, this.pageNumber, this.rowPerPage);
             for (Patient p : patientInfo.getPatients()) {
-                model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
+                model.addRow(new Object[]{p.getPatientId(),p.getSingleId(), p.getPatientName(),
                     p.getPatientBrm(), p.getDocId(), p.getDocName()});
             }
         } catch (SOAPException ex) {
@@ -242,10 +242,10 @@ public class LookupPatients extends javax.swing.JFrame {
         int row = jTable1.getSelectedRow();
         HashMap hm = new HashMap();
         hm.put(ClientService.TAG_PATIENTID, (String) jTable1.getValueAt(row, 0));
-        hm.put(ClientService.TAG_PATIENTNAME, (String) jTable1.getValueAt(row, 1));
-        hm.put(ClientService.TAG_PATIENTBRM, (String) jTable1.getValueAt(row, 2));
-        hm.put(ClientService.TAG_DOCID, (String) jTable1.getValueAt(row, 3));
-        hm.put(ClientService.TAG_DOCNAME, (String) jTable1.getValueAt(row, 4));
+        hm.put(ClientService.TAG_PATIENTNAME, (String) jTable1.getValueAt(row, 2));
+        hm.put(ClientService.TAG_PATIENTBRM, (String) jTable1.getValueAt(row, 3));
+        hm.put(ClientService.TAG_DOCID, (String) jTable1.getValueAt(row, 4));
+        hm.put(ClientService.TAG_DOCNAME, (String) jTable1.getValueAt(row, 5));
         int rowWm = this.wm.jTable1.getSelectedRow();
         this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
         this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTNAME), rowWm, 1);

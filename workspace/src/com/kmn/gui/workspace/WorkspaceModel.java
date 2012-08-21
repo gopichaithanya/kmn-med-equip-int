@@ -285,7 +285,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     private void close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close
         // Cancel Button
-        this.modelinterface.close();
+        if (this.modelinterface != null) this.modelinterface.close();
         if(this.dicomInterface != null) this.dicomInterface.close();
         if(this.commInterface != null) this.commInterface.close();
         int index = this.owner.getSelectedIndex();
@@ -391,9 +391,11 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                     String xmlData;
                     if(filePath.contains(OUTPUT_XML)) {
                         //autoreff
-                        dataOutput = new File(filePath);
+                        //dataOutput = new File(filePath);
                         //xmlData = cs.getStringFromXmlFile(filePath);
                         xmlData = cs.getParsedStringFromXmlFile(filePath);
+                        cs.createXml(xmlData, filePath);
+                        dataOutput = new File(filePath);
                     } else {
                         //dicom File 
                         dataOutput = new File(filePath+OUTPUT_PDF);
@@ -497,22 +499,24 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         String path = TEMP_DIR+"/"+sdf.format(now)+OUTPUT_XML;
         ClientService cs = new ClientService();
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
-        cs.convertMessageToXml(MSG_EMPTY, message, path);
-        if(message.contains(TEMP_DIR)) {
-            model.addRow(new Object[]{null,null,null,trxDate,null,message});
-        } else {
-            model.addRow(new Object[]{null,null,null,trxDate,null,path});
-        }
-        while(!jLabel1.getText().isEmpty()) {
-            try {
-                synchronized (this) {
-                    wait(1000);
-                }
-                jLabel1.setText(MSG_EMPTY);
-            } catch (InterruptedException e) {
+        if(cs.convertMessageToXml(MSG_EMPTY, message, path, equip.getCode())!=null) {
+            //cs.convertMessageToXml(MSG_EMPTY, message, path);
+            if(message.contains(TEMP_DIR)) {
+                model.addRow(new Object[]{null,null,null,trxDate,null,message});
+            } else {
+                model.addRow(new Object[]{null,null,null,trxDate,null,path});
             }
+            while(!jLabel1.getText().isEmpty()) {
+                try {
+                    synchronized (this) {
+                        wait(1000);
+                    }
+                    jLabel1.setText(MSG_EMPTY);
+                } catch (InterruptedException e) {
+                }
+            }
+            //statusBox.setVisible(false);
         }
-        //statusBox.setVisible(false);
     }
 
     //@Override
