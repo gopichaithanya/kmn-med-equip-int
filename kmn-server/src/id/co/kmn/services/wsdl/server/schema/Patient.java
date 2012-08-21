@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="patientId" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="singleId" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="patientName" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="patientBrm" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="docId" type="{http://www.w3.org/2001/XMLSchema}string"/>
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Patient", namespace = "http://localhost:9090/kmn/schemas/types", propOrder = {
     "patientId",
+    "singleId",
     "patientName",
     "patientBrm",
     "docId",
@@ -42,6 +44,8 @@ public class Patient {
 
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/types", required = true)
     protected String patientId;
+    @XmlElement(namespace = "http://localhost:9090/kmn/schemas/types", required = true)
+    protected String singleId;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/types", required = true)
     protected String patientName;
     @XmlElement(namespace = "http://localhost:9090/kmn/schemas/types", required = true)
@@ -73,6 +77,30 @@ public class Patient {
      */
     public void setPatientId(String value) {
         this.patientId = value;
+    }
+
+    /**
+     * Gets the value of the singleId property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getSingleId() {
+        return singleId;
+    }
+
+    /**
+     * Sets the value of the singleId property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSingleId(String value) {
+        this.singleId = value;
     }
 
     /**

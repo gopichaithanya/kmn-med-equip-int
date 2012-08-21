@@ -90,10 +90,10 @@ public class KmnEndpoint {
 //    }
 //
     /**
-     * This endpoint method uses marshalling to handle message with a <code>&lt;BookFlightRequest&gt;</code> payload.
+     * This endpoint method uses marshalling to handle message with a <code>&lt;StoreResultsRequest&gt;</code> payload.
      *
-     * @param request the JAXB2 representation of a <code>&lt;BookFlightRequest&gt;</code>
-     * @return the JAXB2 representation of a <code>&lt;BookFlightResponse&gt;</code>
+     * @param request the JAXB2 representation of a <code>&lt;StoreResultsRequest&gt;</code>
+     * @return the JAXB2 representation of a <code>&lt;StoreResultsResponse&gt;</code>
      */
     @PayloadRoot(localPart = STORE_RESULTS_REQUEST, namespace = MESSAGES_NAMESPACE)
     @ResponsePayload

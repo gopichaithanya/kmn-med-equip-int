@@ -108,16 +108,17 @@ public class PatientInfo {
             DOMSource src = new DOMSource( doc );
             NodeList patientInfo = doc.getElementsByTagName(Patient.TAG_PATIENTINFO);
             if(patientInfo.getLength() == 0) patientInfo = doc.getElementsByTagName(Patient.TAG_PATIENTID);
-            String data1 = "", data2 = "", data3 = "", data4 = "", data5 = "";
+            String data1 = "", data1b = "", data2 = "", data3 = "", data4 = "", data5 = "";
             for (int i = 0; i < patientInfo.getLength(); i++) {
                 data1 = getStringNodeValue(doc.getElementsByTagName(Patient.TAG_PATIENTID).item(i));
+                data1b = getStringNodeValue(doc.getElementsByTagName(Patient.TAG_SINGLEID).item(i));
                 data2 = getStringNodeValue(doc.getElementsByTagName(Patient.TAG_PATIENTNAME).item(i));
                 data3 = getStringNodeValue(doc.getElementsByTagName(Patient.TAG_PATIENTBRM).item(i));
                 data4 = getStringNodeValue(doc.getElementsByTagName(Patient.TAG_DOCID).item(i));
                 data5 = getStringNodeValue(doc.getElementsByTagName(Patient.TAG_DOCNAME).item(i));
                 String line = data1 + " " + data2 + " " + data3+ " " + data4+ " " + data5;
                 System.out.println(line);
-                Patient patient = new Patient(data1, data2, data3, data4, data5);
+                Patient patient = new Patient(data1, data1b, data2, data3, data4, data5);
                 patients.add(patient);
             }
         } catch (SAXException e) {

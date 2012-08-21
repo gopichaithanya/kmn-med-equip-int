@@ -34,11 +34,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link StoreResultsResponse }
+     * Create an instance of {@link PatientInfo.Patients }
      * 
      */
-    public StoreResultsResponse createStoreResultsResponse() {
-        return new StoreResultsResponse();
+    public PatientInfo.Patients createPatientInfoPatients() {
+        return new PatientInfo.Patients();
     }
 
     /**
@@ -50,19 +50,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PatientInfo.Patients }
+     * Create an instance of {@link GetPatientsRequest }
      * 
      */
-    public PatientInfo.Patients createPatientInfoPatients() {
-        return new PatientInfo.Patients();
-    }
-
-    /**
-     * Create an instance of {@link GetPatientListResponse }
-     * 
-     */
-    public GetPatientListResponse createGetPatientListResponse() {
-        return new GetPatientListResponse();
+    public GetPatientsRequest createGetPatientsRequest() {
+        return new GetPatientsRequest();
     }
 
     /**
@@ -74,19 +66,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link StoreResultsResponse }
+     * 
+     */
+    public StoreResultsResponse createStoreResultsResponse() {
+        return new StoreResultsResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetPatientListResponse }
+     * 
+     */
+    public GetPatientListResponse createGetPatientListResponse() {
+        return new GetPatientListResponse();
+    }
+
+    /**
      * Create an instance of {@link PatientInfo }
      * 
      */
     public PatientInfo createPatientInfo() {
         return new PatientInfo();
-    }
-
-    /**
-     * Create an instance of {@link GetPatientsRequest }
-     * 
-     */
-    public GetPatientsRequest createGetPatientsRequest() {
-        return new GetPatientsRequest();
     }
 
     /**
