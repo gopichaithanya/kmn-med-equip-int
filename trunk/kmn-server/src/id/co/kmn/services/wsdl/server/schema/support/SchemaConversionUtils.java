@@ -27,6 +27,7 @@ public abstract class SchemaConversionUtils {
             throws DatatypeConfigurationException {
         Patient schemaPatient = new Patient();
         schemaPatient.setPatientId(domainPatient.getPatientId());
+        schemaPatient.setSingleId(domainPatient.getSingleId());
         schemaPatient.setPatientName(domainPatient.getPatientName());
         schemaPatient.setPatientBrm(domainPatient.getPatientBrm());
         schemaPatient.setDocId(domainPatient.getDocId());
