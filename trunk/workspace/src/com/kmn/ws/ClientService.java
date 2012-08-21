@@ -43,6 +43,7 @@ public class ClientService {
     public static final String XML_COMM_SUFFIX = "</comm>";
     public static final String XML_ATTR_PREFIX = "<attr name=\"";
     public static final String XML_ATTR_MID = "\" selected=\"false\">";
+    public static final String XML_ATTR_MID_TRUE = "\" selected=\"true\">";
     public static final String XML_ATTR_SUFFIX = "</attr>\r\n";
     public static final String TAG_COMM = "comm";
     public static final String TAG_ATTR = "attr";
@@ -188,6 +189,14 @@ public class ClientService {
         return (Document) db.parse(absolutePath);
     }
     
+    public Document convertMessageToXml(String messageFormat, String messageString, String absolutePath, String equipCode) {
+        if(equipCode.equals("34")){
+            return convertSysmexKX21ToXml(messageString, absolutePath);
+        } else {
+            return convertMessageToXml(messageFormat, messageString, absolutePath);
+        }
+    }
+    
     public Document convertMessageToXml(String messageFormat, String messageString, String absolutePath) {
         try {
             BufferedReader br = new BufferedReader(new StringReader(messageString));
@@ -220,12 +229,100 @@ public class ClientService {
         return null;
     }
     
+    public Document convertSysmexKX21ToXml(String messageString, String absolutePath) {
+        try {
+            BufferedReader br = new BufferedReader(new StringReader(messageString));
+            StringBuilder sb = new StringBuilder(XML_HEADER+XML_COMM_PREFIX);
+            String strLine;
+            int count = 1;
+            //Read File Line By Line
+            while ((strLine = br.readLine()) != null)   {
+                // Print the content on the console
+                if(!strLine.isEmpty()) {
+                    strLine = strLine.replaceAll(AMP, AMP_PE);
+                    strLine = strLine.replaceAll(LT, LT_PE);
+                    strLine = strLine.replaceAll(GT, GT_PE);
+                    strLine = strLine.replaceAll(APOS, APOS_PE);
+                    strLine = strLine.replaceAll(QUOT, QUOT_PE);
+                    int srcBegin = strLine.indexOf("00C")+3;
+                    if (strLine.length()>=srcBegin+90){
+                        int WBC_START = srcBegin, WBC_END = srcBegin+5;
+                        int RBC_START = srcBegin+5, RBC_END = srcBegin+10;
+                        int HGB_START = srcBegin+10, HGB_END = srcBegin+15;
+                        int HCT_START = srcBegin+15, HCT_END = srcBegin+20;
+                        int MCV_START = srcBegin+20, MCV_END = srcBegin+25;
+                        int MCH_START = srcBegin+25, MCH_END = srcBegin+30;
+                        int MCHC_START = srcBegin+30, MCHC_END = srcBegin+35;
+                        int PLT_START = srcBegin+35, PLT_END = srcBegin+40;
+                        int LYMPCT_START = srcBegin+40, LYMPCT_END = srcBegin+45;
+                        int MXDPCT_START = srcBegin+45, MXDPCT_END = srcBegin+50;
+                        int NEUTPCT_START = srcBegin+50, NEUTPCT_END = srcBegin+55;
+                        int LYMCNT_START = srcBegin+55, LYMCNT_END = srcBegin+60;
+                        int MXDCNT_START = srcBegin+60, MXDCNT_END = srcBegin+65;
+                        int NEUTCNT_START = srcBegin+65, NEUTCNT_END = srcBegin+70;
+                        int RDW_START = srcBegin+70, RDW_END = srcBegin+75;
+                        int PDW_START = srcBegin+75, PDW_END = srcBegin+80;
+                        int MPV_START = srcBegin+80, MPV_END = srcBegin+85;
+                        int PLCR_START = srcBegin+85, PLCR_END = srcBegin+90;
+
+                        appendStringBuilder(sb, "WBC", parseSysmexKX21StringToDecimal(3, strLine.substring(WBC_START,WBC_END)));
+                        appendStringBuilder(sb, "RBC", parseSysmexKX21StringToDecimal(2, strLine.substring(RBC_START,RBC_END)));
+                        appendStringBuilder(sb, "HGB", parseSysmexKX21StringToDecimal(3, strLine.substring(HGB_START,HGB_END)));
+                        appendStringBuilder(sb, "HCT", parseSysmexKX21StringToDecimal(3, strLine.substring(HCT_START,HCT_END)));
+                        appendStringBuilder(sb, "MCV", parseSysmexKX21StringToDecimal(3, strLine.substring(MCV_START,MCV_END)));
+                        appendStringBuilder(sb, "MCH", parseSysmexKX21StringToDecimal(3, strLine.substring(MCH_START,MCH_END)));
+                        appendStringBuilder(sb, "MCHC", parseSysmexKX21StringToDecimal(3, strLine.substring(MCHC_START,MCHC_END)));
+                        appendStringBuilder(sb, "PLT", parseSysmexKX21StringToDecimal(4, strLine.substring(PLT_START,PLT_END)));
+                        appendStringBuilder(sb, "LYM%", parseSysmexKX21StringToDecimal(3, strLine.substring(LYMPCT_START,LYMPCT_END)));
+                        appendStringBuilder(sb, "MXD%", parseSysmexKX21StringToDecimal(3, strLine.substring(MXDPCT_START,MXDPCT_END)));
+                        appendStringBuilder(sb, "NEUT%", parseSysmexKX21StringToDecimal(3, strLine.substring(NEUTPCT_START,NEUTPCT_END)));
+                        appendStringBuilder(sb, "LYM#", parseSysmexKX21StringToDecimal(3, strLine.substring(LYMCNT_START,LYMCNT_END)));
+                        appendStringBuilder(sb, "MXD#", parseSysmexKX21StringToDecimal(3, strLine.substring(MXDCNT_START,MXDCNT_END)));
+                        appendStringBuilder(sb, "NEUT#", parseSysmexKX21StringToDecimal(3, strLine.substring(NEUTCNT_START,NEUTCNT_END)));
+                        appendStringBuilder(sb, "RDW", parseSysmexKX21StringToDecimal(3, strLine.substring(RDW_START,RDW_END)));
+                        appendStringBuilder(sb, "PDW", parseSysmexKX21StringToDecimal(3, strLine.substring(PDW_START,PDW_END)));
+                        appendStringBuilder(sb, "MPV", parseSysmexKX21StringToDecimal(3, strLine.substring(MPV_START,MPV_END)));
+                        appendStringBuilder(sb, "P-LCR", parseSysmexKX21StringToDecimal(3, strLine.substring(PLCR_START,PLCR_END)));
+                    } else {
+                        return null;//appendStringBuilder(sb, DESC+count, strLine);
+                    }
+                    count++;
+                }
+            }
+            sb.append(XML_COMM_SUFFIX);
+            return createXml(sb.toString().trim(), absolutePath);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    
+    private String parseSysmexKX21StringToDecimal(int offset, String string) {
+        if(string.substring(string.length()-1, string.length()).equals("0")) {
+            if(string.substring(offset, string.length()-1).isEmpty()) {
+                return Integer.valueOf(string.substring(0,offset)).toString();
+            } else {
+                return Integer.valueOf(string.substring(0,offset)) + "." + string.substring(offset, string.length()-1);
+            }
+        } else {
+            return Integer.valueOf(string.substring(0,offset)) + "." + string.substring(offset, string.length()-1) + "-";
+        }
+    }
+    private void appendStringBuilder(StringBuilder sb, String description, String value) {
+        sb.append(XML_ATTR_PREFIX);
+        sb.append(description);
+        sb.append(XML_ATTR_MID_TRUE);
+        sb.append(value);
+        sb.append(XML_ATTR_SUFFIX);
+    }
+    
     public String toString(Document document) throws TransformerConfigurationException, TransformerException {
         TransformerFactory factory1 = TransformerFactory.newInstance();
         Transformer transformer = factory1.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         StringWriter writer = new StringWriter();
         StreamResult result = new StreamResult(writer);
+        document.getElementsByTagName("item");
         DOMSource source = new DOMSource(document);
         transformer.transform(source, result);
         String s = writer.toString();

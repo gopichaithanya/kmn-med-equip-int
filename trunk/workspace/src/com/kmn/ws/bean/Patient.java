@@ -13,11 +13,13 @@ import javax.xml.soap.SOAPElement;
 public class Patient {
     public static final String PATIENTS = "patients";
     public static final String PATIENTID = "patientId";
+    public static final String SINGLEID = "singleId";
     public static final String PATIENTNAME = "patientName";
     public static final String PATIENTBRM = "patientBrm";
     public static final String DOCID = "docId";
     public static final String DOCNAME = "docName";
     private String patientId;
+    private String singleId;
     private String patientName;
     private String patientBrm;
     private String docId;
@@ -25,8 +27,9 @@ public class Patient {
 
     public Patient() {}
 
-    public Patient(String patientId, String patientName, String patientBrm, String docId, String docName) {
+    public Patient(String patientId, String singleId, String patientName, String patientBrm, String docId, String docName) {
         this.patientId = patientId;
+        this.singleId = singleId;
         this.patientName = patientName;
         this.patientBrm = patientBrm;
         this.docId = docId;
@@ -41,6 +44,14 @@ public class Patient {
         this.patientId = patientId;
     }
 
+    public String getSingleId() {
+        return singleId;
+    }
+
+    public void setSingleId(String singleId) {
+        this.singleId = singleId;
+    }
+    
     public String getPatientName() {
         return patientName;
     }
@@ -76,6 +87,8 @@ public class Patient {
     public void setVariable(SOAPElement soapElement) {
         if(soapElement.getElementQName().getLocalPart().equals(PATIENTID)){
             this.patientId = soapElement.getTextContent();
+        } else if(soapElement.getElementQName().getLocalPart().equals(SINGLEID)){
+            this.singleId = soapElement.getTextContent();
         } else if(soapElement.getElementQName().getLocalPart().equals(PATIENTNAME)){
             this.patientName = soapElement.getTextContent();
         } else if(soapElement.getElementQName().getLocalPart().equals(PATIENTBRM)){
