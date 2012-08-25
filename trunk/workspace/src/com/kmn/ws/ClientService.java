@@ -330,7 +330,8 @@ public class ClientService {
     }
     
     public String getStringFromXmlFile(String absolutePath) throws TransformerConfigurationException, TransformerException, ParserConfigurationException, SAXException, IOException {
-        return toString(readXml(absolutePath));
+        //return toString(readXml(absolutePath));
+        return toString(getParsedDocumentForDicomIOL(readXml(absolutePath)));
     }
     
     public byte[] getByteArrayFromXmlFile(String absolutePath) throws TransformerConfigurationException, TransformerException, ParserConfigurationException, SAXException, IOException {
@@ -367,5 +368,29 @@ public class ClientService {
             }
         }
         return toString(a.getOwnerDocument());
+    }
+    
+    public Document getParsedDocumentForDicomIOL(Document doc) {
+        DocumentTraversal traversal = (DocumentTraversal) doc;
+        Node a = doc.getDocumentElement();
+        NodeIterator iterator = traversal.createNodeIterator(a, NodeFilter.SHOW_ELEMENT, null, true);
+        for (Node n = iterator.nextNode(); n != null; n = iterator.nextNode()) {
+            Element e = (Element) n;
+            if(e.getTagName().equals("item")) {
+                Node pnode = e.getParentNode();
+                pnode.removeChild(n);
+            }
+            
+            //if(e.hasAttribute("item")) {
+            //    a.removeChild(n);
+            //}
+//            if(e.getAttribute(ATTR_SELECTED).equals("false")){
+//                a.removeChild(n);
+//            } else {
+//                e.removeAttribute(ATTR_SELECTED);
+//                e.removeAttribute(ATTR_NAME);
+//            }
+        }
+        return a.getOwnerDocument();
     }
 }
