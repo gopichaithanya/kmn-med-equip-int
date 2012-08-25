@@ -404,7 +404,9 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                             dataOutput = new File(filePath+OUTPUT_JPG);
                             dataLocation = filePath+OUTPUT_JPG; 
                         }
-                        xmlData = cs.getStringFromXmlFile(filePath+OUTPUT_XML);
+                        //xmlData = cs.getStringFromXmlFile(filePath+OUTPUT_XML);
+                        //xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><dicom><attr>EMPTY</attr></dicom>";
+                        xmlData = "0";
                     }
                     
                     if(cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
