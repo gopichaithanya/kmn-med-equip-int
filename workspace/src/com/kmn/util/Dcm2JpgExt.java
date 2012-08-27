@@ -20,6 +20,15 @@ public class Dcm2JpgExt extends Dcm2Jpg {
     
     public Dcm2JpgExt(String iPath, String oPath) {
         super();
+        constructDcm2JpgExt(iPath, oPath, 1);
+    }
+    
+    public Dcm2JpgExt(String iPath, String oPath, int frameNumber) {
+        super();
+        constructDcm2JpgExt(iPath, oPath, frameNumber);
+    }
+    
+    private void constructDcm2JpgExt(String iPath, String oPath, int frameNumber) {
         File dest = new File(oPath);
         long t1 = System.currentTimeMillis();
         int count = 1;
@@ -28,9 +37,14 @@ public class Dcm2JpgExt extends Dcm2Jpg {
             System.out.println("Cannot find the file specified: " + iPath);
         }
         try {
+            super.setFrameNumber(frameNumber);
             System.out.println("Source: " + iPath);
+            System.out.println("Frame Number: " + frameNumber);
             super.convert(src, dest);
             System.out.println("Destination: " + oPath);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage()+"\nReverting to render the first frame.");
+            constructDcm2JpgExt(iPath, oPath, 1);
         } catch (IOException e) {
             System.err.println("dcm2jpg: Failed to convert " 
                     + iPath + ": " + e.getMessage());

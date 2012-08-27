@@ -27,12 +27,22 @@ public class DicomInterface implements ModelInterface, Serializable {
     
     public DicomInterface(InterfaceEvent event, String ip, int port
             , String applicationEntity, String destination) {
+        constructDicomInterface(event, ip, port, applicationEntity, destination, 1);
+    }
+    
+    public DicomInterface(InterfaceEvent event, String ip, int port
+            , String applicationEntity, String destination, int frameNumber) {
+        constructDicomInterface(event, ip, port, applicationEntity, destination, frameNumber);
+    }
+    
+    private void constructDicomInterface(InterfaceEvent event, String ip, int port
+            , String applicationEntity, String destination, int frameNumber) {
         this.event = event;
         Date now = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat(SDF);
         sdf.format(now);
         String ae = (!applicationEntity.isEmpty())?applicationEntity:AE;
-        this.dcmrcv = new DcmRcvExt(ae, event);
+        this.dcmrcv = new DcmRcvExt(ae, event, frameNumber);
         this.dcmrcv.setPort(port);
         this.port = port;
         if (!destination.isEmpty()) {
@@ -45,7 +55,6 @@ public class DicomInterface implements ModelInterface, Serializable {
         dcmrcv.setJournalFilePathFormat(JFPH);
         this.dcmrcv.initTransferCapability();
     }
-    
     @Override
     public void connect() {
         try {

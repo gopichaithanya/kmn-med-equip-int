@@ -542,7 +542,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     private void receiveEquipmentData() {
         try {
             if (equip.getInterfaceType().equalsIgnoreCase(DICOM)) {
-                this.modelinterface = new DicomInterface(this, LOCAL_IP, Integer.valueOf(equip.getPort()), AP_NAME, TEMP_DIR);
+                this.modelinterface = new DicomInterface(this, LOCAL_IP, Integer.valueOf(equip.getPort()), AP_NAME, TEMP_DIR, 4);
              } else {
                 this.modelinterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
                         , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())

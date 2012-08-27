@@ -28,6 +28,7 @@ public class DcmRcvExt extends DcmRcv {
     
     private String destinationExt;
     private InterfaceEvent event;
+    private int frameNumber;
 
     public String getDestinationExt() {
         return destinationExt;
@@ -44,6 +45,12 @@ public class DcmRcvExt extends DcmRcv {
     public DcmRcvExt(String name, InterfaceEvent event) {
         super(name);
         this.event = event;
+    }
+    
+    public DcmRcvExt(String name, InterfaceEvent event, int frameNumber) {
+        super(name);
+        this.event = event;
+        this.frameNumber = frameNumber;
     }
 
     @Override
@@ -68,7 +75,7 @@ public class DcmRcvExt extends DcmRcv {
         try {
             System.out.println(MSG_JPG_CONV);
             this.event.onMessage(MSG_JPG_CONV);
-            Dcm2JpgExt dcm2JpgExt = new Dcm2JpgExt(iPath, jpgPath);
+            Dcm2JpgExt dcm2JpgExt = new Dcm2JpgExt(iPath, jpgPath, this.frameNumber);
         } catch (NullPointerException e) {
             System.out.println(MSG_NO_PIXEL);
             this.event.onMessage(MSG_NO_PIXEL);
