@@ -30,6 +30,7 @@
     <cp>lib/dom4j-1.6.1.jar</cp>
     <cp>lib/ehcache-1.2.3.jar</cp>
     <cp>lib/jdbc2_0-stdext.jar</cp>
+    <cp>lib/log4j-1.2.16.jar</cp>
     <cp>lib/jta.jar</cp>
     <cp>lib/hibernate3.jar</cp>
     <cp>lib/hibernate-tools.jar</cp>
@@ -57,12 +58,11 @@
     <cp>lib/xml-apis-1.3.02.jar</cp>
     <cp>lib/joda-time-1.4.jar</cp>
     <cp>lib/AbsoluteLayout.jar</cp>
-    <cp>lib/log4j-1.2.14.jar</cp>
     <cp>lib/modified-dcm2jpg.jar</cp>
-    <cp>jre6/lib/comm.jar</cp>
+    <cp>jdk/lib/comm.jar</cp>
   </classPath>
   <jre>
-    <path>jre6</path>
+    <path>jdk</path>
     <minVersion>1.6.0_02</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
