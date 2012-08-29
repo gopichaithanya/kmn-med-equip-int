@@ -1,0 +1,64 @@
+
+
+CmdLine:	D:\workspace\svn\kmn\bin\workspace\workspace.exe --l4j-debug
+WOW64:		no
+Check launcher:	 (n/a)
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+32-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+Ignore:		SOFTWARE\JavaSoft\Java Runtime Environment\1.5
+Ignore:		SOFTWARE\JavaSoft\Java Runtime Environment\1.5.0_22
+Ignore:		SOFTWARE\JavaSoft\Java Runtime Environment\1.6
+Match:		SOFTWARE\JavaSoft\Java Runtime Environment\1.6.0_20
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+32-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.5
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.5.0_22
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.6
+Ignore:		SOFTWARE\JavaSoft\Java Development Kit\1.6.0_20
+Check launcher:	C:\Program Files\Java\jre6\bin\javaw.exe (OK)
+Heap -Xms:	256 MB / 0%, Free: 2047 MB, Heap size: 256 MB
+Heap -Xmx:	1024 MB / 0%, Free: 2047 MB, Heap size: 1024 MB
+Add classpath:	lib\appframework-1.0.3.jar
+Add classpath:	lib\swing-worker-1.1.jar
+Add classpath:	lib\antlr-2.7.6.jar
+Add classpath:	lib\asm.jar
+Add classpath:	lib\asm-attrs.jar
+Add classpath:	lib\cglib-2.1.3.jar
+Add classpath:	lib\commons-collections-2.1.1.jar
+Add classpath:	lib\org-apache-commons-logging.jar
+Add classpath:	lib\dom4j-1.6.1.jar
+Add classpath:	lib\ehcache-1.2.3.jar
+Add classpath:	lib\jdbc2_0-stdext.jar
+Add classpath:	lib\jta.jar
+Add classpath:	lib\hibernate3.jar
+Add classpath:	lib\hibernate-tools.jar
+Add classpath:	lib\hibernate-annotations.jar
+Add classpath:	lib\hibernate-commons-annotations.jar
+Add classpath:	lib\hibernate-entitymanager.jar
+Add classpath:	lib\javassist.jar
+Add classpath:	lib\ejb3-persistence.jar
+Add classpath:	lib\mysql-connector-java-5.1.13-bin.jar
+Add classpath:	lib\dcm4che-net-2.0.26.jar
+Add classpath:	lib\dcm4che-filecache-2.0.26.jar
+Add classpath:	lib\slf4j-api-1.6.1.jar
+Add classpath:	lib\dcm4che-core-2.0.26.jar
+Add classpath:	lib\slf4j-log4j12-1.6.1.jar
+Add classpath:	lib\commons-cli-1.2.jar
+Add classpath:	lib\modified-dcmrv.jar
+Add classpath:	lib\dcm4che-tool-dcm2xml-2.0.26.jar
+Add classpath:	lib\dcm4che-image-2.0.26.jar
+Add classpath:	lib\dcm4che-imageio-2.0.26.jar
+Add classpath:	lib\dcm4che-imageio-rle-2.0.26.jar
+Add classpath:	lib\dcm4che-tool-dcm2jpg-2.0.26.jar
+Add classpath:	lib\jai_imageio.jar
+Add classpath:	lib\jai_imageio_windows-i586.jar
+Add classpath:	lib\PDFRenderer-0.9.1.jar
+Add classpath:	lib\xml-apis-1.3.02.jar
+Add classpath:	lib\joda-time-1.4.jar
+Add classpath:	lib\AbsoluteLayout.jar
+Add classpath:	lib\log4j-1.2.14.jar
+Add classpath:	lib\modified-dcm2jpg.jar
+Launcher:	C:\Program Files\Java\jre6\bin\javaw.exe
+Launcher args:	-Xms256m -Xmx1024m -classpath "D:\workspace\svn\kmn\bin\workspace\workspace.exe;lib\appframework-1.0.3.jar;lib\swing-worker-1.1.jar;lib\antlr-2.7.6.jar;lib\asm.jar;lib\asm-attrs.jar;lib\cglib-2.1.3.jar;lib\commons-collections-2.1.1.jar;lib\org-apache-commons-logging.jar;lib\dom4j-1.6.1.jar;lib\ehcache-1.2.3.jar;lib\jdbc2_0-stdext.jar;lib\jta.jar;lib\hibernate3.jar;lib\hibernate-tools.jar;lib\hibernate-annotations.jar;lib\hibernate-commons-annotations.jar;lib\hibernate-entitymanager.jar;lib\javassist.jar;lib\ejb3-persistence.jar;lib\mysql-connector-java-5.1.13-bin.jar;lib\dcm4che-net-2.0.26.jar;lib\dcm4che-filecache-2.0.26.jar;lib\slf4j-api-1.6.1.jar;lib\dcm4che-core-2.0.26.jar;lib\slf4j-log4j12-1.6.1.jar;lib\commons-cli-1.2.jar;lib\modified-dcmrv.jar;lib\dcm4che-tool-dcm2xml-2.0.26.jar;lib\dcm4che-image-2.0.26.jar;lib\dcm4che-imageio-2.0.26.jar;lib\dcm4che-imageio-rle-2.0.26.jar;lib\dcm4che-tool-dcm2jpg-2.0.26.jar;lib\jai_imageio.jar;lib\jai_imageio_windows-i586.jar;lib\PDFRenderer-0.9.1.jar;lib\xml-apis-1.3.02.jar;lib\joda-time-1.4.jar;lib\AbsoluteLayout.jar;lib\log4j-1.2.14.jar;lib\modified-dcm2jpg.jar" com.kmn.MainApps
+Args length:	1139/32768 chars
+Exit code:	259

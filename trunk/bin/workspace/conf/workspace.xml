@@ -1,8 +1,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>D:\workspace\svn\kmn\workspace\workspace-apps\workspace.jar</jar>
-  <outfile>D:\workspace\svn\kmn\workspace\workspace-apps\workspace.exe</outfile>
+  <jar>D:\workspace\svn\kmn\bin\workspace\workspace.jar</jar>
+  <outfile>D:\workspace\svn\kmn\bin\workspace\workspace.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
@@ -12,7 +12,7 @@
   <customProcName>false</customProcName>
   <stayAlive>false</stayAlive>
   <manifest></manifest>
-  <icon>D:\workspace\svn\kmn\workspace\workspace-apps\images\workspace.ico</icon>
+  <icon>D:\workspace\svn\kmn\bin\workspace\images\workspace.ico</icon>
   <singleInstance>
     <mutexName>Klinik Mata Nusantara</mutexName>
     <windowTitle>Klinik Mata Nusantara</windowTitle>
@@ -57,17 +57,20 @@
     <cp>lib/xml-apis-1.3.02.jar</cp>
     <cp>lib/joda-time-1.4.jar</cp>
     <cp>lib/AbsoluteLayout.jar</cp>
+    <cp>lib/log4j-1.2.14.jar</cp>
+    <cp>lib/modified-dcm2jpg.jar</cp>
+    <cp>jre6/lib/comm.jar</cp>
   </classPath>
   <jre>
-    <path></path>
-    <minVersion>1.6.0_20</minVersion>
+    <path>jre6</path>
+    <minVersion>1.6.0_02</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
     <initialHeapSize>256</initialHeapSize>
     <maxHeapSize>1024</maxHeapSize>
   </jre>
   <splash>
-    <file>D:\workspace\svn\kmn\workspace\workspace-apps\images\klinikmatanusantara.bmp</file>
+    <file>D:\workspace\svn\kmn\bin\workspace\images\klinikmatanusantara.bmp</file>
     <waitForWindow>true</waitForWindow>
     <timeout>60</timeout>
     <timeoutErr>true</timeoutErr>
