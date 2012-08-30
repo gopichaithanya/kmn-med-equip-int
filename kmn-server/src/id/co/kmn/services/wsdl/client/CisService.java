@@ -92,7 +92,7 @@ public class CisService {
         SOAPBodyElement getPatientsRequestElement = message.getSOAPBody().addBodyElement(getPatientsRequestName);
         Name reqKeywordName = envelope.createName(REQKEYWORD, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPElement reqKeywordElement = getPatientsRequestElement.addChildElement(reqKeywordName);
-        reqKeywordElement.setValue("%"+reqKeyword+"%");
+        reqKeywordElement.setValue(reqKeyword);
         Name reqClinicIdName = envelope.createName(REQCLINICID, CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPElement reqClinicIdElement = getPatientsRequestElement.addChildElement(reqClinicIdName);
         reqClinicIdElement.setValue(reqClinicId);
