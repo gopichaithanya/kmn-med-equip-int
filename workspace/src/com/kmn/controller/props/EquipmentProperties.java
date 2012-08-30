@@ -115,6 +115,8 @@ public class EquipmentProperties implements PropertiesController {
         File[] dirs = receiverDir.listFiles();
         for (File d : dirs) {
             String propName = d.getName();
+            if(propName.indexOf("equipment") < 0) continue;
+
             String[] lname = propName.split("-");
             if(!isExist(lname[0]))
                 d.delete();
