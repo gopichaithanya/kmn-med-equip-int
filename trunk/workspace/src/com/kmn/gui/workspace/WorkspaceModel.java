@@ -186,7 +186,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, true, true, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
