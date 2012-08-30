@@ -127,28 +127,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PatientInfo.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/PatientInfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="68" selection-start="2371" selection-end="2371" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="KmnServiceMethod.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/service/KmnServiceMethod.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="54" column="25" selection-start="1784" selection-end="1784" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CisService.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/client/CisService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="189" column="0" selection-start="11030" selection-end="11140" vertical-scroll-proportion="0.796875">
+            <state line="103" column="91" selection-start="5478" selection-end="5478" vertical-scroll-proportion="0.33271375">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IntegrasiAlat.wsdl" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/client/IntegrasiAlat.wsdl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="42" selection-start="751" selection-end="751" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GetPatientsRequest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/GetPatientsRequest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="13" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -212,9 +212,7 @@
         <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/ObjectFactory.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="97" column="77" selection-start="2851" selection-end="2851" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -238,7 +236,6 @@
         <option value="$PROJECT_DIR$/src/id/co/kmn/webui/administrasi/equipment/EquipmentMainCtrl.java" />
         <option value="$PROJECT_DIR$/web/WEB-INF/pages/administrasi/transaction/transactionMain.zul" />
         <option value="$PROJECT_DIR$/web/WEB-INF/pages/administrasi/transaction/transactionDetail.zul" />
-        <option value="$PROJECT_DIR$/src/id/co/kmn/services/wsdl/client/CisService.java" />
         <option value="$PROJECT_DIR$/src/id/co/kmn/services/wsdl/WebServiceConstant.java" />
         <option value="$PROJECT_DIR$/src/id/co/kmn/services/wsdl/test/TestCisSaaj.java" />
         <option value="$PROJECT_DIR$/resource/customize-applicationContext.xml" />
@@ -248,6 +245,7 @@
         <option value="$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/Patient.java" />
         <option value="$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/PatientInfo.java" />
         <option value="$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/support/SchemaConversionUtils.java" />
+        <option value="$PROJECT_DIR$/src/id/co/kmn/services/wsdl/client/CisService.java" />
       </list>
     </option>
   </component>
@@ -312,6 +310,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Favorites" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -327,7 +326,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1172,9 +1170,9 @@
       <item index="0" class="java.lang.String" itemvalue="Application.Atm" />
       <item index="1" class="java.lang.String" itemvalue="Application.AtmSimulator" />
       <item index="2" class="java.lang.String" itemvalue="Application.TestGetPatientList" />
-      <item index="3" class="java.lang.String" itemvalue="Tomcat Server.tomcat" />
-      <item index="4" class="java.lang.String" itemvalue="Application.TestSaaj" />
-      <item index="5" class="java.lang.String" itemvalue="Application.TestCisSaaj" />
+      <item index="3" class="java.lang.String" itemvalue="Application.TestSaaj" />
+      <item index="4" class="java.lang.String" itemvalue="Application.TestCisSaaj" />
+      <item index="5" class="java.lang.String" itemvalue="Tomcat Server.tomcat" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -1242,15 +1240,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1228" height="784" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Phing Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988802" sideWeight="0.651446" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34398782" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.70282316" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988802" sideWeight="0.6712329" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.48401827" sideWeight="0.0" order="3" side_tool="false" content_ui="tabs" x="25" y="265" width="1161" height="237" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.73363775" sideWeight="0.0" order="3" side_tool="false" content_ui="tabs" x="25" y="265" width="1161" height="237" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32988802" sideWeight="0.67198837" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1261,13 +1258,14 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32874355" sideWeight="0.63165903" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32874355" sideWeight="0.66057837" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2512909" sideWeight="0.51598173" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33046472" sideWeight="0.26636225" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42433697" sideWeight="0.0" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51902586" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="soapUI Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34398782" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="soapUI Navigator" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1357,114 +1355,88 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/test/TestCisSaaj.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="8" selection-start="446" selection-end="446" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/service/impl/KmnServiceMethodImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="143" column="40" selection-start="6367" selection-end="6367" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/StoreResultsRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="13" selection-start="2014" selection-end="2014" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="46" column="13" selection-start="2014" selection-end="2014" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/Patient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="5" selection-start="1737" selection-end="1737" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="56" column="5" selection-start="1737" selection-end="1737" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/xsd/types.xsd">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="47" selection-start="879" selection-end="879" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="23" column="47" selection-start="879" selection-end="879" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/xsd/messages.xsd">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="82" selection-start="1211" selection-end="1211" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/PatientInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="61" selection-start="5218" selection-end="5218" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/GetPatientListResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="13" selection-start="1346" selection-end="1346" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/StoreResultsResponse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="13" selection-start="1066" selection-end="1066" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/Patient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="59" selection-start="2180" selection-end="2180" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/support/SchemaConversionUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="61" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/KmnEndpoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="46" selection-start="3251" selection-end="3251" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/ObjectFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="77" selection-start="2851" selection-end="2851" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="29" column="82" selection-start="1211" selection-end="1211" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/PatientInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="68" selection-start="2371" selection-end="2371" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="63" column="68" selection-start="2371" selection-end="2371" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/service/KmnServiceMethod.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="25" selection-start="1784" selection-end="1784" vertical-scroll-proportion="0.0">
+        <state line="54" column="25" selection-start="1784" selection-end="1784" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/Patient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="59" selection-start="2180" selection-end="2180" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/support/SchemaConversionUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="61" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/GetPatientListResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="13" selection-start="1346" selection-end="1346" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/StoreResultsResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="13" selection-start="1066" selection-end="1066" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/bean/PatientInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="61" selection-start="5218" selection-end="5218" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/KmnEndpoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="46" selection-start="3251" selection-end="3251" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/ObjectFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="97" column="77" selection-start="2851" selection-end="2851" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/client/IntegrasiAlat.wsdl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="42" selection-start="751" selection-end="751" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/server/schema/GetPatientsRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="13" selection-start="1253" selection-end="1253" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/id/co/kmn/services/wsdl/client/CisService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="189" column="0" selection-start="11030" selection-end="11140" vertical-scroll-proportion="0.796875">
+        <state line="103" column="91" selection-start="5478" selection-end="5478" vertical-scroll-proportion="0.33271375">
           <folding />
         </state>
       </provider>
