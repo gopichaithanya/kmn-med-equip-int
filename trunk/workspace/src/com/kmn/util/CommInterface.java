@@ -44,12 +44,8 @@ public class CommInterface implements SerialPortEventListener, ModelInterface, S
     
     static SerialPortObject[]	portObj;
     static int portNum = 0, panelNum = 0, rcvDelay = 0;
-    static boolean	threaded = true,
-					silentReceive = false,
-					modemMode = false,
-					friendly = false,
-					allPorts = true,
-					lineMonitor = false;
+    static boolean threaded = true, silentReceive = true, modemMode = false,
+                   friendly = false, allPorts = true, lineMonitor = false;
     
     private String port;
     private int speed;

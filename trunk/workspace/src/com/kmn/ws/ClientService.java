@@ -7,6 +7,7 @@ package com.kmn.ws;
 import com.kmn.controller.props.ServerProperties;
 import static com.kmn.ws.WebServiceConstants.LOCAL_NAMESPACE_URI;
 import com.kmn.ws.bean.PatientInfo;
+import com.kmn.ws.bean.StoreResultsResponse;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -102,7 +103,7 @@ public class ClientService {
         if(this.cc==null) this.cc = new ClientConnector(URI);
         return this.cc.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
     }
-    public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId
+    public StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId
             , int imageId,DateTime trxDate, DateTime timeStamp, String dataLocation, File dataOutput, String xmlData
             , String creatorId) throws SOAPException, MalformedURLException, IOException, TransformerException, DatatypeConfigurationException {
 
