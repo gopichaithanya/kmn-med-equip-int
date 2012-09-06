@@ -7,6 +7,7 @@ package com.kmn.ws;
 //import com.kmn.util.IOUtils;
 import static com.kmn.ws.WebServiceConstants.*;
 import com.kmn.ws.bean.PatientInfo;
+import com.kmn.ws.bean.StoreResultsResponse;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -89,19 +90,18 @@ public class ClientConnector {
         Transformer transformer = transfomerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        int count = 1;
+        System.out.println("getPatientsResponseElement: ");
         while (iterator.hasNext()) {
-            System.out.println("getPatientsResponseElement: " + count);
             SOAPElement soapElement = (SOAPElement) iterator.next();
             DOMSource source = new DOMSource(soapElement);
             transformer.transform(source, new StreamResult(System.out));
-            System.out.println("--------");
             patientInfo.setVariable(soapElement);
         }
+        System.out.println("----------------------------");
         return patientInfo;
     }
     
-    public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId
+    public StoreResultsResponse storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId
             , int imageId,DateTime trxDate, DateTime timeStamp, String dataLocation, File dataOutput, String xmlData
             , String creatorId) throws SOAPException, TransformerException, DatatypeConfigurationException, MalformedURLException, FileNotFoundException, IOException {
         
@@ -116,9 +116,12 @@ public class ClientConnector {
         } else {
             SOAPFault fault = response.getSOAPBody().getFault();
             System.err.println("Received SOAP Fault");
-            System.err.println("SOAP Fault Code:   " + fault.getFaultCode());
-            System.err.println("SOAP Fault String: " + fault.getFaultString());
-            return false;
+            String errorStr = "SOAP Fault Code:   " + fault.getFaultCode() + 
+                    "\nSOAP Fault String: " + fault.getFaultString();
+            System.err.println(errorStr);
+            //System.err.println("SOAP Fault Code:   " + fault.getFaultCode());
+            //System.err.println("SOAP Fault String: " + fault.getFaultString());
+            return new StoreResultsResponse(false,errorStr);
         }
     }
     
@@ -164,22 +167,24 @@ public class ClientConnector {
         reqKeywordElement.setValue((String) value);
     }
     
-    private Boolean writeStoreResultsResponse(SOAPMessage message) throws SOAPException, TransformerException {
+    private StoreResultsResponse writeStoreResultsResponse(SOAPMessage message) throws SOAPException, TransformerException {
+        StoreResultsResponse srr = new StoreResultsResponse();
         SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
         SOAPBodyElement getResponseElement = (SOAPBodyElement) message.getSOAPBody().getFirstChild();
         Iterator iterator = getResponseElement.getChildElements();
         Transformer transformer = transfomerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        int count = 1;
+        System.out.println("writeStoreResultsResponse: ");
         while (iterator.hasNext()) {
-            System.out.println("writeStoreResultsResponse: " + count);
             SOAPElement soapElement = (SOAPElement) iterator.next();
             DOMSource source = new DOMSource(soapElement);
             transformer.transform(source, new StreamResult(System.out));
-            System.out.println("--------");
-            //patientInfo.setVariable(soapElement);
+            srr.setStoreResultsResponse(soapElement);
         }
-        return true;
+        System.out.println("---------------------------");
+        return srr;
     }
+    
+    
 }

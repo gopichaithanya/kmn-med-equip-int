@@ -18,6 +18,7 @@ import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
 import com.kmn.ws.ClientService;
+import com.kmn.ws.bean.StoreResultsResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -53,8 +54,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     public static final String MSG_SELECT_ROW = "Please select a data row.";
     public static final String MSG_INPUT_PATIENT = "Please input patient data.";
     public static final String MSG_NO_FILE = "Output result file does not exist.";
-    public static final String MSG_SAVE_SUCCESS = "Save successful.";
-    public static final String MSG_SAVE_FAILED = "Save failed.";
+    public static final String MSG_SAVE_SUCCESS = "Save successful.\nResult: ";
+    public static final String MSG_SAVE_FAILED = "Save failed.\nResult: ";
     /* Connection String Constants */
     public static final String TEMP_DIR = "C:/kmntmp";
     public static final String OUTPUT_PDF = ".out/output.pdf";
@@ -373,7 +374,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                 this.cs = new ClientService();
                 try {
                     String filePath = (String) jTable1.getValueAt(row, 5);
-                    String branchId = "8";
+                    String branchId = "CIS_CLINIC_ID";
                     String patientCode = (String) jTable1.getValueAt(row, 2); 
                     String patientName = (String) jTable1.getValueAt(row, 1);
                     DateTime dt = (DateTime) jTable1.getValueAt(row, 3);
@@ -408,14 +409,14 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                         xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><dicom><attr>EMPTY</attr></dicom>";
                         //xmlData = "0";
                     }
-                    
-                    if(cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
-                            , dataLocation, dataOutput, xmlData, creatorId)) {
-                        JOptionPane.showMessageDialog(this, MSG_SAVE_SUCCESS);
+                    StoreResultsResponse srr = cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
+                            , dataLocation, dataOutput, xmlData, creatorId);
+                    if(srr.isSuccess()) {
+                        JOptionPane.showMessageDialog(this, MSG_SAVE_SUCCESS + srr.getResult());
                         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
                         model.removeRow(row);
                     } else {
-                        JOptionPane.showMessageDialog(this, MSG_SAVE_FAILED);
+                        JOptionPane.showMessageDialog(this, MSG_SAVE_FAILED + srr.getResult());
                     }
                 } catch (SOAPException ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage());

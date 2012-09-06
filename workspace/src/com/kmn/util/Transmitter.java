@@ -136,21 +136,22 @@ public class Transmitter implements TextListener, ItemListener, Runnable {
 	}
 
 	public void sendString(String str) {
-		int	count;
-		count = str.length();
-		if (count > 0) {
-			try {
-				owner.out.write(str.getBytes());
-				//counter.incrementValue((long) count);
-				//owner.ctlSigs.BE = false;
-				//owner.ctlSigs.showErrorValues();
-			} catch (IOException ex) {
-				if (owner.open) {
-					System.out.println(owner.port.getName() + ": Cannot write to output stream");
-					//this.auto.setState(false);
-				}
-			}
-		}
+            int	count;
+            count = str.length();
+            if (count > 0) {
+                try {
+                    System.out.println(owner.port.getName() + ": Transmitter.sendString()");
+                    owner.out.write(str.getBytes());
+                    //counter.incrementValue((long) count);
+                    //owner.ctlSigs.BE = false;
+                    //owner.ctlSigs.showErrorValues();
+                } catch (IOException ex) {
+                    if (owner.open) {
+                        System.out.println(owner.port.getName() + ": Cannot write to output stream");
+                        //this.auto.setState(false);
+                    }
+                }
+            }
 	}
 
 	private void sendData() {
