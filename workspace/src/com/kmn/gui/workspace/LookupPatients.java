@@ -4,38 +4,24 @@
  */
 package com.kmn.gui.workspace;
 
+import com.kmn.MainApps;
 import com.kmn.ws.ClientService;
 import com.kmn.ws.bean.Patient;
 import com.kmn.ws.bean.PatientInfo;
-import java.awt.event.ActionEvent;
-import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPException;
 import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 /**
  *
  * @author valeo
  */
-public class LookupPatients extends javax.swing.JFrame {
+public class LookupPatients extends javax.swing.JDialog {
     private WorkspaceModel wm;
     private PatientInfo patientInfo;
     private static final String DEFAULT_CLINIC_ID = "8";
@@ -49,6 +35,7 @@ public class LookupPatients extends javax.swing.JFrame {
      * Creates new form LookupPatients
      */
     protected LookupPatients() {
+        super(MainApps.getApplication().getMainFrame(), true);
         initComponents();
     }
     

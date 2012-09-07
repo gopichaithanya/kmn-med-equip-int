@@ -91,6 +91,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     private DicomInterface dicomInterface;
     private CommInterface commInterface;
     private ClientService cs;
+
+    private LookupPatients lookupPatients;
     
     
 
@@ -339,9 +341,15 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         int row = jTable1.getSelectedRow();
         if (row > -1) {
             try {
-                this.onMessage(MSG_LOADING_PATIENTS);
-                LookupPatients lookupPatients = new LookupPatients(this);
-                lookupPatients.setVisible(true);
+                if(lookupPatients == null) {
+                    JFrame mainFrame = MainApps.getApplication().getMainFrame();
+                    this.onMessage(MSG_LOADING_PATIENTS);
+                    lookupPatients = new LookupPatients(this);
+                    lookupPatients.setLocationRelativeTo(mainFrame);
+                    lookupPatients.setResizable(false);
+                }
+                MainApps.getApplication().show(lookupPatients);
+                //lookupPatients.setVisible(true);
             } catch (SOAPException ex) {
                 String msg = MSG_ERROR + ex.getMessage() + 
                         MSG_CAUSE + ex.getCause().getCause().getCause().getMessage();
