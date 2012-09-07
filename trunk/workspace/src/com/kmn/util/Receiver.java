@@ -152,6 +152,18 @@ public class Receiver implements Runnable {
             str =  new String(nb, 0, idx);
             this.resultText += str;
             System.out.println(owner.port.getName() + ": Receiver.displayText.silentReceive: " + str);
+            /*
+             * Send results to UI for Equipment that does not send 
+             * SerialPortEvent.CTS twice.
+             */
+            if(this.resultText.endsWith("<^C>")) {
+                String[] strArr = this.resultText.split("<.C>");
+                for(int j = 0; j< strArr.length; j++) {
+                    //owner.intEvt.onReceive(getResultText());
+                    owner.intEvt.onReceive(strArr[j]);
+                }
+                setResultText("");
+            }
         }
         //this.counter.incrementValue((long) byteCount);
         this.textCount += byteCount;
