@@ -6,6 +6,7 @@ package com.kmn.gui.workspace;
 
 import com.kmn.MainApps;
 import com.kmn.ws.ClientService;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class XmlViewer extends javax.swing.JDialog {
         this.doc = cs.readXml(file.getAbsolutePath());
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
         //NodeList rootNode = this.doc.getElementsByTagName(ClientService.TAG_COMM);
+        jTable1.setDefaultRenderer(Object.class, new MyTableCellRenderer());  
         NodeList n1 = this.doc.getElementsByTagName(ClientService.TAG_ATTR);
         String data1, data2, data3;
         for (int i = 0; i < n1.getLength(); i++) {
