@@ -287,12 +287,15 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     }// </editor-fold>//GEN-END:initComponents
 
     private void close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_close
-        // Cancel Button
-        if (this.modelinterface != null) this.modelinterface.close();
-        if(this.dicomInterface != null) this.dicomInterface.close();
-        if(this.commInterface != null) this.commInterface.close();
-        int index = this.owner.getSelectedIndex();
-        this.owner.remove(index);
+        int result = JOptionPane.showConfirmDialog(this, "Apakah anda yakin akan menutup proses penerimaan data?");
+        // Yes = 0; No = 1; Cancel = 2
+        if (result == 0) {
+            if (this.modelinterface != null) this.modelinterface.close();
+            if(this.dicomInterface != null) this.dicomInterface.close();
+            if(this.commInterface != null) this.commInterface.close();
+            int index = this.owner.getSelectedIndex();
+            this.owner.remove(index);
+        }
     }//GEN-LAST:event_close
     //To select the path of image file
     private File file;
