@@ -5,8 +5,7 @@
 package com.kmn;
 
 import java.awt.event.ActionEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 import javax.swing.AbstractAction;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
@@ -15,6 +14,8 @@ import org.jdesktop.application.SingleFrameApplication;
  * The main class of the application.
  */
 public class MainApps extends SingleFrameApplication {
+    private Logger log = Logger.getLogger(MainApps.class);
+    
     private MainView mainView;
     /**
      * At startup create and show the main frame of the application.
@@ -64,7 +65,7 @@ public class MainApps extends SingleFrameApplication {
             restartAction.actionPerformed(null);
             
         } catch (InterruptedException ex) {
-            Logger.getLogger(MainApps.class.getName()).log(Level.SEVERE, null, ex);
+            log.error(ex);
         }
     }
 

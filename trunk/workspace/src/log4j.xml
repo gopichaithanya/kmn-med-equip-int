@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+  <appender name="AppLogger" class="org.apache.log4j.RollingFileAppender">
+    <param name="File" value="${user.dir}/log/app.log"/>
+    <param name="Append" value="true"/>
+    <param name="MaxFileSize" value="20000KB"/>
+    <param name="MaxBackupIndex" value="200"/>
+    <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d{MM/dd/yyyy HH:mm:ss }%-5p %m%n"/>
+    </layout>
+    <filter class="org.apache.log4j.varia.LevelRangeFilter">
+        <param name="LevelMin" value="INFO" />
+    </filter>
+  </appender>
+
+  <appender name="SqlLogger" class="org.apache.log4j.RollingFileAppender">
+     <param name="File" value="${user.dir}/log/sql.log"/>
+     <param name="Append" value="true"/>
+     <param name="MaxFileSize" value="20000KB"/>
+     <param name="MaxBackupIndex" value="200"/>
+    <layout class="org.apache.log4j.PatternLayout">
+          <param name="ConversionPattern" value="%d{MM/dd/yyyy HH:mm:ss }%-5p %m%n"/>
+    </layout>
+    <filter class="org.apache.log4j.varia.LevelRangeFilter">
+      <param name="LevelMin" value="DEBUG" />
+      <param name="LevelMax" value="INFO" />
+    </filter>
+  </appender>
+
+  <logger name="com.kmn" >
+    <level value="INFO" />
+    <appender-ref ref="AppLogger" />
+  </logger>
+
+  <logger name="com.mysql.jdbc" >
+    <level value="INFO" />
+    <appender-ref ref="SqlLogger" />
+  </logger>
+
+  <root>
+    <priority value="debug"/>
+    <appender-ref ref="AppLogger"/>
+    <appender-ref ref="SqlLogger"/>
+  </root>
+
+</log4j:configuration>
