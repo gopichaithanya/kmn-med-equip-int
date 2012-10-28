@@ -119,12 +119,13 @@ public class CommInterface implements SerialPortEventListener, ModelInterface, S
             try {
                 spo.closeBBPort();
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
     
     @SuppressWarnings("static-access")
-    private void addPort(CommPortIdentifier	portId) {
+    private void addPort(CommPortIdentifier portId) {
         /*
          *  Is this a serial port?
          */

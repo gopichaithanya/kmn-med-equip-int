@@ -561,6 +561,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                         , getParityInt(equip.getParity()),
                         getFlowInt(equip.getFlow()));
             }
+            
             this.modelinterface.connect();
         }
         catch(Exception e) {
