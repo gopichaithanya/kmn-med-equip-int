@@ -57,7 +57,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     public static final String MSG_SAVE_SUCCESS = "Save successful.\nResult: ";
     public static final String MSG_SAVE_FAILED = "Save failed.\nResult: ";
     /* Connection String Constants */
-    public static final String TEMP_DIR = "C:/kmntmp";
+    public static final String TEMP_DIR = System.getProperty("user.dir") + System.getProperty("file.separator") + "tmp";
     public static final String OUTPUT_PDF = ".out/output.pdf";
     public static final String OUTPUT_JPG = ".out/output.jpg";
     public static final String OUTPUT_XML = ".out/output.xml";
