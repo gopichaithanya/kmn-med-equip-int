@@ -163,6 +163,13 @@ public class Receiver implements Runnable {
                     owner.intEvt.onReceive(strArr[j]);
                 }
                 setResultText("");
+            } else if(this.resultText.endsWith("<^D>")) {
+                String[] strArr = this.resultText.split("<.D>");
+                for(int j = 0; j< strArr.length; j++) {
+                    //owner.intEvt.onReceive(getResultText());
+                    owner.intEvt.onReceive(strArr[j]);
+                }
+                setResultText("");
             }
         }
         //this.counter.incrementValue((long) byteCount);
