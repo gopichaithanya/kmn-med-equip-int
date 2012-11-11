@@ -75,6 +75,10 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
     public PatientInfo getPatientInfo(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage) {
         PatientInfo patientInfo;
         try {
+            if (logger.isDebugEnabled()) {
+                logger.debug("getPatientInfo - keyword: '" + reqKeyword + "' id: '" + reqClinicId + "' page: "
+                        + reqPageNumber + "reqRowPerPage: " + reqRowPerPage);
+            }
             //CisService cs = new CisService(CIS_NAMESPACE_URI);
             CisService cs = new CisService(systemDAO.getByCode("CIS_NAMESPACE_URI").getSystemValue());
             patientInfo = cs.getPatients(reqKeyword, systemDAO.getByCode("CIS_CLINIC_ID").getSystemValue(), reqPageNumber, reqRowPerPage);
@@ -141,10 +145,14 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
             //notify cis;
             //CisService cs = new CisService(CIS_NAMESPACE_URI);
             CisService cs = new CisService(systemDAO.getByCode("CIS_NAMESPACE_URI").getSystemValue());
-            String result = cs.putPatientData(patientId, equipmentId, httpLocation, xmlData, trxDate);
-            response.setSuccess(true);
-            response.setResult("Saved to CIS server\n");
-            trx.setCisStatus("1");
+            response = cs.putPatientData(patientId, equipmentId, httpLocation, xmlData, trxDate);
+            //response.setSuccess(true);
+            //response.setResult(result);
+            if(response.isSuccess()) {
+                trx.setCisStatus("1");
+            } else {
+                trx.setCisStatus("0");
+            }
             transactionDAO.saveOrUpdate(trx);
             return response;
         } catch (SOAPException e) {
