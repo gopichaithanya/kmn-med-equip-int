@@ -1,6 +1,9 @@
 package id.co.kmn.services.wsdl.client;
 
 import id.co.kmn.services.wsdl.server.bean.PatientInfo;
+import id.co.kmn.services.wsdl.server.schema.StoreResultsResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -12,7 +15,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -25,6 +28,7 @@ import static id.co.kmn.services.wsdl.WebServiceConstant.*;
  * Time: 5:09 PM
  */
 public class CisService {
+    private static final Log logger = LogFactory.getLog(CisService.class);
     public static final String DEFAULT_CIS_URL = "http://192.168.13.10:2221/apps/kmn/IntegrasiAlat/";
     public static final String MSG_SOAP_FAULT_HEAD = "Received SOAP Fault";
     public static final String MSG_SOAP_FAULT_CODE = "SOAP Fault Code:   ";
@@ -52,6 +56,10 @@ public class CisService {
     }
 
     public PatientInfo getPatients(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage) throws SOAPException, IOException, TransformerException {
+        if (logger.isDebugEnabled()) {
+            logger.debug("CisService.getPatients - keyword: '" + reqKeyword + "' id: '" + reqClinicId + "' page: "
+                    + reqPageNumber + "reqRowPerPage: " + reqRowPerPage);
+        }
         SOAPMessage request = createGetPatientsRequest(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
         SOAPConnection connection = connectionFactory.createConnection();
         SOAPMessage response = connection.call(request, url);
@@ -114,32 +122,39 @@ public class CisService {
         Transformer transformer = transfomerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        int count = 1;
+        System.out.println("getPatientsResponseElement: ");
         while (iterator.hasNext()) {
-            System.out.println("getPatientsResponseElement: " + count);
             SOAPElement soapElement = (SOAPElement) iterator.next();
             patientInfo.setVariable(soapElement);
             DOMSource source = new DOMSource(soapElement);
             transformer.transform(source, new StreamResult(System.out));
-            System.out.println("--------");
         }
+        System.out.println("----------------------------");
         return patientInfo;
     }
 
-    public String putPatientData(String reqPatientId, int reqDeviceId, String reqImageURL, String reqDataXML, DateTime reqDatetime) throws SOAPException, IOException, TransformerException, DatatypeConfigurationException {
+    public StoreResultsResponse putPatientData(String reqPatientId, int reqDeviceId, String reqImageURL, String reqDataXML, DateTime reqDatetime) throws SOAPException, IOException, TransformerException, DatatypeConfigurationException {
+        if (logger.isDebugEnabled()) {
+            logger.debug("CisService.putPatientData - reqPatientId: '" + reqPatientId + "' reqDeviceId: '" + reqDeviceId + "' reqImageURL: "
+                    + reqImageURL + "reqDataXML: " + reqDataXML + "reqDatetime: " +reqDatetime);
+        }
         SOAPMessage request = createPutPatientDataRequest(reqPatientId, reqDeviceId, reqImageURL, reqDataXML, reqDatetime);
         SOAPConnection connection = connectionFactory.createConnection();
         SOAPMessage response = connection.call(request, url);
-        String result = "failed";
+        StoreResultsResponse result;
         if (!response.getSOAPBody().hasFault()) {
-            result = writePutPatientDataResponse(response);
+            return writePutPatientDataResponse(response);
         } else {
             SOAPFault fault = response.getSOAPBody().getFault();
             System.err.println(MSG_SOAP_FAULT_HEAD);
-            System.err.println(MSG_SOAP_FAULT_CODE + fault.getFaultCode());
-            System.err.println(MSG_SOAP_FAULT_DESC + fault.getFaultString());
+            String faultString = MSG_SOAP_FAULT_CODE + fault.getFaultCode() +
+            "\n"+ MSG_SOAP_FAULT_DESC + fault.getFaultString();
+            System.err.println(faultString);
+            result = new StoreResultsResponse();
+            result.setSuccess(false);
+            result.setResult(faultString);
+            return result;
         }
-        return result;
     }
 
     private SOAPMessage createPutPatientDataRequest(String reqPatientId, int reqDeviceId, String reqImageURL, String reqDataXML, DateTime reqDatetime) throws SOAPException, DatatypeConfigurationException {
@@ -184,7 +199,7 @@ public class CisService {
         return message;
     }
 
-    private String writePutPatientDataResponse(SOAPMessage message) throws SOAPException, TransformerException {
+    private StoreResultsResponse writePutPatientDataResponse(SOAPMessage message) throws SOAPException, TransformerException {
         SOAPEnvelope envelope = message.getSOAPPart().getEnvelope();
         Name getPatientsResponseName = envelope.createName("putPatientDataResponse", CIS_SOAP_ENV_PREFIX, CIS_SOAP_ENV_URI);
         SOAPBodyElement getPatientsResponseElement = (SOAPBodyElement) message.getSOAPBody().getFirstChild();
@@ -192,15 +207,41 @@ public class CisService {
         Transformer transformer = transfomerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        int count = 1;
+        StringWriter writer = new StringWriter();
+        StreamResult result = new StreamResult(writer);
+        System.out.println("writePutPatientDataResponse: ");
+        StoreResultsResponse srr = new StoreResultsResponse();
         while (iterator.hasNext()) {
-            System.out.println("writePutPatientDataResponse: " + count);
             SOAPElement soapElement = (SOAPElement) iterator.next();
-            //patientInfo.setVariable(soapElement);
             DOMSource source = new DOMSource(soapElement);
+            setStoreResultResponse(soapElement, srr);
             transformer.transform(source, new StreamResult(System.out));
-            System.out.println("--------");
+            transformer.transform(source, result);
         }
-        return "writePutPatientDataResponse";
+        System.out.println("-----------------------------");
+        writer.flush();
+        //return writer.toString();
+        return srr;
+    }
+
+    public static final String RES_STATUS_XML = "resStatusXML";
+    public static final String STATUS = "STATUS";
+    public static final String STATUSNO = "STATUSNO";
+    public static final String MESSAGE = "MESSAGE";
+
+    public void setStoreResultResponse(SOAPElement soapElement, StoreResultsResponse srr) {
+        if(soapElement.hasAttribute(RES_STATUS_XML) || soapElement.getNodeName().equalsIgnoreCase(RES_STATUS_XML)){
+            srr.setResult(soapElement.getTextContent());
+            //srr.setSuccess(true);
+        } else if(soapElement.hasAttribute(STATUS) || soapElement.getNodeName().equalsIgnoreCase(STATUS)){
+            srr.setResult(soapElement.getTextContent());
+            //srr.setSuccess(true);
+        } else if(soapElement.hasAttribute(STATUSNO) || soapElement.getNodeName().equalsIgnoreCase(STATUSNO)){
+           if(Integer.valueOf(soapElement.getTextContent()) == 0) {
+                srr.setSuccess(true);
+           }
+        } else if(soapElement.hasAttribute(MESSAGE) || soapElement.getNodeName().equalsIgnoreCase(MESSAGE)){
+            srr.setResult(soapElement.getTextContent());
+        }
     }
 }
