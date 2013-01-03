@@ -10,6 +10,7 @@ import com.kmn.ws.bean.PatientInfo;
 import com.kmn.ws.bean.StoreResultsResponse;
 import java.io.*;
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -211,7 +212,7 @@ public class ClientService {
                     sb.append(XML_ATTR_PREFIX);
                     sb.append(DESC);
                     sb.append(count);
-                    sb.append(XML_ATTR_MID);
+                    sb.append(XML_ATTR_MID_TRUE);
                     strLine = strLine.replaceAll(AMP, AMP_PE);
                     strLine = strLine.replaceAll(LT, LT_PE);
                     strLine = strLine.replaceAll(GT, GT_PE);
@@ -267,9 +268,9 @@ public class ClientService {
                         int PLCR_START = srcBegin+85, PLCR_END = srcBegin+90;
 
                         appendStringBuilder(sb, "WBC", parseSysmexKX21StringToDecimal(3, strLine.substring(WBC_START,WBC_END)));
-                        appendStringBuilder(sb, "RBC", parseSysmexKX21StringToDecimal(2, strLine.substring(RBC_START,RBC_END)));
+                        appendStringBuilder(sb, "RBC", parseSysmexKX21StringToDecimal(2, strLine.substring(RBC_START,RBC_END), 1));
                         appendStringBuilder(sb, "HGB", parseSysmexKX21StringToDecimal(3, strLine.substring(HGB_START,HGB_END)));
-                        appendStringBuilder(sb, "HCT", parseSysmexKX21StringToDecimal(3, strLine.substring(HCT_START,HCT_END)));
+                        appendStringBuilder(sb, "HCT", parseSysmexKX21StringToDecimal(3, strLine.substring(HCT_START,HCT_END), 0));
                         appendStringBuilder(sb, "MCV", parseSysmexKX21StringToDecimal(3, strLine.substring(MCV_START,MCV_END)));
                         appendStringBuilder(sb, "MCH", parseSysmexKX21StringToDecimal(3, strLine.substring(MCH_START,MCH_END)));
                         appendStringBuilder(sb, "MCHC", parseSysmexKX21StringToDecimal(3, strLine.substring(MCHC_START,MCHC_END)));
@@ -309,6 +310,22 @@ public class ClientService {
             return Integer.valueOf(string.substring(0,offset)) + "." + string.substring(offset, string.length()-1) + "-";
         }
     }
+    private String parseSysmexKX21StringToDecimal(int offset, String string, int decimalDigit) {
+        String result = parseSysmexKX21StringToDecimal(offset, string);
+        DecimalFormat df;
+        switch(decimalDigit) {
+            case  0: df = new DecimalFormat("#");
+                     break;
+            case  1: df = new DecimalFormat("#.#");
+                     break;
+            case  2: df = new DecimalFormat("#.##");
+                     break;
+            default: df = new DecimalFormat("#.##");
+                     break;
+        }
+        return df.format(Double.valueOf(result));
+    }
+    
     private void appendStringBuilder(StringBuilder sb, String description, String value) {
         sb.append(XML_ATTR_PREFIX);
         sb.append(description);
