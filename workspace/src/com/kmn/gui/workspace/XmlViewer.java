@@ -72,7 +72,7 @@ public class XmlViewer extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("XML Viewer");
         setName("xmldialog"); // NOI18N
         setResizable(false);
@@ -142,8 +142,6 @@ public class XmlViewer extends javax.swing.JDialog {
                     .addComponent(jButton1))
                 .addGap(11, 11, 11))
         );
-
-        getAccessibleContext().setAccessibleName("XML Viewer");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

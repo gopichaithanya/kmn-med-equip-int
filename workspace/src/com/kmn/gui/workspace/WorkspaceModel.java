@@ -182,7 +182,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
             },
             new String [] {
-                "Patient ID", "Patient Name", "Patient BRM", "Remark", "Doc ID", "Data Output"
+                "Single ID", "Patient Name", "MR Number", "Timestamp", "Doc ID", "Data Output"
             }
         ) {
             Class[] types = new Class [] {
@@ -304,7 +304,6 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
         // View Output
         int row = jTable1.getSelectedRow();
         JFrame mainFrame = MainApps.getApplication().getMainFrame();
-        
         if (row > -1) {
             String filePath = (String) jTable1.getValueAt(row, 5);
             try {
@@ -463,6 +462,8 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
     private void OpenMenu(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OpenMenu
         if(evt.isPopupTrigger())
             RightMenu1.show(evt.getComponent(), evt.getX(), evt.getY());
+        
+        viewOutput(null);
     }//GEN-LAST:event_OpenMenu
 
     private void delete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete
@@ -494,6 +495,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
 
     //@Override
     public void onReceive(String message) {
+        if(!message.isEmpty()) {
         if (statusBox == null) {
             JFrame mainFrame = MainApps.getApplication().getMainFrame();
             statusBox = new Status(this, true);
@@ -530,6 +532,7 @@ public class WorkspaceModel extends javax.swing.JPanel implements InterfaceEvent
                 }
             }
             //statusBox.setVisible(false);
+        }
         }
     }
 
