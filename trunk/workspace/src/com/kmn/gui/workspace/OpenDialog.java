@@ -167,7 +167,8 @@ public class OpenDialog extends javax.swing.JDialog implements Confirm {
         }
 
         if(isnew) {
-            WorkspaceModel model = new WorkspaceModel(tab, equipment);
+            //WorkspaceModel model = new WorkspaceModel(tab, equipment);
+            Workspace model = new Workspace(tab, equipment);
             tab.addTab(title, resourceMap.getIcon("file.tabIcon"),  model);
             tab.setSelectedIndex(tab.getTabCount()-1);
 

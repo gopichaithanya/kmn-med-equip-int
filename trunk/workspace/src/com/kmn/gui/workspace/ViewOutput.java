@@ -27,6 +27,7 @@ public class ViewOutput extends javax.swing.JDialog {
     public static String JPG_FILE_EXT = ".jpg";
     public static String XML_FILE_EXT = ".xml";
     WorkspaceModel wm;
+    Workspace ws;
     /**
      * Creates new form ViewOutput
      */
@@ -35,6 +36,22 @@ public class ViewOutput extends javax.swing.JDialog {
         initComponents();
         
         this.wm = wm;
+        if(file == null) {
+            //renderXml((String) wm.jTable1.getValueAt(wm.jTable1.getSelectedRow(), 5));
+        } else if(file.getName().contains(PDF_FILE_EXT)) {
+            renderPdf(file);
+        } else if (file.getName().contains(JPG_FILE_EXT)) {
+            renderImage(file);
+        } else if (file.getName().contains(XML_FILE_EXT)) {
+            renderXml(file);
+        }
+    }
+    
+    public ViewOutput(Workspace ws, File file) {
+        super(MainApps.getApplication().getMainFrame(), true);
+        initComponents();
+        
+        this.ws = ws;
         if(file == null) {
             //renderXml((String) wm.jTable1.getValueAt(wm.jTable1.getSelectedRow(), 5));
         } else if(file.getName().contains(PDF_FILE_EXT)) {

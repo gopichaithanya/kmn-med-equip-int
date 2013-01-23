@@ -24,6 +24,7 @@ import org.xml.sax.SAXException;
 public class XmlViewer extends javax.swing.JDialog {
     
     WorkspaceModel vo;
+    Workspace ws;
     private List<Object[]> tableContents = new ArrayList<Object[]>();
     private Document doc;
     private ClientService clientService = new ClientService();
@@ -35,6 +36,15 @@ public class XmlViewer extends javax.swing.JDialog {
             throws ParserConfigurationException, SAXException, IOException {
         super(MainApps.getApplication().getMainFrame(), true);
         this.vo = vo;
+        this.file = file;
+        initComponents();
+        renderXml(file);
+    }
+    
+    public XmlViewer(Workspace ws, File file)
+            throws ParserConfigurationException, SAXException, IOException {
+        super(MainApps.getApplication().getMainFrame(), true);
+        this.ws = ws;
         this.file = file;
         initComponents();
         renderXml(file);
