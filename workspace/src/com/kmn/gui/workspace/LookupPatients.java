@@ -23,6 +23,7 @@ import javax.xml.transform.*;
  */
 public class LookupPatients extends javax.swing.JDialog {
     private WorkspaceModel wm;
+    private Workspace ws;
     private PatientInfo patientInfo;
     private static final String DEFAULT_CLINIC_ID = "8";
     private static final int DEFAULT_PAGE_NUMBER = 1;
@@ -55,9 +56,44 @@ public class LookupPatients extends javax.swing.JDialog {
         }
     }
     
+    public LookupPatients(Workspace ws) throws SOAPException, MalformedURLException, IOException, TransformerException {
+        this.ws = ws;
+        this.setTitle(ws.owner.getTitleAt(ws.owner.getSelectedIndex()));
+        initComponents();
+        DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
+        this.cs = new ClientService();
+//        patientInfo = cs.retrievePatients(jTextField1.getText(), DEFAULT_CLINIC_ID, 
+//                DEFAULT_PAGE_NUMBER, DEFAULT_ROW_PER_PAGE);
+//        if (patientInfo != null) {
+//            for (Patient p : patientInfo.getPatients()) {
+//                model.addRow(new Object[]{p.getPatientId(),p.getSingleId(), p.getPatientName(),
+//                    p.getPatientBrm(), p.getDocId(), p.getDocName()});
+//            }
+//        }
+    }
+    
     public LookupPatients(WorkspaceModel wm, String clinicId, int pageNumber, int rowPerPage) throws SOAPException, MalformedURLException, IOException, TransformerException {
         this.wm = wm;
         this.setTitle(wm.owner.getTitleAt(wm.owner.getSelectedIndex()));
+        this.clinicId = clinicId;
+        this.pageNumber = pageNumber;
+        this.rowPerPage = rowPerPage;
+        initComponents();
+        DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
+        while(model.getRowCount()>0){
+            model.removeRow(0);
+        }
+        //ClientService cs = new ClientService();
+        patientInfo = this.cs.retrievePatients(jTextField1.getText(), "8", 1, 10);
+        for (Patient p : patientInfo.getPatients()) {
+            model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
+                p.getPatientBrm(), p.getDocId(), p.getDocName()});
+        }
+    }
+    
+    public LookupPatients(Workspace ws, String clinicId, int pageNumber, int rowPerPage) throws SOAPException, MalformedURLException, IOException, TransformerException {
+        this.ws = ws;
+        this.setTitle(ws.owner.getTitleAt(ws.owner.getSelectedIndex()));
         this.clinicId = clinicId;
         this.pageNumber = pageNumber;
         this.rowPerPage = rowPerPage;
@@ -272,11 +308,19 @@ public class LookupPatients extends javax.swing.JDialog {
         hm.put(ClientService.TAG_PATIENTBRM, (String) jTable1.getValueAt(row, 3));
         hm.put(ClientService.TAG_DOCID, (String) jTable1.getValueAt(row, 4));
         hm.put(ClientService.TAG_DOCNAME, (String) jTable1.getValueAt(row, 5));
-        int rowWm = this.wm.jTable1.getSelectedRow();
-        this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
-        this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTNAME), rowWm, 1);
-        this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTBRM), rowWm, 2);
-        this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_DOCID), rowWm, 4);
+        if (this.wm != null) {
+            int rowWm = this.wm.jTable1.getSelectedRow();
+            this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
+            this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTNAME), rowWm, 1);
+            this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTBRM), rowWm, 2);
+            this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_DOCID), rowWm, 4);
+        } else if(this.ws != null) {
+            int rowWm = this.ws.jTable2.getSelectedRow();
+            this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
+            this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTNAME), rowWm, 1);
+            this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTBRM), rowWm, 2);
+            this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_DOCID), rowWm, 4);
+        }
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 

@@ -24,6 +24,11 @@ public class Status extends javax.swing.JDialog {
         super(MainApps.getApplication().getMainFrame(), modal);
         initComponents();
     }
+    
+    public Status(Workspace workspace, boolean modal) {
+        super(MainApps.getApplication().getMainFrame(), modal);
+        initComponents();
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
