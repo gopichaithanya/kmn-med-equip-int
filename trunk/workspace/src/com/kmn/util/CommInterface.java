@@ -173,4 +173,8 @@ public class CommInterface implements SerialPortEventListener, ModelInterface, S
             this.event.onError(ex);
         }
     }
+
+    public void getOutputString() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

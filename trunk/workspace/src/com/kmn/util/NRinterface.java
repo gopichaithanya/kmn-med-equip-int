@@ -41,6 +41,7 @@ public class NRinterface implements SerialPortEventListener, ModelInterface, Ser
     private int flow;
     private NRSerialPort serial;
     private InputStream input;
+    DataInputStream inputStream;
     
     int n;
     byte[] bufferRead = new byte[100000];
@@ -69,10 +70,31 @@ public class NRinterface implements SerialPortEventListener, ModelInterface, Ser
         serial.connect();
         serial.notifyOnDataAvailable(true);
         System.out.println("\nserial.isConnected(): " + serial.isConnected());
+        inputStream = new DataInputStream(serial.getInputStream());
     }
 
     public void close() {
-        serial.disconnect();
+        try {  
+            System.out.println("\nserial.disconnect(): " + serial.toString());
+            serial.disconnect();
+        } catch (Exception e) {
+        }
+    }
+    
+    public void getOutputString() {
+        /* Test new functionality */
+        DataInputStream ins = new DataInputStream(serial.getInputStream());
+        DataOutputStream outs = new DataOutputStream(serial.getOutputStream());
+        byte b;
+        try {
+            b = (byte) ins.read();
+            outs.write(b);
+            System.out.print("\n"+outs.toString());
+            System.out.print("\n"+String.valueOf(outs));
+            this.event.onReceive(outs.toString());
+        } catch (IOException ex) {
+            Logger.getLogger(NRinterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void serialEvent(SerialPortEvent spe) {

@@ -71,5 +71,9 @@ public class DicomInterface implements ModelInterface, Serializable {
             this.dcmrcv.stop();
         }
     }
+
+    public void getOutputString() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }
