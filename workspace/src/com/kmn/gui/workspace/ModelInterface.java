@@ -12,4 +12,6 @@ public interface ModelInterface {
     void connect();
     
     void close();
+    
+    void getOutputString();
 }

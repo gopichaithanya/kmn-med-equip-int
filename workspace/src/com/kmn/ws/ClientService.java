@@ -218,6 +218,10 @@ public class ClientService {
                     strLine = strLine.replaceAll(GT, GT_PE);
                     strLine = strLine.replaceAll(APOS, APOS_PE);
                     strLine = strLine.replaceAll(QUOT, QUOT_PE);
+                    strLine = strLine.replaceAll("\\s","");
+                    if(strLine.isEmpty()){
+                        strLine = "0";
+                    }
                     sb.append(strLine);
                     sb.append(XML_ATTR_SUFFIX);
                     count++;

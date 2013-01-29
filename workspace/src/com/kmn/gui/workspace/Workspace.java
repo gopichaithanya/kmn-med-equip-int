@@ -10,7 +10,10 @@ import com.kmn.controller.UserSession;
 import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
+import com.kmn.util.NRinterface;
 import com.kmn.ws.ClientService;
+import com.kmn.ws.bean.PatientInfo;
+import com.kmn.ws.bean.Patient;
 import com.kmn.ws.bean.StoreResultsResponse;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
@@ -28,6 +31,7 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -104,7 +108,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     private ModelInterface modelinterface;
     private DicomInterface dicomInterface;
     private CommInterface commInterface;
-    private ClientService cs;
+    private ClientService cs = new ClientService();
 
     private LookupPatients lookupPatients;                      
     //To select the path of image file
@@ -148,8 +152,20 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/save.png"))); // NOI18N
         jButton1.setText("Save");
@@ -202,7 +218,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 290, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
@@ -277,13 +293,10 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
         );
 
-        jPanel4.setBounds(0, 260, 590, 200);
+        jPanel4.setBounds(0, 210, 590, 250);
         jLayeredPane1.add(jPanel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -292,11 +305,11 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 111, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(jPanel3);
@@ -322,7 +335,9 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setColumnSelectionAllowed(true);
+        jTable2.setCellSelectionEnabled(false);
+        jTable2.setRowSelectionAllowed(true);
+        jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.getTableHeader().setReorderingAllowed(false);
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -338,19 +353,144 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jTable2.getColumnModel().getColumn(4).setPreferredWidth(100);
         jTable2.getColumnModel().getColumn(5).setPreferredWidth(300);
 
-        jSplitPane1.setLeftComponent(jScrollPane3);
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Patient ID", "Single ID", "Patient Name", "Patient BRM", "Doc ID", "Doc Name"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable3.setPreferredSize(new java.awt.Dimension(800, 200));
+        jTable3.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(jTable3);
+
+        jLabel2.setText("Patient Name");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/menu/find.png"))); // NOI18N
+        jButton5.setText("Search");
+        jButton5.setPreferredSize(new java.awt.Dimension(93, 23));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/cancel.png"))); // NOI18N
+        jButton6.setText("Cancel");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/ok.png"))); // NOI18N
+        jButton7.setText("Select");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("BRM");
+
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Single ID");
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(133, 133, 133)
+                .addComponent(jButton7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton6)
+                .addContainerGap())
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6)
+                    .addComponent(jButton7)))
+        );
+
+        jSplitPane1.setLeftComponent(jPanel5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .addComponent(jSplitPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -482,7 +622,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                             , dataLocation, dataOutput, xmlData, creatorId);
                     if(srr.isSuccess()) {
                         JOptionPane.showMessageDialog(this, MSG_SAVE_SUCCESS + srr.getResult());
-                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
                         model.removeRow(row);
                     } else {
                         JOptionPane.showMessageDialog(this, MSG_SAVE_FAILED + srr.getResult());
@@ -524,7 +664,8 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         if (result == 0) {
             //if (this.modelinterface != null) {this.modelinterface.close();}
             if (this.dicomInterface != null) {this.dicomInterface.close();}
-            if (this.commInterface != null) {this.commInterface.close();}
+            //if (this.commInterface != null) {this.commInterface.close();}
+            if (this.modelinterface != null) {this.modelinterface.close();}
             int index = this.owner.getSelectedIndex();
             this.owner.remove(index);
         }
@@ -576,24 +717,112 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         }
     }//GEN-LAST:event_onSelect
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private PatientInfo patientInfo;
+    private static final String MSG_MANDATORY = "Harap masukkan Nama Pasien, BRM atau Single ID.";
+    private static final String DEFAULT_CLINIC_ID = "8";
+    private static final int DEFAULT_PAGE_NUMBER = 1;
+    private static final int DEFAULT_ROW_PER_PAGE = 10;
+    private String clinicId; 
+    private int pageNumber; 
+    private int rowPerPage;
+    
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try {
+            // Search Patient
+            DefaultTableModel model= (DefaultTableModel) jTable3.getModel();
+            while(model.getRowCount()>0){
+                model.removeRow(0);
+            }
+            //ClientService cs = new ClientService();
+            if(jTextField1.getText().isEmpty() && jTextField3.getText().isEmpty() && jTextField2.getText().isEmpty()){
+                JOptionPane.showMessageDialog(this, MSG_MANDATORY);
+            } else {
+                String keyword = "%"+jTextField1.getText()+"%"+"#"+jTextField3.getText()+"#"+jTextField2.getText();
+                patientInfo = this.cs.retrievePatients(keyword, this.clinicId, this.pageNumber, this.rowPerPage);
+                for (Patient p : patientInfo.getPatients()) {
+                    model.addRow(new Object[]{p.getPatientId(),p.getSingleId(), p.getPatientName(),
+                        p.getPatientBrm(), p.getDocId(), p.getDocName()});
+                }
+            }
+        } catch (SOAPException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException ex) {
+            Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // Cancel Button
+        DefaultTableModel model= (DefaultTableModel) jTable3.getModel();
+        while(model.getRowCount()>0){
+            model.removeRow(0);
+        }
+        //this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // Select Patient
+        int row = jTable1.getSelectedRow();
+        HashMap hm = new HashMap();
+        hm.put(ClientService.TAG_PATIENTID, (String) jTable1.getValueAt(row, 0));
+        hm.put(ClientService.TAG_PATIENTNAME, (String) jTable1.getValueAt(row, 2));
+        hm.put(ClientService.TAG_PATIENTBRM, (String) jTable1.getValueAt(row, 3));
+        hm.put(ClientService.TAG_DOCID, (String) jTable1.getValueAt(row, 4));
+        hm.put(ClientService.TAG_DOCNAME, (String) jTable1.getValueAt(row, 5));
+        
+        int rowWm = this.jTable2.getSelectedRow();
+        this.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
+        this.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTNAME), rowWm, 1);
+        this.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTBRM), rowWm, 2);
+        this.jTable2.setValueAt(hm.get(ClientService.TAG_DOCID), rowWm, 4);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     protected javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JTable jTable1;
     protected javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    protected javax.swing.JTextField jTextField1;
+    protected javax.swing.JTextField jTextField2;
+    protected javax.swing.JTextField jTextField3;
     private javax.swing.JLabel outputLabel;
     // End of variables declaration//GEN-END:variables
     //@Override
@@ -622,7 +851,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
             String trxDateStr = factory.newXMLGregorianCalendar(trxDate.toGregorianCalendar()).toXMLFormat();
             String path = TEMP_DIR+"/"+sdf.format(now)+OUTPUT_XML;
             ClientService cs = new ClientService();
-            DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
+            DefaultTableModel model= (DefaultTableModel) jTable2.getModel();
             if(cs.convertMessageToXml(MSG_EMPTY, message, path, equip.getCode())!=null) {
                 //cs.convertMessageToXml(MSG_EMPTY, message, path);
                 if(message.contains(TEMP_DIR)) {
@@ -672,6 +901,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                         , getParityInt(equip.getParity()),
                         getFlowInt(equip.getFlow()));
 //                this.modelinterface = new NRinterface(this, equip.getCom(), Integer.valueOf(equip.getRate()));
+//                this.modelinterface.getOutputString();
             }
             this.modelinterface.connect();
         } catch (NullPointerException e) {
@@ -732,6 +962,9 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         Document doc= cs.readXml(file.getAbsolutePath());
         List<Object[]> tableContents = new ArrayList<Object[]>();
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
+        while(model.getRowCount()>0){
+            model.removeRow(0);
+        }
         //NodeList rootNode = this.doc.getElementsByTagName(ClientService.TAG_COMM);
         jTable1.setDefaultRenderer(Object.class, new MyTableCellRenderer());  
         NodeList n1 = doc.getElementsByTagName(ClientService.TAG_ATTR);
