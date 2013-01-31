@@ -602,6 +602,8 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jTextField2.setText("");
+        jTextField3.setText("");
         // Cancel Button
         DefaultTableModel model= (DefaultTableModel) jTable3.getModel();
         while(model.getRowCount()>0){
@@ -776,6 +778,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                         JOptionPane.showMessageDialog(this, MSG_SAVE_SUCCESS + srr.getResult());
                         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
                         model.removeRow(row);
+                        jButton6ActionPerformed(null);
                     } else {
                         JOptionPane.showMessageDialog(this, MSG_SAVE_FAILED + srr.getResult());
                     }
