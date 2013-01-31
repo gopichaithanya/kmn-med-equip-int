@@ -126,6 +126,10 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         initComponents();
         this.setName(equip.getCode());
         receiveEquipmentData();
+        this.jButton3.setVisible(false); //Lookup Patient button
+        this.jButton4.setVisible(false); //Add manual button
+        this.jLabel2.setVisible(false); //Patient Name
+        this.jTextField1.setVisible(false); //Patient Name
     }   
     /**
      * This method is called from within the constructor to initialize the form.
@@ -166,6 +170,8 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jTextField2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
+
+        setPreferredSize(new java.awt.Dimension(800, 500));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/save.png"))); // NOI18N
         jButton1.setText("Save");
@@ -218,15 +224,15 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 290, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,9 +247,12 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 .addContainerGap())
         );
 
+        jSplitPane1.setMinimumSize(new java.awt.Dimension(206, 100));
+        jSplitPane1.setName(""); // NOI18N
+
         jScrollPane2.setMinimumSize(new java.awt.Dimension(200, 200));
         jScrollPane2.setName(""); // NOI18N
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 400));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 300));
 
         jScrollPane1.setViewportView(outputLabel);
         outputLabel.getAccessibleContext().setAccessibleName("outputLabel");
@@ -309,15 +318,19 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(jPanel3);
 
         jSplitPane1.setRightComponent(jScrollPane2);
 
-        jScrollPane3.setMinimumSize(new java.awt.Dimension(200, 200));
-        jScrollPane3.setPreferredSize(new java.awt.Dimension(400, 400));
+        jPanel5.setPreferredSize(new java.awt.Dimension(370, 400));
+        jPanel5.setRequestFocusEnabled(false);
+
+        jScrollPane3.setMinimumSize(new java.awt.Dimension(200, 150));
+        jScrollPane3.setName(""); // NOI18N
+        jScrollPane3.setPreferredSize(new java.awt.Dimension(400, 150));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -335,8 +348,9 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setCellSelectionEnabled(false);
-        jTable2.setRowSelectionAllowed(true);
+        jTable2.setMaximumSize(new java.awt.Dimension(2147483647, 800));
+        jTable2.setMinimumSize(new java.awt.Dimension(200, 150));
+        jTable2.setPreferredSize(new java.awt.Dimension(400, 300));
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.getTableHeader().setReorderingAllowed(false);
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -352,6 +366,11 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jTable2.getColumnModel().getColumn(3).setPreferredWidth(100);
         jTable2.getColumnModel().getColumn(4).setPreferredWidth(100);
         jTable2.getColumnModel().getColumn(5).setPreferredWidth(300);
+
+        jScrollPane5.setMinimumSize(new java.awt.Dimension(200, 50));
+        jScrollPane5.setName(""); // NOI18N
+        jScrollPane5.setPreferredSize(new java.awt.Dimension(400, 50));
+        jScrollPane5.setRequestFocusEnabled(false);
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -369,11 +388,14 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 return canEdit [columnIndex];
             }
         });
-        jTable3.setPreferredSize(new java.awt.Dimension(800, 200));
+        jTable3.setMinimumSize(new java.awt.Dimension(200, 50));
+        jTable3.setPreferredSize(new java.awt.Dimension(400, 50));
+        jTable3.setRequestFocusEnabled(false);
+        jTable3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable3.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(jTable3);
 
-        jLabel2.setText("Patient Name");
+        jLabel2.setText("Name");
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -426,52 +448,47 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(133, 133, 133)
                 .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6)
-                .addContainerGap())
-            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+                .addContainerGap(67, Short.MAX_VALUE))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
@@ -485,191 +502,16 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jSplitPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void onAddManual(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onAddManual
-        //JOptionPane.showMessageDialog(this, "Not implemented yet!");
-        JFileChooser chooser = new JFileChooser();
-
-        // Add listener on chooser to detect changes to selected file
-        chooser.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY
-                        .equals(evt.getPropertyName())) {
-                    JFileChooser chooser = (JFileChooser)evt.getSource();
-                    File oldFile = (File)evt.getOldValue();
-                    File newFile = (File)evt.getNewValue();
-
-                    // The selected file should always be the same as newFile
-                    File curFile = chooser.getSelectedFile();
-                } else if (JFileChooser.SELECTED_FILES_CHANGED_PROPERTY.equals(
-                        evt.getPropertyName())) {
-                    JFileChooser chooser = (JFileChooser)evt.getSource();
-                    File[] oldFiles = (File[])evt.getOldValue();
-                    File[] newFiles = (File[])evt.getNewValue();
-
-                    // Get list of selected files
-                    // The selected files should always be the same as newFiles
-                    File[] files = chooser.getSelectedFiles();
-                }
-            }
-
-//            public void propertyChange(PropertyChangeEvent evt) {
-//                throw new UnsupportedOperationException("Not supported yet.");
-//            }
-        }) ;
-    }//GEN-LAST:event_onAddManual
-
-    private void onLookupPatient(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onLookupPatient
-        // Lookup Patient
-        int row = jTable2.getSelectedRow();
-        if (row > -1) {
-            try {
-                if(lookupPatients == null) {
-                    JFrame mainFrame = MainApps.getApplication().getMainFrame();
-                    this.onMessage(MSG_LOADING_PATIENTS);
-                    lookupPatients = new LookupPatients(this);
-                    lookupPatients.setLocationRelativeTo(mainFrame);
-                    lookupPatients.setResizable(false);
-                }
-                MainApps.getApplication().show(lookupPatients);
-                //lookupPatients.setVisible(true);
-            } catch (SOAPException ex) {
-                String msg = MSG_ERROR + ex.getMessage() + 
-                        MSG_CAUSE + ex.getCause().getCause().getCause().getMessage();
-                JOptionPane.showMessageDialog(this, msg);
-                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (MalformedURLException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
-                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
-                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (TransformerException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
-                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                this.onMessage(MSG_EMPTY);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
-        }
-    }//GEN-LAST:event_onLookupPatient
-
-    private void onSave(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSave
-        int row = jTable2.getSelectedRow();
-        if (row > -1) {
-            String patientId = (String) jTable2.getValueAt(row, 0);
-            if (patientId == null || patientId.isEmpty()){
-                JOptionPane.showMessageDialog(this, MSG_INPUT_PATIENT);
-            } else {
-                this.cs = new ClientService();
-                try {
-                    String filePath = (String) jTable2.getValueAt(row, 5);
-                    String branchId = "CIS_CLINIC_ID";
-                    String patientCode = (String) jTable2.getValueAt(row, 2); 
-                    String patientName = (String) jTable2.getValueAt(row, 1);
-                    DateTime dt = (DateTime) jTable2.getValueAt(row, 3);
-                    String remark = cs.convertDateTimeToString(dt); 
-                    int equipmentId = Integer.valueOf(this.equip.getCode());
-                    int imageId = 0;
-                    DateTime trxDate = dt;
-                    DateTime timeStamp = trxDate;
-                    String dataLocation = filePath;
-                    String creatorId = "";
-                    if (UserSession.getInstance().getSecuser() != null) {
-                        creatorId = UserSession.getInstance().getSecuser().getUsrLoginname();
-                    }
-                    File dataOutput = null;
-                    String xmlData;
-                    if (filePath.contains(OUTPUT_XML)) {
-                        //autoreff
-                        //dataOutput = new File(filePath);
-                        //xmlData = cs.getStringFromXmlFile(filePath);
-                        xmlData = cs.getParsedStringFromXmlFile(filePath);
-                        cs.createXml(xmlData, filePath);
-                        dataOutput = new File(filePath);
-                    } else {
-                        //dicom File 
-                        dataOutput = new File(filePath+OUTPUT_PDF);
-                        dataLocation = filePath+OUTPUT_PDF;
-                        if(!dataOutput.exists()) {
-                            dataOutput = new File(filePath+OUTPUT_JPG);
-                            dataLocation = filePath+OUTPUT_JPG; 
-                        }
-                        //xmlData = cs.getStringFromXmlFile(filePath+OUTPUT_XML);
-                        xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><dicom><attr>EMPTY</attr></dicom>";
-                        //xmlData = "0";
-                    }
-                    StoreResultsResponse srr = cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
-                            , dataLocation, dataOutput, xmlData, creatorId);
-                    if(srr.isSuccess()) {
-                        JOptionPane.showMessageDialog(this, MSG_SAVE_SUCCESS + srr.getResult());
-                        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-                        model.removeRow(row);
-                    } else {
-                        JOptionPane.showMessageDialog(this, MSG_SAVE_FAILED + srr.getResult());
-                    }
-                } catch (SOAPException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (MalformedURLException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (DatatypeConfigurationException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ParserConfigurationException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SAXException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (TransformerConfigurationException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                        Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (TransformerException ex) {
-                    JOptionPane.showMessageDialog(this, ex.getMessage());
-                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
-        }
-    }//GEN-LAST:event_onSave
-
-    private void onClose(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClose
-        int result = JOptionPane.showConfirmDialog(this, MSG_ON_CLOSE);
-        // Yes = 0; No = 1; Cancel = 2
-        if (result == 0) {
-            //if (this.modelinterface != null) {this.modelinterface.close();}
-            if (this.dicomInterface != null) {this.dicomInterface.close();}
-            //if (this.commInterface != null) {this.commInterface.close();}
-            if (this.modelinterface != null) {this.modelinterface.close();}
-            int index = this.owner.getSelectedIndex();
-            this.owner.remove(index);
-        }
-    }//GEN-LAST:event_onClose
 
     private void onSelect(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSelect
         int row = jTable2.getSelectedRow();
@@ -770,13 +612,13 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // Select Patient
-        int row = jTable1.getSelectedRow();
+        int row = jTable3.getSelectedRow();
         HashMap hm = new HashMap();
-        hm.put(ClientService.TAG_PATIENTID, (String) jTable1.getValueAt(row, 0));
-        hm.put(ClientService.TAG_PATIENTNAME, (String) jTable1.getValueAt(row, 2));
-        hm.put(ClientService.TAG_PATIENTBRM, (String) jTable1.getValueAt(row, 3));
-        hm.put(ClientService.TAG_DOCID, (String) jTable1.getValueAt(row, 4));
-        hm.put(ClientService.TAG_DOCNAME, (String) jTable1.getValueAt(row, 5));
+        hm.put(ClientService.TAG_PATIENTID, (String) jTable3.getValueAt(row, 0));
+        hm.put(ClientService.TAG_PATIENTNAME, (String) jTable3.getValueAt(row, 2));
+        hm.put(ClientService.TAG_PATIENTBRM, (String) jTable3.getValueAt(row, 3));
+        hm.put(ClientService.TAG_DOCID, (String) jTable3.getValueAt(row, 4));
+        hm.put(ClientService.TAG_DOCNAME, (String) jTable3.getValueAt(row, 5));
         
         int rowWm = this.jTable2.getSelectedRow();
         this.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
@@ -792,6 +634,181 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void onAddManual(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onAddManual
+        //JOptionPane.showMessageDialog(this, "Not implemented yet!");
+        JFileChooser chooser = new JFileChooser();
+
+        // Add listener on chooser to detect changes to selected file
+        chooser.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (JFileChooser.SELECTED_FILE_CHANGED_PROPERTY
+                    .equals(evt.getPropertyName())) {
+                    JFileChooser chooser = (JFileChooser)evt.getSource();
+                    File oldFile = (File)evt.getOldValue();
+                    File newFile = (File)evt.getNewValue();
+
+                    // The selected file should always be the same as newFile
+                    File curFile = chooser.getSelectedFile();
+                } else if (JFileChooser.SELECTED_FILES_CHANGED_PROPERTY.equals(
+                    evt.getPropertyName())) {
+                JFileChooser chooser = (JFileChooser)evt.getSource();
+                File[] oldFiles = (File[])evt.getOldValue();
+                File[] newFiles = (File[])evt.getNewValue();
+
+                // Get list of selected files
+                // The selected files should always be the same as newFiles
+                File[] files = chooser.getSelectedFiles();
+            }
+        }
+
+        //            public void propertyChange(PropertyChangeEvent evt) {
+            //                throw new UnsupportedOperationException("Not supported yet.");
+            //            }
+        }) ;
+    }//GEN-LAST:event_onAddManual
+
+    private void onLookupPatient(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onLookupPatient
+        // Lookup Patient
+        int row = jTable2.getSelectedRow();
+        if (row > -1) {
+            try {
+                if(lookupPatients == null) {
+                    JFrame mainFrame = MainApps.getApplication().getMainFrame();
+                    this.onMessage(MSG_LOADING_PATIENTS);
+                    lookupPatients = new LookupPatients(this);
+                    lookupPatients.setLocationRelativeTo(mainFrame);
+                    lookupPatients.setResizable(false);
+                }
+                MainApps.getApplication().show(lookupPatients);
+                //lookupPatients.setVisible(true);
+            } catch (SOAPException ex) {
+                String msg = MSG_ERROR + ex.getMessage() +
+                MSG_CAUSE + ex.getCause().getCause().getCause().getMessage();
+                JOptionPane.showMessageDialog(this, msg);
+                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MalformedURLException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (TransformerException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+                Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                this.onMessage(MSG_EMPTY);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
+        }
+    }//GEN-LAST:event_onLookupPatient
+
+    private void onClose(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClose
+        int result = JOptionPane.showConfirmDialog(this, MSG_ON_CLOSE);
+        // Yes = 0; No = 1; Cancel = 2
+        if (result == 0) {
+            //if (this.modelinterface != null) {this.modelinterface.close();}
+            if (this.dicomInterface != null) {this.dicomInterface.close();}
+            //if (this.commInterface != null) {this.commInterface.close();}
+            if (this.modelinterface != null) {this.modelinterface.close();}
+            int index = this.owner.getSelectedIndex();
+            this.owner.remove(index);
+        }
+    }//GEN-LAST:event_onClose
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void onSave(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSave
+        int row = jTable2.getSelectedRow();
+        if (row > -1) {
+            String patientId = (String) jTable2.getValueAt(row, 0);
+            if (patientId == null || patientId.isEmpty()){
+                JOptionPane.showMessageDialog(this, MSG_INPUT_PATIENT);
+            } else {
+                this.cs = new ClientService();
+                try {
+                    String filePath = (String) jTable2.getValueAt(row, 5);
+                    String branchId = "CIS_CLINIC_ID";
+                    String patientCode = (String) jTable2.getValueAt(row, 2);
+                    String patientName = (String) jTable2.getValueAt(row, 1);
+                    DateTime dt = (DateTime) jTable2.getValueAt(row, 3);
+                    String remark = cs.convertDateTimeToString(dt);
+                    int equipmentId = Integer.valueOf(this.equip.getCode());
+                    int imageId = 0;
+                    DateTime trxDate = dt;
+                    DateTime timeStamp = trxDate;
+                    String dataLocation = filePath;
+                    String creatorId = "";
+                    if (UserSession.getInstance().getSecuser() != null) {
+                        creatorId = UserSession.getInstance().getSecuser().getUsrLoginname();
+                    }
+                    File dataOutput = null;
+                    String xmlData;
+                    if (filePath.contains(OUTPUT_XML)) {
+                        //autoreff
+                        //dataOutput = new File(filePath);
+                        //xmlData = cs.getStringFromXmlFile(filePath);
+                        xmlData = cs.getParsedStringFromXmlFile(filePath);
+                        cs.createXml(xmlData, filePath);
+                        dataOutput = new File(filePath);
+                    } else {
+                        //dicom File
+                        dataOutput = new File(filePath+OUTPUT_PDF);
+                        dataLocation = filePath+OUTPUT_PDF;
+                        if(!dataOutput.exists()) {
+                            dataOutput = new File(filePath+OUTPUT_JPG);
+                            dataLocation = filePath+OUTPUT_JPG;
+                        }
+                        //xmlData = cs.getStringFromXmlFile(filePath+OUTPUT_XML);
+                        xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><dicom><attr>EMPTY</attr></dicom>";
+                        //xmlData = "0";
+                    }
+                    StoreResultsResponse srr = cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
+                        , dataLocation, dataOutput, xmlData, creatorId);
+                    if(srr.isSuccess()) {
+                        JOptionPane.showMessageDialog(this, MSG_SAVE_SUCCESS + srr.getResult());
+                        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                        model.removeRow(row);
+                    } else {
+                        JOptionPane.showMessageDialog(this, MSG_SAVE_FAILED + srr.getResult());
+                    }
+                } catch (SOAPException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (MalformedURLException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DatatypeConfigurationException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParserConfigurationException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SAXException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TransformerConfigurationException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (TransformerException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, MSG_SELECT_ROW);
+        }
+    }//GEN-LAST:event_onSave
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
