@@ -1,8 +1,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>C:\Users\Public\KMN\MEIclientEXE\workspace.jar</jar>
-  <outfile>C:\Users\Public\KMN\MEIclientEXE\MEIclient.exe</outfile>
+  <jar>/home/valeo/workspace/kmn-client/dist/workspace.jar</jar>
+  <outfile>/home/valeo/Public/MEIclient.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
@@ -10,9 +10,9 @@
   <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl></supportUrl>
   <customProcName>false</customProcName>
-  <stayAlive>true</stayAlive>
+  <stayAlive>false</stayAlive>
   <manifest></manifest>
-  <icon>C:\Users\Public\KMN\workspace\images\workspace.ico</icon>
+  <icon>/media/valeo/54EA24434F128371/Users/Public/KMN/workspace/images/workspace.ico</icon>
   <singleInstance>
     <mutexName>MEI Client</mutexName>
     <windowTitle>Medical Equipment Interface Client</windowTitle>
@@ -67,18 +67,18 @@
     <maxHeapSize>512</maxHeapSize>
   </jre>
   <splash>
-    <file>C:\Users\Public\KMN\workspace\images\klinikmatanusantara.bmp</file>
+    <file>/media/valeo/54EA24434F128371/Users/Public/KMN/workspace/images/klinikmatanusantara.bmp</file>
     <waitForWindow>true</waitForWindow>
     <timeout>60</timeout>
     <timeoutErr>true</timeoutErr>
   </splash>
   <versionInfo>
-    <fileVersion>1.0.0.1</fileVersion>
-    <txtFileVersion>1.0.0.RC1</txtFileVersion>
+    <fileVersion>1.2.0.7</fileVersion>
+    <txtFileVersion>1.2.0.RC1</txtFileVersion>
     <fileDescription>Medical Equipment Interface Client</fileDescription>
     <copyright>Klinik Mata Nusantara</copyright>
-    <productVersion>1.0.0.1</productVersion>
-    <txtProductVersion>1.0.0.RC1</txtProductVersion>
+    <productVersion>1.2.0.7</productVersion>
+    <txtProductVersion>1.2.0.RC1</txtProductVersion>
     <productName>Medical Equipment Interface Client</productName>
     <companyName></companyName>
     <internalName>Medical Equipment Interface Client</internalName>
