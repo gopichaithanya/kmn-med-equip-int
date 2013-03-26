@@ -57,7 +57,8 @@ public class CisService {
 
     public PatientInfo getPatients(String reqKeyword, String reqClinicId, int reqPageNumber, int reqRowPerPage) throws SOAPException, IOException, TransformerException {
         if (logger.isDebugEnabled()) {
-            logger.debug("CisService.getPatients - keyword: '" + reqKeyword + "' id: '" + reqClinicId + "' page: "
+            logger.debug("CisService.getPatients - URL: " + this.url + 
+            		"keyword: '" + reqKeyword + "' id: '" + reqClinicId + "' page: "
                     + reqPageNumber + "reqRowPerPage: " + reqRowPerPage);
         }
         SOAPMessage request = createGetPatientsRequest(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
@@ -135,7 +136,8 @@ public class CisService {
 
     public StoreResultsResponse putPatientData(String reqPatientId, int reqDeviceId, String reqImageURL, String reqDataXML, DateTime reqDatetime) throws SOAPException, IOException, TransformerException, DatatypeConfigurationException {
         if (logger.isDebugEnabled()) {
-            logger.debug("CisService.putPatientData - reqPatientId: '" + reqPatientId + "' reqDeviceId: '" + reqDeviceId + "' reqImageURL: "
+            logger.debug("CisService.putPatientData - URL: "+ this.url
+            		+ "reqPatientId: '" + reqPatientId + "' reqDeviceId: '" + reqDeviceId + "' reqImageURL: "
                     + reqImageURL + "reqDataXML: " + reqDataXML + "reqDatetime: " +reqDatetime);
         }
         SOAPMessage request = createPutPatientDataRequest(reqPatientId, reqDeviceId, reqImageURL, reqDataXML, reqDatetime);
