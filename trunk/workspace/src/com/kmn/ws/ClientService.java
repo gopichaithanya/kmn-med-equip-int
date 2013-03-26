@@ -209,6 +209,85 @@ public class ClientService {
             while ((strLine = br.readLine()) != null)   {
                 // Print the content on the console
                 if(!strLine.isEmpty()) {
+                    //Missing Right eye
+                    if(count == 2 && !strLine.contains("R")) {
+                        sb.append(XML_ATTR_PREFIX);
+                        sb.append(DESC);
+                        sb.append(count++);
+                        sb.append(XML_ATTR_MID_TRUE);
+                        sb.append("R");
+                        sb.append(XML_ATTR_SUFFIX);
+                        for(int i=0; i<4; i++) {
+                           sb.append(XML_ATTR_PREFIX);
+                            sb.append(DESC);
+                            sb.append(count++);
+                            sb.append(XML_ATTR_MID_TRUE);
+                            sb.append("0");
+                            sb.append(XML_ATTR_SUFFIX); 
+                        }
+                    }
+                    //Missing Left eye
+                    if(count == 7 && !strLine.contains("L")) {
+                        sb.append(XML_ATTR_PREFIX);
+                        sb.append(DESC);
+                        sb.append(count++);
+                        sb.append(XML_ATTR_MID_TRUE);
+                        sb.append("L");
+                        sb.append(XML_ATTR_SUFFIX);
+                        for(int i=0; i<4; i++) {
+                           sb.append(XML_ATTR_PREFIX);
+                            sb.append(DESC);
+                            sb.append(count++);
+                            sb.append(XML_ATTR_MID_TRUE);
+                            sb.append("0");
+                            sb.append(XML_ATTR_SUFFIX); 
+                        }
+                    }
+                    
+                    //Missing Average Eye
+                    if(count == 12 && strLine.contains("K")) {
+                        sb.append(XML_ATTR_PREFIX);
+                        sb.append(DESC);
+                        sb.append(count++);
+                        sb.append(XML_ATTR_MID_TRUE);
+                        sb.append("0");
+                        sb.append(XML_ATTR_SUFFIX);
+                    }
+                    //Missing Right kerato
+                    if(count == 14 && !strLine.contains("R")) {
+                        sb.append(XML_ATTR_PREFIX);
+                        sb.append(DESC);
+                        sb.append(count++);
+                        sb.append(XML_ATTR_MID_TRUE);
+                        sb.append("R");
+                        sb.append(XML_ATTR_SUFFIX);
+                        for(int i=0; i<10; i++) {
+                           sb.append(XML_ATTR_PREFIX);
+                            sb.append(DESC);
+                            sb.append(count++);
+                            sb.append(XML_ATTR_MID_TRUE);
+                            sb.append("0");
+                            sb.append(XML_ATTR_SUFFIX); 
+                        }
+                    }
+                    //Missing Left kerato
+                    if(count == 25 && !strLine.contains("L")) {
+                        sb.append(XML_ATTR_PREFIX);
+                        sb.append(DESC);
+                        sb.append(count++);
+                        sb.append(XML_ATTR_MID_TRUE);
+                        sb.append("L");
+                        sb.append(XML_ATTR_SUFFIX);
+                        for(int i=0; i<10; i++) {
+                           sb.append(XML_ATTR_PREFIX);
+                            sb.append(DESC);
+                            sb.append(count++);
+                            sb.append(XML_ATTR_MID_TRUE);
+                            sb.append("0");
+                            sb.append(XML_ATTR_SUFFIX); 
+                        }
+                    }
+                    
                     sb.append(XML_ATTR_PREFIX);
                     sb.append(DESC);
                     sb.append(count);
@@ -233,6 +312,26 @@ public class ClientService {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+    
+    private StringBuffer generateRightEye(StringBuffer sb, int count) {
+        sb.append(XML_ATTR_PREFIX);
+        sb.append(DESC);
+        sb.append(count);
+        sb.append(XML_ATTR_MID_TRUE);
+        return sb;
+    }
+    public String checkXMLFormat(int lineNumber, String strLine) {
+        //Missing Right eye
+        if(lineNumber == 2 && !strLine.equalsIgnoreCase("R")) {
+            
+        }
+        //Missing Left eye
+        
+        //Missing Right kerato
+        
+        //Missing Left kerato
+        return "";
     }
     
     public Document convertSysmexKX21ToXml(String messageString, String absolutePath) {
