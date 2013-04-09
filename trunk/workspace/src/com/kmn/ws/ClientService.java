@@ -194,9 +194,47 @@ public class ClientService {
     public Document convertMessageToXml(String messageFormat, String messageString, String absolutePath, String equipCode) {
         if(equipCode.equals("34")){
             return convertSysmexKX21ToXml(messageString, absolutePath);
+        } else if(equipCode.equals("31")){
+            return convertMessage31ToXml(messageFormat, messageString, absolutePath);
         } else {
             return convertMessageToXml(messageFormat, messageString, absolutePath);
         }
+    }
+    
+    public Document convertMessage31ToXml(String messageFormat, String messageString, String absolutePath) {
+        try {
+            BufferedReader br = new BufferedReader(new StringReader(messageString));
+            StringBuilder sb = new StringBuilder(XML_HEADER+XML_COMM_PREFIX);
+            String strLine;
+            int count = 1;
+            //Read File Line By Line
+            while ((strLine = br.readLine()) != null)   {
+                // Print the content on the console
+                if(!strLine.isEmpty()) {
+                    sb.append(XML_ATTR_PREFIX);
+                    sb.append(DESC);
+                    sb.append(count);
+                    sb.append(XML_ATTR_MID_TRUE);
+                    strLine = strLine.replaceAll(AMP, AMP_PE);
+                    strLine = strLine.replaceAll(LT, LT_PE);
+                    strLine = strLine.replaceAll(GT, GT_PE);
+                    strLine = strLine.replaceAll(APOS, APOS_PE);
+                    strLine = strLine.replaceAll(QUOT, QUOT_PE);
+                    strLine = strLine.replaceAll("\\s","");
+                    if(strLine.isEmpty()){
+                        strLine = "0";
+                    }
+                    sb.append(strLine);
+                    sb.append(XML_ATTR_SUFFIX);
+                    count++;
+                }
+            }
+            sb.append(XML_COMM_SUFFIX);
+            return createXml(sb.toString().trim(), absolutePath);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
     
     public Document convertMessageToXml(String messageFormat, String messageString, String absolutePath) {
