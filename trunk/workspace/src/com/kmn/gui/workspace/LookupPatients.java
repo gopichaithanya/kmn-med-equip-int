@@ -13,6 +13,7 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.soap.SOAPException;
 import javax.xml.transform.*;
@@ -25,6 +26,7 @@ public class LookupPatients extends javax.swing.JDialog {
     private WorkspaceModel wm;
     private Workspace ws;
     private PatientInfo patientInfo;
+    private static final String MSG_MANDATORY = "Harap masukkan Nama Pasien, BRM atau Single ID.";
     private static final String DEFAULT_CLINIC_ID = "8";
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int DEFAULT_ROW_PER_PAGE = 10;
@@ -276,11 +278,15 @@ public class LookupPatients extends javax.swing.JDialog {
                 model.removeRow(0);
             }
             //ClientService cs = new ClientService();
-            String keyword = "%"+jTextField1.getText()+"%"+"#"+jTextField3.getText()+"#"+jTextField2.getText();
-            patientInfo = this.cs.retrievePatients(keyword, this.clinicId, this.pageNumber, this.rowPerPage);
-            for (Patient p : patientInfo.getPatients()) {
-                model.addRow(new Object[]{p.getPatientId(),p.getSingleId(), p.getPatientName(),
-                    p.getPatientBrm(), p.getDocId(), p.getDocName()});
+            if(jTextField1.getText().isEmpty() && jTextField3.getText().isEmpty() && jTextField2.getText().isEmpty()){
+                JOptionPane.showMessageDialog(this, MSG_MANDATORY);
+            } else {
+                String keyword = "%"+jTextField1.getText()+"%"+"#"+jTextField3.getText()+"#"+jTextField2.getText();
+                patientInfo = this.cs.retrievePatients(keyword, this.clinicId, this.pageNumber, this.rowPerPage);
+                for (Patient p : patientInfo.getPatients()) {
+                    model.addRow(new Object[]{p.getPatientId(),p.getSingleId(), p.getPatientName(),
+                        p.getPatientBrm(), p.getDocId(), p.getDocName()});
+                }
             }
         } catch (SOAPException ex) {
             Logger.getLogger(LookupPatients.class.getName()).log(Level.SEVERE, null, ex);
