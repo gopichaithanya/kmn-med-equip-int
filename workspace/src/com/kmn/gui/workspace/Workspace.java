@@ -22,7 +22,10 @@ import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.MalformedURLException;
@@ -46,8 +49,15 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.joda.time.DateTime;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -127,7 +137,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         this.setName(equip.getCode());
         receiveEquipmentData();
         this.jButton3.setVisible(false); //Lookup Patient button
-        this.jButton4.setVisible(false); //Add manual button
+        this.jButton4.setVisible(true); //Add File button
         this.jLabel2.setVisible(false); //Patient Name
         this.jTextField1.setVisible(false); //Patient Name
     }   
@@ -140,6 +150,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fileChooser = new javax.swing.JFileChooser();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -205,7 +216,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         });
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/kmn/resources/images/file.png"))); // NOI18N
-        jButton4.setText("Add Manual");
+        jButton4.setText("Add File");
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 onAddManual(evt);
@@ -638,13 +649,83 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        fileChooserActionPerformed(evt);
     }//GEN-LAST:event_jButton4ActionPerformed
+    private void fileChooserActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        int returnVal = fileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File fileSelected = fileChooser.getSelectedFile();
+            System.out.println("fileChooserActionPerformed: "+fileSelected.getAbsolutePath());
+            if(fileSelected.exists()) {
+                System.out.println("fileSelected.getName(): "+fileSelected.getName());
+                if (statusBox == null) {
+                    JFrame mainFrame = MainApps.getApplication().getMainFrame();
+                    statusBox = new Status(this, true);
+                    statusBox.setLocationRelativeTo(mainFrame);
+                }
+                Date now = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat(SDF_DIR);
+                DateTime trxDate = new DateTime(now);
+                DatatypeFactory factory = null;
+                try {
+                    factory = DatatypeFactory.newInstance();
+                } catch (DatatypeConfigurationException ex) {
+                    Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                String path = TEMP_DIR+"/"+sdf.format(now)+".out/"+fileSelected.getName();
+                System.out.println("path: "+path);
+                DefaultTableModel model= (DefaultTableModel) jTable2.getModel();
+                try {
+                    copyFile(fileSelected, new File(path));
+                    model.addRow(new Object[]{null,null,null,trxDate,null,path});
+                    System.out.println("File saved to: "+path);
+                } catch (IOException ex) {
+                    Logger.getLogger(Workspace.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                while(!jLabel1.getText().isEmpty()) {
+                    try {
+                        synchronized (this) {
+                            wait(1000);
+                        }
+                        jLabel1.setText(MSG_EMPTY);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+        } else {
+            System.out.println("File access cancelled by user.");
+        }
+    } 
+    
+    public static void copyFile(File sourceFile, File destFile) throws IOException {
+//        if(!destFile.exists()) {
+//            destFile.createNewFile();
+//        }
+        if(!destFile.exists()){
+            destFile.getParentFile().mkdirs();
+        }
 
+        FileChannel source = null;
+        FileChannel destination = null;
+
+        try {
+            source = new FileInputStream(sourceFile).getChannel();
+            destination = new FileOutputStream(destFile).getChannel();
+            destination.transferFrom(source, 0, source.size());
+        }
+        finally {
+            if(source != null) {
+                source.close();
+            }
+            if(destination != null) {
+                destination.close();
+            }
+        }
+    }
     private void onAddManual(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onAddManual
         //JOptionPane.showMessageDialog(this, "Not implemented yet!");
         JFileChooser chooser = new JFileChooser();
-
+        chooser.setVisible(true);
         // Add listener on chooser to detect changes to selected file
         chooser.addPropertyChangeListener(new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -767,6 +848,10 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                         if(!dataOutput.exists()) {
                             dataOutput = new File(filePath+OUTPUT_JPG);
                             dataLocation = filePath+OUTPUT_JPG;
+                            if(!dataOutput.exists()) {
+                                dataOutput = new File(filePath);
+                                dataLocation = filePath;
+                            }
                         }
                         //xmlData = cs.getStringFromXmlFile(filePath+OUTPUT_XML);
                         xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><dicom><attr>EMPTY</attr></dicom>";
@@ -814,6 +899,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     }//GEN-LAST:event_onSave
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -914,7 +1000,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     private void receiveEquipmentData() {
         try {
             if (equip.getInterfaceType().equalsIgnoreCase(DICOM)) {
-                this.modelinterface = new DicomInterface(this, LOCAL_IP, Integer.valueOf(equip.getPort()), AP_NAME, TEMP_DIR, 3);
+                this.modelinterface = new DicomInterface(this, LOCAL_IP, Integer.valueOf(equip.getPort()), AP_NAME, TEMP_DIR, 5);
              } else {
                 this.modelinterface = new CommInterface(this, equip.getCom(), Integer.valueOf(equip.getRate())
                         , Integer.valueOf(equip.getDataBit()), getStopBitInt(equip.getStopBit())
