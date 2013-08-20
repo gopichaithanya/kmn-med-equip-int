@@ -37,11 +37,17 @@ public class Dcm2JpgExt extends Dcm2Jpg {
             System.out.println("Cannot find the file specified: " + iPath);
         }
         try {
-            super.setFrameNumber(frameNumber);
-            System.out.println("Source: " + iPath);
-            System.out.println("Frame Number: " + frameNumber);
-            super.convert(src, dest);
-            System.out.println("Destination: " + oPath);
+            if(frameNumber!=0){
+                super.setFrameNumber(frameNumber);
+            }else{
+                for(int i=1; i<=11; i++){
+                    System.out.println("Source: " + iPath);
+                    System.out.println("Frame Number: " + i);
+                    super.setFrameNumber(i);
+                    super.convert(src, dest);
+                    System.out.println("Destination: " + oPath+i+".jpg");
+                }
+            }
         } catch (IndexOutOfBoundsException e) {
             System.out.println(e.getMessage()+"\nReverting to render the first frame.");
             constructDcm2JpgExt(iPath, oPath, 1);
