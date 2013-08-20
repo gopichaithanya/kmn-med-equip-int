@@ -73,12 +73,12 @@
     <timeoutErr>true</timeoutErr>
   </splash>
   <versionInfo>
-    <fileVersion>1.2.5.2</fileVersion>
-    <txtFileVersion>1.2.5.RC2</txtFileVersion>
+    <fileVersion>1.2.6.1</fileVersion>
+    <txtFileVersion>1.2.6.RC1</txtFileVersion>
     <fileDescription>Medical Equipment Interface Client</fileDescription>
     <copyright>Klinik Mata Nusantara</copyright>
-    <productVersion>1.2.5.2</productVersion>
-    <txtProductVersion>1.2.5.RC2</txtProductVersion>
+    <productVersion>1.2.6.1</productVersion>
+    <txtProductVersion>1.2.6.RC1</txtProductVersion>
     <productName>Medical Equipment Interface Client</productName>
     <companyName></companyName>
     <internalName>Medical Equipment Interface Client</internalName>
