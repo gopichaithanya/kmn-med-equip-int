@@ -263,7 +263,6 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
 
         jScrollPane2.setMinimumSize(new java.awt.Dimension(200, 200));
         jScrollPane2.setName(""); // NOI18N
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 300));
 
         jScrollPane1.setViewportView(outputLabel);
         outputLabel.getAccessibleContext().setAccessibleName("outputLabel");
@@ -348,17 +347,18 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
 
             },
             new String [] {
-                "Single ID", "Patient Name", "MR Number", "Timestamp", "Doctor ID", "Data Output"
+                "Single ID", "Patient Name", "MR Number", "Timestamp", "Doctor ID", "Data Output", "PID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, false, true, false
+                false, true, true, false, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable2.setColumnSelectionAllowed(true);
         jTable2.setMaximumSize(new java.awt.Dimension(2147483647, 800));
         jTable2.setMinimumSize(new java.awt.Dimension(200, 150));
         jTable2.setPreferredSize(new java.awt.Dimension(400, 300));
@@ -465,7 +465,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap())
             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
@@ -535,13 +535,20 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                     file = new File(filePath+OUTPUT_JPG);
                 }
                 if(!file.exists()) {
+                    file = new File(filePath+OUTPUT_XML);
+                }
+                if(!file.exists()) {
                     file = new File(filePath);
                     if(!file.exists()) {
                         JOptionPane.showMessageDialog(this, MSG_NO_FILE);
                     } else {
-//                        XmlViewer xv = new XmlViewer(this, file);
-//                        xv.setLocationRelativeTo(mainFrame);
-                        renderXml(file);
+                        if(file.getName().contains(PDF_FILE_EXT)) {
+                            renderPdf(file);
+                        } else if (file.getName().contains(XML_FILE_EXT)) {
+                            renderXml(file);
+                        } else {
+                            renderImage(file);
+                        } 
                     }
                 } else {
 //                    ViewOutput vo = new ViewOutput(this, file);
@@ -628,13 +635,15 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         int row = jTable3.getSelectedRow();
         HashMap hm = new HashMap();
         hm.put(ClientService.TAG_PATIENTID, (String) jTable3.getValueAt(row, 0));
+        hm.put(ClientService.TAG_SINGLEID, (String) jTable3.getValueAt(row, 1));
         hm.put(ClientService.TAG_PATIENTNAME, (String) jTable3.getValueAt(row, 2));
         hm.put(ClientService.TAG_PATIENTBRM, (String) jTable3.getValueAt(row, 3));
         hm.put(ClientService.TAG_DOCID, (String) jTable3.getValueAt(row, 4));
         hm.put(ClientService.TAG_DOCNAME, (String) jTable3.getValueAt(row, 5));
         
         int rowWm = this.jTable2.getSelectedRow();
-        this.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
+        this.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 6);
+        this.jTable2.setValueAt(hm.get(ClientService.TAG_SINGLEID), rowWm, 0);
         this.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTNAME), rowWm, 1);
         this.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTBRM), rowWm, 2);
         this.jTable2.setValueAt(hm.get(ClientService.TAG_DOCID), rowWm, 4);
@@ -677,7 +686,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 DefaultTableModel model= (DefaultTableModel) jTable2.getModel();
                 try {
                     copyFile(fileSelected, new File(path));
-                    model.addRow(new Object[]{null,null,null,trxDate,null,path});
+                    model.addRow(new Object[]{null,null,null,trxDate,null,path,null});
                     System.out.println("File saved to: "+path);
                 } catch (IOException ex) {
                     Logger.getLogger(Workspace.class.getName()).log(Level.SEVERE, null, ex);
@@ -811,7 +820,8 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     private void onSave(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSave
         int row = jTable2.getSelectedRow();
         if (row > -1) {
-            String patientId = (String) jTable2.getValueAt(row, 0);
+            //patient id used for transaction key for web service between webadmin and cis.
+            String patientId = (String) jTable2.getValueAt(row, 6);
             if (patientId == null || patientId.isEmpty()){
                 JOptionPane.showMessageDialog(this, MSG_INPUT_PATIENT);
             } else {
@@ -819,7 +829,8 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 try {
                     String filePath = (String) jTable2.getValueAt(row, 5);
                     String branchId = "CIS_CLINIC_ID";
-                    String patientCode = (String) jTable2.getValueAt(row, 2);
+                    //Single id used for storing directory structure in web admin
+                    String patientCode = (String) jTable2.getValueAt(row, 0);
                     String patientName = (String) jTable2.getValueAt(row, 1);
                     DateTime dt = (DateTime) jTable2.getValueAt(row, 3);
                     String remark = cs.convertDateTimeToString(dt);
@@ -961,9 +972,9 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
             if(cs.convertMessageToXml(MSG_EMPTY, message, path, equip.getCode())!=null) {
                 //cs.convertMessageToXml(MSG_EMPTY, message, path);
                 if(message.contains(TEMP_DIR)) {
-                    model.addRow(new Object[]{null,null,null,trxDate,null,message});
+                    model.addRow(new Object[]{null,null,null,trxDate,null,message,null});
                 } else {
-                    model.addRow(new Object[]{null,null,null,trxDate,null,path});
+                    model.addRow(new Object[]{null,null,null,trxDate,null,path,null});
                 }
                 while(!jLabel1.getText().isEmpty()) {
                     try {

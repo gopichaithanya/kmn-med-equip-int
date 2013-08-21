@@ -83,6 +83,7 @@ public class ClientService {
     public static final String TAG_RESROWSXML = "resRowsXML";
     public static final String TAG_PATIENTINFO = "PATIENTINFO";
     public static final String TAG_PATIENTID = "PATIENTID";
+    public static final String TAG_SINGLEID = "SINGLEID";
     public static final String TAG_PATIENTNAME = "PATIENTNAME";
     public static final String TAG_PATIENTBRM = "PATIENTBRM";
     public static final String TAG_DOCID = "DOCID";
@@ -131,7 +132,8 @@ public class ClientService {
             //Read temp data XML
             Document doc = readXml(TEMP_XML_DATA_PATH);
             NodeList patientInfo = doc.getElementsByTagName(TAG_PATIENTINFO);
-            NodeList n1 = doc.getElementsByTagName(TAG_PATIENTID);
+            //NodeList n1 = doc.getElementsByTagName(TAG_PATIENTID);
+            NodeList n1 = doc.getElementsByTagName(TAG_SINGLEID);
             NodeList n2 = doc.getElementsByTagName(TAG_PATIENTNAME);
             NodeList n3 = doc.getElementsByTagName(TAG_PATIENTBRM);
             NodeList n4 = doc.getElementsByTagName(TAG_DOCID);
