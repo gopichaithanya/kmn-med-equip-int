@@ -310,19 +310,22 @@ public class LookupPatients extends javax.swing.JDialog {
         int row = jTable1.getSelectedRow();
         HashMap hm = new HashMap();
         hm.put(ClientService.TAG_PATIENTID, (String) jTable1.getValueAt(row, 0));
+        hm.put(ClientService.TAG_SINGLEID, (String) jTable1.getValueAt(row, 1));
         hm.put(ClientService.TAG_PATIENTNAME, (String) jTable1.getValueAt(row, 2));
         hm.put(ClientService.TAG_PATIENTBRM, (String) jTable1.getValueAt(row, 3));
         hm.put(ClientService.TAG_DOCID, (String) jTable1.getValueAt(row, 4));
         hm.put(ClientService.TAG_DOCNAME, (String) jTable1.getValueAt(row, 5));
         if (this.wm != null) {
             int rowWm = this.wm.jTable1.getSelectedRow();
-            this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
+            //this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
+            this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_SINGLEID), rowWm, 0);
             this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTNAME), rowWm, 1);
             this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_PATIENTBRM), rowWm, 2);
             this.wm.jTable1.setValueAt(hm.get(ClientService.TAG_DOCID), rowWm, 4);
         } else if(this.ws != null) {
             int rowWm = this.ws.jTable2.getSelectedRow();
-            this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
+            //this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTID), rowWm, 0);
+            this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_SINGLEID), rowWm, 0);
             this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTNAME), rowWm, 1);
             this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_PATIENTBRM), rowWm, 2);
             this.ws.jTable2.setValueAt(hm.get(ClientService.TAG_DOCID), rowWm, 4);
