@@ -10,10 +10,9 @@ import com.kmn.controller.UserSession;
 import com.kmn.controller.props.EquipmentDetailProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
-import com.kmn.util.NRinterface;
 import com.kmn.ws.ClientService;
-import com.kmn.ws.bean.PatientInfo;
 import com.kmn.ws.bean.Patient;
+import com.kmn.ws.bean.PatientInfo;
 import com.kmn.ws.bean.StoreResultsResponse;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPage;
@@ -25,7 +24,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.net.MalformedURLException;
@@ -49,15 +47,8 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.SOAPException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.joda.time.DateTime;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -160,7 +151,6 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
-        jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         outputLabel = new javax.swing.JLabel();
@@ -261,8 +251,14 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jSplitPane1.setMinimumSize(new java.awt.Dimension(206, 100));
         jSplitPane1.setName(""); // NOI18N
 
-        jScrollPane2.setMinimumSize(new java.awt.Dimension(200, 200));
         jScrollPane2.setName(""); // NOI18N
+
+        jPanel3.setMinimumSize(new java.awt.Dimension(410, 450));
+        jPanel3.setName(""); // NOI18N
+        jPanel3.setPreferredSize(new java.awt.Dimension(2, 2));
+        jPanel3.setLayout(new java.awt.GridLayout(2, 1));
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(422, 225));
 
         jScrollPane1.setViewportView(outputLabel);
         outputLabel.getAccessibleContext().setAccessibleName("outputLabel");
@@ -271,15 +267,14 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
         );
 
-        jPanel1.setBounds(0, 0, 590, 210);
-        jLayeredPane1.add(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jPanel3.add(jPanel1);
 
         jScrollPane4.setPreferredSize(new java.awt.Dimension(452, 200));
 
@@ -308,28 +303,14 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
         );
 
-        jPanel4.setBounds(0, 210, 590, 250);
-        jLayeredPane1.add(jPanel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
-        );
+        jPanel3.add(jPanel4);
 
         jScrollPane2.setViewportView(jPanel3);
 
@@ -358,7 +339,6 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setColumnSelectionAllowed(true);
         jTable2.setMaximumSize(new java.awt.Dimension(2147483647, 800));
         jTable2.setMinimumSize(new java.awt.Dimension(200, 150));
         jTable2.setPreferredSize(new java.awt.Dimension(400, 300));
@@ -465,7 +445,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6)
-                .addContainerGap())
+                .addContainerGap(67, Short.MAX_VALUE))
             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
@@ -526,7 +506,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
 
     private void onSelect(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSelect
         int row = jTable2.getSelectedRow();
-        JFrame mainFrame = MainApps.getApplication().getMainFrame();
+        //JFrame mainFrame = MainApps.getApplication().getMainFrame();
         if (row > -1) {
             String filePath = (String) jTable2.getValueAt(row, 5);
             try {
@@ -743,24 +723,22 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                     JFileChooser chooser = (JFileChooser)evt.getSource();
                     File oldFile = (File)evt.getOldValue();
                     File newFile = (File)evt.getNewValue();
-
                     // The selected file should always be the same as newFile
                     File curFile = chooser.getSelectedFile();
                 } else if (JFileChooser.SELECTED_FILES_CHANGED_PROPERTY.equals(
                     evt.getPropertyName())) {
-                JFileChooser chooser = (JFileChooser)evt.getSource();
-                File[] oldFiles = (File[])evt.getOldValue();
-                File[] newFiles = (File[])evt.getNewValue();
-
-                // Get list of selected files
-                // The selected files should always be the same as newFiles
-                File[] files = chooser.getSelectedFiles();
+                        JFileChooser chooser = (JFileChooser)evt.getSource();
+                        File[] oldFiles = (File[])evt.getOldValue();
+                        File[] newFiles = (File[])evt.getNewValue();
+                        // Get list of selected files
+                        // The selected files should always be the same as newFiles
+                        File[] files = chooser.getSelectedFiles();
             }
         }
 
-        //            public void propertyChange(PropertyChangeEvent evt) {
-            //                throw new UnsupportedOperationException("Not supported yet.");
-            //            }
+    //            public void propertyChange(PropertyChangeEvent evt) {
+    //                throw new UnsupportedOperationException("Not supported yet.");
+    //            }
         }) ;
     }//GEN-LAST:event_onAddManual
 
@@ -847,8 +825,6 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                     String xmlData;
                     if (filePath.contains(OUTPUT_XML)) {
                         //autoreff
-                        //dataOutput = new File(filePath);
-                        //xmlData = cs.getStringFromXmlFile(filePath);
                         xmlData = cs.getParsedStringFromXmlFile(filePath);
                         cs.createXml(xmlData, filePath);
                         dataOutput = new File(filePath);
@@ -922,7 +898,6 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -970,7 +945,6 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
             ClientService cs = new ClientService();
             DefaultTableModel model= (DefaultTableModel) jTable2.getModel();
             if(cs.convertMessageToXml(MSG_EMPTY, message, path, equip.getCode())!=null) {
-                //cs.convertMessageToXml(MSG_EMPTY, message, path);
                 if(message.contains(TEMP_DIR)) {
                     model.addRow(new Object[]{null,null,null,trxDate,null,message,null});
                 } else {
@@ -1105,9 +1079,9 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         try {
             renderPdfAsImage(file);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(WorkspaceModel.class.getName()).log(Level.SEVERE, null, e);
         }
     }
     
