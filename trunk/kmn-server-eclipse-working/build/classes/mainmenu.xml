@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:XMLRootMenu xmlns:ns2="http://www.daibutsu.de/zk/menu">
+    <menuItem id="menu_Item_Home" zulNavigation="/WEB-INF/pages/dashboard.zul"
+              iconName="/images/icons/console_view.gif"/>
+    <!-- Calendar -->
+    <menuItem id="menu_Item_Calendar" zulNavigation="/WEB-INF/pages/calendar/calendar.zul"
+              iconName="/images/icons/calendar1_16x16.gif"/>
+
+    <menu id="menu_Category_Administrasi" rightName="menuCat_Administrasi">
+        <!-- KMN Administrasi MenuTree -->
+        <menuItem id="menuItem_Admin_Equipment" zulNavigation="/WEB-INF/pages/administrasi/equipment/equipmentMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_Equipment"/>
+        <menuItem id="menuItem_Admin_Producer" zulNavigation="/WEB-INF/pages/administrasi/producer/producerMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_Producer"/>
+        <menuItem id="menuItem_Admin_EquipmentType" zulNavigation="/WEB-INF/pages/administrasi/equiptype/equiptypeMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_EquipmentType"/>
+        <!--menuItem id="menuItem_Admin_Officer" zulNavigation="/WEB-INF/pages/administrasi/officer/officerMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_Officer"/>
+        <menuItem id="menuItem_Admin_Doctor" zulNavigation="/WEB-INF/pages/administrasi/doctor/doctorMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_Doctor"/-->
+        <menuItem id="menuItem_Admin_Room" zulNavigation="/WEB-INF/pages/administrasi/room/roomMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_Room"/>
+        <!--menuItem id="menu_Item_Branches" zulNavigation="/WEB-INF/pages/branch/branchMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_MainData_Branch"/-->
+        <menuItem id="menuItem_Admin_Transaction" zulNavigation="/WEB-INF/pages/administrasi/transaction/transactionMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_Transaction"/>
+        <menuItem id="menuItem_Admin_System" zulNavigation="/WEB-INF/pages/administrasi/system/systemMain.zul"
+                  iconName="/images/icons/index_16x16.gif" rightName="menuItem_Admin_System"/>
+    </menu>
+    <menu id="menu_Category_Administration" rightName="menuCat_Administration">
+        <!-- Administration MenuTree -->
+        <menuItem id="menu_Item_Users" iconName="/images/icons/male_16x16.gif"
+                  zulNavigation="/WEB-INF/pages/sec_user/userList.zul" rightName="menuItem_Administration_Users"/>
+        <menu id="menu_Category_UserRights" rightName="menuCat_UserRights">
+            <menuItem id="menu_Item_UserRoles" zulNavigation="/WEB-INF/pages/sec_userrole/secUserrole.zul"
+                      iconName="/images/icons/exdDatabaseView_16x16.gif" rightName="menuItem_Administration_UserRoles"/>
+            <menuItem id="menu_Item_Roles" zulNavigation="/WEB-INF/pages/sec_role/secRoleList.zul"
+                      iconName="/images/icons/exdDatabaseView_16x16.gif" rightName="menuItem_Administration_Roles"/>
+            <menuItem id="menu_Item_RoleGroups" zulNavigation="/WEB-INF/pages/sec_rolegroup/secRolegroup.zul"
+                      iconName="/images/icons/exdDatabaseView_16x16.gif"
+                      rightName="menuItem_Administration_RoleGroups"/>
+            <menuItem id="menu_Item_Groups" zulNavigation="/WEB-INF/pages/sec_group/secGroupList.zul"
+                      iconName="/images/icons/exdDatabaseView_16x16.gif" rightName="menuItem_Administration_Groups"/>
+            <menuItem id="menu_Item_GroupRights"
+                      zulNavigation="/WEB-INF/pages/sec_groupright/secGroupright.zul"
+                      iconName="/images/icons/exdDatabaseView_16x16.gif"
+                      rightName="menuItem_Administration_GroupRights"/>
+            <menuItem id="menu_Item_Rights" zulNavigation="/WEB-INF/pages/sec_right/secRightList.zul"
+                      iconName="/images/icons/exdDatabaseView_16x16.gif" rightName="menuItem_Administration_Rights"/>
+        </menu>
+        <menuItem id="menu_Item_LoginsLog"
+                  zulNavigation="/WEB-INF/pages/sec_loginlog/secLoginLogMain.zul"
+                  iconName="/images/icons/method_16x16.gif" rightName="menuItem_Administration_LoginsLog"/>
+        <menuItem id="menu_Item_HibernateStatistics" zulNavigation="/WEB-INF/pages/debug/HibernateStatistics.zul"
+                  iconName="/images/icons/method_16x16.gif" rightName="menuItem_Administration_HibernateStats"/>
+        <menu id="menu_Category_Master" rightName="menuCat_Master">
+            <menuItem id="menu_Item_MasterRuangan"
+                      zulNavigation="/WEB-INF/pages/administrasi/saranaprasarana/ruangList.zul"
+                      iconName="/images/icons/exdDatabaseView_16x16.gif"
+                      rightName="menuItem_Administration_MasterRuangan"/>
+        </menu>
+    </menu>
+</ns2:XMLRootMenu>

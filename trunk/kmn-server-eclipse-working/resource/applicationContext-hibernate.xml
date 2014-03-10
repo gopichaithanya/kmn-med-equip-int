@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- ====================================================== -->
+    <!--                 HIBERNATE SESSIONFACTORY               -->
+    <!-- ====================================================== -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+          name="sessionFactory">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties" ref="hibernateProperties"/>
+        <property name="mappingResources">
+            <list>
+                <value>id/co/kmn/backend/model/Article.hbm.xml</value>
+                <value>id/co/kmn/backend/model/MyCalendarEvent.hbm.xml</value>
+                <value>id/co/kmn/backend/model/CountryCode.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Ip4Country.hbm.xml</value>
+                <value>id/co/kmn/backend/model/IpToCountry.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Ip2Country.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Customer.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Orderposition.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Office.hbm.xml</value>
+                <value>id/co/kmn/backend/model/ApplicationNews.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Order.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SecGroup.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SecUser.hbm.xml</value>
+                <value>id/co/kmn/backend/model/GuestBook.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SecRole.hbm.xml</value>
+                <value>id/co/kmn/backend/model/AppNews.hbm.xml</value>
+                <value>id/co/kmn/backend/model/IpcIp2country.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SecUserrole.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Auftrag.hbm.xml</value>
+                <value>id/co/kmn/backend/model/YoutubeLink.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Kunde.hbm.xml</value>
+                <value>id/co/kmn/backend/model/HibernateEntityStatistics.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SecGroupright.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Filiale.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SysCountrycode.hbm.xml</value>
+                <value>id/co/kmn/backend/model/CalendarEvent.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SecRight.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Artikel.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Auftragposition.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SecLoginlog.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Branche.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SysIp4country.hbm.xml</value>
+                <value>id/co/kmn/backend/model/LogIp2country.hbm.xml</value>
+                <value>id/co/kmn/backend/model/HibernateStatistics.hbm.xml</value>
+                <value>id/co/kmn/backend/model/SecRolegroup.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Mmedproducer.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Mmedroom.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Mmedequiptype.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Mmedsystem.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Mmedequipment.hbm.xml</value>
+                <value>id/co/kmn/backend/model/Tmedequipment.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- ====================================================== -->
+    <!--                    Hibernate Template                  -->
+    <!-- ====================================================== -->
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="maxResults" value="3000"/>
+    </bean>
+
+    <!-- ====================================================== -->
+    <!--   Search class from Hibernate-Generic-DAO framework    -->
+    <!-- ====================================================== -->
+    <bean id="hibernateSearchSupport"
+          class="id.co.kmn.backend.dao.impl.HibernateSearchSupportImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="hibernateSearchProcessor">
+            <bean class="com.trg.search.hibernate.HibernateSearchProcessor"
+                  factory-method="getInstanceForSessionFactory">
+                <constructor-arg ref="sessionFactory"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- ====================================================== -->
+    <!--                        Base bean                       -->
+    <!-- ====================================================== -->
+    <bean id="basisDAO" abstract="true" p:hibernateTemplate-ref="hibernateTemplate"
+          class="id.co.kmn.backend.dao.impl.BasisDAO"/>
+    <bean id="baseDAOImpl" abstract="true" p:hibernateTemplate-ref="hibernateTemplate"
+          class="id.co.kmn.backend.dao.impl.BaseDAOImpl"/>
+
+    <!-- ====================================================== -->
+    <!--                        DAO beans                       -->
+    <!-- ====================================================== -->
+    <bean id="customerDAO" class="id.co.kmn.backend.dao.impl.CustomerDAOImpl" parent="basisDAO"/>
+    <bean id="articleDAO" class="id.co.kmn.backend.dao.impl.ArticleDAOImpl" parent="basisDAO"/>
+    <bean id="officeDAO" class="id.co.kmn.backend.dao.impl.OfficeDAOImpl" parent="basisDAO"/>
+    <bean id="brancheDAO" class="id.co.kmn.backend.dao.impl.BrancheDAOImpl" parent="basisDAO"/>
+    <bean id="userDAO" class="id.co.kmn.backend.dao.impl.UserDAOImpl" parent="basisDAO"/>
+    <bean id="secGroupDAO" class="id.co.kmn.backend.dao.impl.SecGroupDAOImpl" parent="basisDAO"/>
+    <bean id="secGrouprightDAO" class="id.co.kmn.backend.dao.impl.SecGrouprightDAOImpl" parent="basisDAO"/>
+    <bean id="secRightDAO" class="id.co.kmn.backend.dao.impl.SecRightDAOImpl" parent="basisDAO"/>
+    <bean id="secRoleDAO" class="id.co.kmn.backend.dao.impl.SecRoleDAOImpl" parent="basisDAO"/>
+    <bean id="secRolegroupDAO" class="id.co.kmn.backend.dao.impl.SecRolegroupDAOImpl" parent="basisDAO"/>
+    <bean id="secUserroleDAO" class="id.co.kmn.backend.dao.impl.SecUserroleDAOImpl" parent="basisDAO"/>
+    <bean id="secTypDAO" class="id.co.kmn.backend.dao.impl.SecTypDAOImpl"/>
+    <bean id="secLoginlogDAO" class="id.co.kmn.backend.dao.impl.SecLoginlogDAOImpl" parent="basisDAO"/>
+    <bean id="languageDAO" class="id.co.kmn.backend.dao.impl.LanguageDAOImpl"/>
+    <bean id="guestBookDAO" class="id.co.kmn.backend.dao.impl.GuestBookDAOImpl" parent="basisDAO"/>
+    <bean id="chartDataDAO" class="id.co.kmn.backend.dao.impl.ChartDataDAOImpl"/>
+    <bean id="ipToCountryDAO" class="id.co.kmn.backend.dao.impl.IpToCountryDAOImpl" parent="basisDAO"/>
+    <bean id="ip2CountryDAO" class="id.co.kmn.backend.dao.impl.Ip2CountryDAOImpl" parent="basisDAO"/>
+    <bean id="ip4CountryDAO" class="id.co.kmn.backend.dao.impl.Ip4CountryDAOImpl" parent="basisDAO"/>
+    <bean id="countryCodeDAO" class="id.co.kmn.backend.dao.impl.CountryCodeDAOImpl" parent="basisDAO"/>
+    <bean id="calendarEventDAO" class="id.co.kmn.backend.dao.impl.MyCalendarEventDAOImpl" parent="basisDAO"/>
+    <bean id="hibernateStatisticsDao" class="id.co.kmn.backend.dao.impl.HibernateStatisticsDaoImpl" parent="basisDAO"/>
+    <bean id="hibernateEntityStatisticsDao" class="id.co.kmn.backend.dao.impl.HibernateEntityStatisticsDaoImpl"
+          parent="basisDAO"/>
+    <bean id="youtubeLinkDAO" class="id.co.kmn.backend.dao.impl.YoutubeLinkDAOImpl" parent="basisDAO"/>
+    <bean id="applicationNewsDAO" class="id.co.kmn.backend.dao.impl.ApplicationNewsDAOImpl" parent="basisDAO"/>
+    <bean id="orderDAO" class="id.co.kmn.backend.dao.impl.OrderDAOImpl" parent="basisDAO"/>
+    <bean id="orderpositionDAO" class="id.co.kmn.backend.dao.impl.OrderpositionDAOImpl" parent="basisDAO"/>
+
+    <!-- +++++ KMN ADMINISTRATION MODULE +++++++ -->
+    <bean id="producerDAO" class="id.co.kmn.administrasi.dao.impl.ProducerDAOImpl" parent="baseDAOImpl"/>
+    <bean id="roomDAO" class="id.co.kmn.administrasi.dao.impl.RoomDAOImpl" parent="baseDAOImpl"/>
+    <bean id="equipTypeDAO" class="id.co.kmn.administrasi.dao.impl.EquipTypeDAOImpl" parent="baseDAOImpl"/>
+    <bean id="systemDAO" class="id.co.kmn.administrasi.dao.impl.SystemDAOImpl" parent="baseDAOImpl"/>
+    <bean id="equipmentDAO" class="id.co.kmn.administrasi.dao.impl.EquipmentDAOImpl" parent="baseDAOImpl"/>
+    <bean id="transactionDAO" class="id.co.kmn.administrasi.dao.impl.TransactionDAOImpl" parent="baseDAOImpl"/>
+
+    <!-- ====================================================== -->
+    <!--                      SERVICE beans                     -->
+    <!-- ====================================================== -->
+
+    <!-- +++++ KMN ADMINISTRATION MODULE +++++++ -->
+    <bean name="producerService" class="id.co.kmn.administrasi.service.impl.ProducerServiceImpl">
+        <property name="producerDAO" ref="producerDAO"/>
+    </bean>
+    <bean name="roomService" class="id.co.kmn.administrasi.service.impl.RoomServiceImpl">
+        <property name="roomDAO" ref="roomDAO"/>
+    </bean>
+    <bean name="equipTypeService" class="id.co.kmn.administrasi.service.impl.EquipTypeServiceImpl">
+        <property name="equipTypeDAO" ref="equipTypeDAO"/>
+    </bean>
+    <bean name="systemService" class="id.co.kmn.administrasi.service.impl.SystemServiceImpl">
+        <property name="systemDAO" ref="systemDAO"/>
+    </bean>
+    <bean name="equipmentService" class="id.co.kmn.administrasi.service.impl.EquipmentServiceImpl">
+        <property name="equipmentDAO" ref="equipmentDAO"/>
+    </bean>
+    <bean name="transactionService" class="id.co.kmn.administrasi.service.impl.TransactionServiceImpl">
+        <property name="transactionDAO" ref="transactionDAO"/>
+    </bean>
+
+    <bean name="brancheService" class="id.co.kmn.backend.service.impl.BrancheServiceImpl">
+        <property name="brancheDAO" ref="brancheDAO"/>
+    </bean>
+    <bean name="articleService" class="id.co.kmn.backend.service.impl.ArticleServiceImpl">
+        <property name="articleDAO" ref="articleDAO"/>
+    </bean>
+    <!-- +++++ SAMPLE MODULE +++++++ -->
+    <bean name="customerService" class="id.co.kmn.backend.service.impl.CustomerServiceImpl">
+        <property name="customerDAO" ref="customerDAO"/>
+        <property name="officeDAO" ref="officeDAO"/>
+    </bean>
+    <bean name="orderService" class="id.co.kmn.backend.service.impl.OrderServiceImpl">
+        <property name="orderDAO" ref="orderDAO"/>
+        <property name="orderpositionDAO" ref="orderpositionDAO"/>
+        <property name="customerDAO" ref="customerDAO"/>
+        <property name="officeDAO" ref="officeDAO"/>
+        <property name="articleDAO" ref="articleDAO"/>
+    </bean>
+    <bean name="officeService" class="id.co.kmn.backend.service.impl.OfficeServiceImpl">
+        <property name="officeDAO" ref="officeDAO"/>
+    </bean>
+    <bean name="userService" class="id.co.kmn.backend.service.impl.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+        <property name="officeDAO" ref="officeDAO"/>
+        <property name="secUserroleDAO" ref="secUserroleDAO"/>
+        <property name="secRoleDAO" ref="secRoleDAO"/>
+        <property name="secRolegroupDAO" ref="secRolegroupDAO"/>
+        <property name="secGrouprightDAO" ref="secGrouprightDAO"/>
+        <property name="secGroupDAO" ref="secGroupDAO"/>
+        <property name="languageDAO" ref="languageDAO"/>
+        <property name="secRightDAO" ref="secRightDAO"/>
+    </bean>
+    <bean name="loginService" class="id.co.kmn.backend.service.impl.LoginServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+        <property name="officeDAO" ref="officeDAO"/>
+    </bean>
+    <bean name="securityService" class="id.co.kmn.backend.service.impl.SecurityServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+        <property name="officeDAO" ref="officeDAO"/>
+        <property name="secUserroleDAO" ref="secUserroleDAO"/>
+        <property name="secRoleDAO" ref="secRoleDAO"/>
+        <property name="secRolegroupDAO" ref="secRolegroupDAO"/>
+        <property name="secGrouprightDAO" ref="secGrouprightDAO"/>
+        <property name="secGroupDAO" ref="secGroupDAO"/>
+        <property name="secRightDAO" ref="secRightDAO"/>
+        <property name="secTypDAO" ref="secTypDAO"/>
+    </bean>
+
+    <bean name="loginLoggingService"
+          class="id.co.kmn.backend.service.impl.LoginLoggingServiceImpl">
+        <property name="secLoginlogDAO" ref="secLoginlogDAO"/>
+        <property name="countryCodeDAO" ref="countryCodeDAO"/>
+        <property name="ip2CountryDAO" ref="ip2CountryDAO"/>
+    </bean>
+
+    <bean name="pagedListService"
+          class="id.co.kmn.backend.service.impl.PagedListServiceImpl">
+        <property name="hibernateSearchSupport" ref="hibernateSearchSupport"/>
+    </bean>
+
+    <bean name="guestBookService"
+          class="id.co.kmn.backend.service.impl.GuestBookServiceImpl">
+        <property name="guestBookDAO" ref="guestBookDAO"/>
+    </bean>
+
+    <bean name="chartService" class="id.co.kmn.backend.service.impl.ChartServiceImpl">
+        <property name="chartDataDAO" ref="chartDataDAO"/>
+    </bean>
+    <bean name="ipToCountryService"
+          class="id.co.kmn.backend.service.impl.IpToCountryServiceImpl">
+        <property name="ipToCountryDAO" ref="ipToCountryDAO"/>
+    </bean>
+    <bean name="ip2CountryService"
+          class="id.co.kmn.backend.service.impl.Ip2CountryServiceImpl">
+        <property name="ip2CountryDAO" ref="ip2CountryDAO"/>
+    </bean>
+    <bean name="ip4CountryService"
+          class="id.co.kmn.backend.service.impl.Ip4CountryServiceImpl">
+        <property name="ip4CountryDAO" ref="ip4CountryDAO"/>
+    </bean>
+
+    <bean name="countryCodeService"
+          class="id.co.kmn.backend.service.impl.CountryCodeServiceImpl">
+        <property name="countryCodeDAO" ref="countryCodeDAO"/>
+    </bean>
+
+    <bean name="calendarEventService"
+          class="id.co.kmn.backend.service.impl.MyCalendarEventServiceImpl">
+        <property name="calendarEventDAO" ref="calendarEventDAO"/>
+    </bean>
+
+    <bean name="hibernateStatisticsService"
+          class="id.co.kmn.backend.service.impl.HibernateStatisticsServiceImpl">
+        <property name="hibernateStatisticsDao" ref="hibernateStatisticsDao"/>
+    </bean>
+
+    <bean name="youtubeLinkService"
+          class="id.co.kmn.backend.service.impl.YoutubeLinkServiceImpl">
+        <property name="youtubeLinkDAO" ref="youtubeLinkDAO"/>
+    </bean>
+
+    <bean name="applicationNewsService"
+          class="id.co.kmn.backend.service.impl.ApplicationNewsServiceImpl">
+        <property name="applicationNewsDAO" ref="applicationNewsDAO"/>
+    </bean>
+
+    <bean name="commonService" class="id.co.kmn.backend.service.impl.CommonServiceImpl">
+        <property name="customerDAO" ref="customerDAO"/>
+        <property name="officeDAO" ref="officeDAO"/>
+        <property name="brancheDAO" ref="brancheDAO"/>
+        <property name="articleDAO" ref="articleDAO"/>
+        <!--property name="orderDAO" ref="orderDAO"/>
+        <property name="orderpositionDAO" ref="orderpositionDAO"/-->
+        <property name="guestBookDAO" ref="guestBookDAO"/>
+        <property name="secGroupDAO" ref="secGroupDAO"/>
+        <property name="secGrouprightDAO" ref="secGrouprightDAO"/>
+        <property name="secRightDAO" ref="secRightDAO"/>
+        <property name="secRoleDAO" ref="secRoleDAO"/>
+        <property name="secRolegroupDAO" ref="secRolegroupDAO"/>
+        <property name="userDAO" ref="userDAO"/>
+        <property name="secUserroleDAO" ref="secUserroleDAO"/>
+        <property name="secLoginlogDAO" ref="secLoginlogDAO"/>
+        <property name="countryCodeDAO" ref="countryCodeDAO"/>
+        <property name="ipToCountryDAO" ref="ipToCountryDAO"/>
+        <property name="calendarEventDAO" ref="calendarEventDAO"/>
+        <property name="youtubeLinkDAO" ref="youtubeLinkDAO"/>
+        <property name="applicationNewsDAO" ref="applicationNewsDAO"/>
+        <property name="hibernateStatisticsDao" ref="hibernateStatisticsDao"/>
+        <!--property name="sesiDAO" ref="sesiDAO"/>
+        <property name="matakuliahDAO" ref="matakuliahDAO"/-->
+    </bean>
+</beans>

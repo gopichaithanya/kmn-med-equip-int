@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <!-- Index-Page -->
+    <bean id="indexCtrl" class="id.co.kmn.webui.index.IndexCtrl" parent="basisCtrl" scope="prototype">
+        <property name="officeService" ref="officeService"/>
+    </bean>
+
+    <!-- TestController for playing -->
+    <bean id="testCtrl" class="id.co.kmn.example.TestCtrl" scope="prototype">
+        <property name="officeService" ref="officeService"/>
+        <property name="pagedListWrapperBranche" ref="pagedListWrapper"/>
+        <property name="pagedListWrapperCustomer" ref="pagedListWrapper"/>
+    </bean>
+
+    <!-- Dashboard -->
+    <bean id="dashboardMainCtrl" class="id.co.kmn.webui.dashboard.DashboardMainCtrl"
+          parent="basisCtrl" scope="prototype">
+    </bean>
+
+    <!-- Articles / Artikelstammdaten -->
+    <bean id="articleMainCtrl" class="id.co.kmn.webui.article.ArticleMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="articleListCtrl" ref="articleListCtrl"/>
+        <property name="articleDetailCtrl" ref="articleDetailCtrl"/>
+    </bean>
+    <bean id="articleListCtrl" class="id.co.kmn.webui.article.ArticleListCtrl" parent="basisListCtrl"
+          scope="prototype"/>
+    <bean id="articleDetailCtrl" class="id.co.kmn.webui.article.ArticleDetailCtrl" parent="basisCtrl"
+          scope="prototype"/>
+
+    <!-- Branch / Branchenstammdaten -->
+    <bean id="branchMainCtrl" class="id.co.kmn.webui.branch.BranchMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="brancheService" ref="brancheService"/>
+        <property name="branchListCtrl" ref="branchListCtrl"/>
+        <property name="branchDetailCtrl" ref="branchDetailCtrl"/>
+    </bean>
+
+    <!-- BranchList / BranchenListe -->
+    <bean id="branchListCtrl" class="id.co.kmn.webui.branch.BranchListCtrl" parent="basisListCtrl" scope="prototype">
+        <property name="brancheService" ref="brancheService"/>
+    </bean>
+
+    <!-- BranchDetails / Branchen-Details -->
+    <bean id="branchDetailCtrl" class="id.co.kmn.webui.branch.BranchDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="brancheService" ref="brancheService"/>
+    </bean>
+
+    <!-- Customers -->
+    <bean id="customerListCtrl" class="id.co.kmn.webui.customer.CustomerListCtrl"
+          parent="basisListCtrl" scope="prototype">
+        <property name="brancheService" ref="brancheService"/>
+        <property name="customerService" ref="customerService"/>
+    </bean>
+
+    <bean id="customerDialogCtrl" class="id.co.kmn.webui.customer.CustomerDialogCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="brancheService" ref="brancheService"/>
+        <property name="customerService" ref="customerService"/>
+        <property name="chartService" ref="chartService"/>
+    </bean>
+    <bean id="customerChartCtrl" class="id.co.kmn.webui.customer.CustomerChartCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="chartService" ref="chartService"/>
+    </bean>
+    <bean id="customerSearchCtrl" class="id.co.kmn.webui.customer.CustomerSearchCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="brancheService" ref="brancheService"/>
+        <property name="customerService" ref="customerService"/>
+    </bean>
+
+    <!-- Calendar / Kalender -->
+    <bean id="calendarMainCtrl" class="id.co.kmn.webui.calendar.CalendarMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="calendarEventService" ref="calendarEventService"/>
+    </bean>
+    <!-- create event / Termin anlegen -->
+    <bean id="createEventCtrl" class="id.co.kmn.webui.calendar.CalendarCreateEventCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="calendarEventService" ref="calendarEventService"/>
+    </bean>
+    <!-- edit event / Termin aendern -->
+    <bean id="editEventCtrl" class="id.co.kmn.webui.calendar.CalendarEditEventCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="calendarEventService" ref="calendarEventService"/>
+    </bean>
+
+    <!-- Office / Filialstammdaten -->
+    <bean id="officeMainCtrl" class="id.co.kmn.webui.office.OfficeMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="officeService" ref="officeService"/>
+        <property name="officeListCtrl" ref="officeListCtrl"/>
+        <property name="officeDetailCtrl" ref="officeDetailCtrl"/>
+    </bean>
+    <bean id="officeListCtrl" class="id.co.kmn.webui.office.OfficeListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="officeService" ref="officeService"/>
+    </bean>
+    <bean id="officeDetailCtrl" class="id.co.kmn.webui.office.OfficeDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="officeService" ref="officeService"/>
+    </bean>
+    <!-- +++++ KMN ADMINISTRATION MODULE +++++ -->
+    <!-- Producer -->
+    <bean id="producerMainCtrl" class="id.co.kmn.webui.administrasi.producer.ProducerMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="producerService" ref="producerService"/>
+        <property name="producerListCtrl" ref="producerListCtrl"/>
+        <property name="producerDetailCtrl" ref="producerDetailCtrl"/>
+    </bean>
+    <bean id="producerListCtrl" class="id.co.kmn.webui.administrasi.producer.ProducerListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="producerService" ref="producerService"/>
+    </bean>
+    <bean id="producerDetailCtrl" class="id.co.kmn.webui.administrasi.producer.ProducerDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="producerService" ref="producerService"/>
+    </bean>
+    <!-- Room -->
+    <bean id="roomMainCtrl" class="id.co.kmn.webui.administrasi.room.RoomMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="roomService" ref="roomService"/>
+        <property name="roomListCtrl" ref="roomListCtrl"/>
+        <property name="roomDetailCtrl" ref="roomDetailCtrl"/>
+    </bean>
+    <bean id="roomListCtrl" class="id.co.kmn.webui.administrasi.room.RoomListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="roomService" ref="roomService"/>
+    </bean>
+    <bean id="roomDetailCtrl" class="id.co.kmn.webui.administrasi.room.RoomDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="roomService" ref="roomService"/>
+    </bean>
+    <!-- Equipment Type -->
+    <bean id="equipTypeMainCtrl" class="id.co.kmn.webui.administrasi.equiptype.EquipTypeMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="equipTypeService" ref="equipTypeService"/>
+        <property name="equipTypeListCtrl" ref="equipTypeListCtrl"/>
+        <property name="equipTypeDetailCtrl" ref="equipTypeDetailCtrl"/>
+    </bean>
+    <bean id="equipTypeListCtrl" class="id.co.kmn.webui.administrasi.equiptype.EquipTypeListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="equipTypeService" ref="equipTypeService"/>
+    </bean>
+    <bean id="equipTypeDetailCtrl" class="id.co.kmn.webui.administrasi.equiptype.EquipTypeDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="equipTypeService" ref="equipTypeService"/>
+    </bean>
+    <!-- System -->
+    <bean id="systemMainCtrl" class="id.co.kmn.webui.administrasi.system.SystemMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="systemService" ref="systemService"/>
+        <property name="systemListCtrl" ref="systemListCtrl"/>
+        <property name="systemDetailCtrl" ref="systemDetailCtrl"/>
+    </bean>
+    <bean id="systemListCtrl" class="id.co.kmn.webui.administrasi.system.SystemListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="systemService" ref="systemService"/>
+    </bean>
+    <bean id="systemDetailCtrl" class="id.co.kmn.webui.administrasi.system.SystemDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="systemService" ref="systemService"/>
+    </bean>
+
+    <!-- Equipment -->
+    <bean id="equipmentMainCtrl" class="id.co.kmn.webui.administrasi.equipment.EquipmentMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="equipmentService" ref="equipmentService"/>
+        <property name="equipmentListCtrl" ref="equipmentListCtrl"/>
+        <property name="equipmentDetailCtrl" ref="equipmentDetailCtrl"/>
+    </bean>
+    <bean id="equipmentListCtrl" class="id.co.kmn.webui.administrasi.equipment.EquipmentListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="equipmentService" ref="equipmentService"/>
+    </bean>
+    <bean id="equipmentDetailCtrl" class="id.co.kmn.webui.administrasi.equipment.EquipmentDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="equipmentService" ref="equipmentService"/>
+    </bean>
+
+    <!-- Transaction -->
+    <bean id="transactionMainCtrl" class="id.co.kmn.webui.administrasi.transaction.TransactionMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="transactionService" ref="transactionService"/>
+        <property name="transactionListCtrl" ref="transactionListCtrl"/>
+        <property name="transactionDetailCtrl" ref="transactionDetailCtrl"/>
+    </bean>
+    <bean id="transactionListCtrl" class="id.co.kmn.webui.administrasi.transaction.TransactionListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="transactionService" ref="transactionService"/>
+    </bean>
+    <bean id="transactionDetailCtrl" class="id.co.kmn.webui.administrasi.transaction.TransactionDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="transactionService" ref="transactionService"/>
+    </bean>
+
+    <!-- Orders -->
+    <bean id="orderListCtrl" class="id.co.kmn.webui.order.OrderListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="orderService" ref="orderService"/>
+        <property name="customerService" ref="customerService"/>
+        <property name="brancheService" ref="brancheService"/>
+        <property name="plwOrders" ref="pagedListWrapper"/>
+        <property name="plwOrderpositions" ref="pagedListWrapper"/>
+        <property name="plwCustomers" ref="pagedListWrapper"/>
+    </bean>
+    <bean id="orderDialogCtrl" class="id.co.kmn.webui.order.OrderDialogCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="orderService" ref="orderService"/>
+        <property name="customerService" ref="customerService"/>
+        <property name="brancheService" ref="brancheService"/>
+        <property name="plwOrderpositions" ref="pagedListWrapper"/>
+        <property name="plwCustomers" ref="pagedListWrapper"/>
+    </bean>
+    <bean id="orderPositionDialogCtrl" class="id.co.kmn.webui.order.OrderPositionDialogCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="orderService" ref="orderService"/>
+        <property name="customerService" ref="customerService"/>
+        <property name="brancheService" ref="brancheService"/>
+        <property name="plwOrderpositions" ref="pagedListWrapper"/>
+        <property name="plwArticles" ref="pagedListWrapper"/>
+    </bean>
+
+    <!-- Users -->
+    <bean id="userListCtrl" class="id.co.kmn.webui.security.user.UserListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="userService" ref="userService"/>
+    </bean>
+    <bean id="userDialogCtrl" class="id.co.kmn.webui.security.user.UserDialogCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="userService" ref="userService"/>
+    </bean>
+    <bean id="myUserSettingsCtrl"
+          class="id.co.kmn.webui.security.user.MyUserSettingsCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <!-- Login-Logs -->
+    <bean id="secLoginlogMainCtrl" class="id.co.kmn.webui.logging.loginlog.SecLoginlogMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="loginLoggingService" ref="loginLoggingService"/>
+    </bean>
+    <bean id="secLoginlogListCtrl" class="id.co.kmn.webui.logging.loginlog.SecLoginlogListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="loginLoggingService" ref="loginLoggingService"/>
+        <property name="guiLoginLoggingService" ref="guiLoginLoggingService"/>
+    </bean>
+    <bean id="secLoginlogStatisticCtrl"
+          class="id.co.kmn.webui.logging.loginlog.SecLoginlogStatisticCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="loginLoggingService" ref="loginLoggingService"/>
+    </bean>
+
+    <!-- +++++ SECURITY +++++ -->
+    <!-- Groups -->
+    <bean id="secGroupListCtrl" class="id.co.kmn.webui.security.group.SecGroupListCtrl"
+          parent="basisListCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+    </bean>
+    <bean id="secGroupDialogCtrl" class="id.co.kmn.webui.security.group.SecGroupDialogCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+    </bean>
+    <!-- Group-Rights -->
+    <bean id="secGrouprightCtrl"
+          class="id.co.kmn.webui.security.groupright.SecGrouprightCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+        <property name="plwSecGroups" ref="pagedListWrapper"/>
+        <property name="plwSecRights" ref="pagedListWrapper"/>
+    </bean>
+    <bean id="addGrouprightDialogCtrl"
+          class="id.co.kmn.webui.security.groupright.AddGrouprightDialogCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+        <property name="plwSecRights" ref="pagedListWrapper"/>
+    </bean>
+    <!-- Rights -->
+    <bean id="secRightListCtrl" class="id.co.kmn.webui.security.right.SecRightListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+    </bean>
+    <bean id="secRightDialogCtrl" class="id.co.kmn.webui.security.right.SecRightDialogCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+    </bean>
+    <!-- Roles -->
+    <bean id="secRoleListCtrl" class="id.co.kmn.webui.security.role.SecRoleListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+    </bean>
+    <bean id="secRoleDialogCtrl" class="id.co.kmn.webui.security.role.SecRoleDialogCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+    </bean>
+    <!-- Role-Groups -->
+    <bean id="secRolegroupCtrl" class="id.co.kmn.webui.security.rolegroup.SecRolegroupCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+        <property name="plwSecRoles" ref="pagedListWrapper"/>
+        <property name="plwSecGroups" ref="pagedListWrapper"/>
+    </bean>
+    <!-- User-Roles -->
+    <bean id="secUserroleCtrl" class="id.co.kmn.webui.security.userrole.SecUserroleCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="securityService" ref="securityService"/>
+        <property name="userService" ref="userService"/>
+        <property name="plwSecUsers" ref="pagedListWrapper"/>
+        <property name="plwSecRoles" ref="pagedListWrapper"/>
+    </bean>
+
+    <bean name="reportService"
+          class="id.co.kmn.services.report.service.impl.ReportServiceImpl"
+          scope="prototype">
+        <property name="orderDAO" ref="orderDAO"/>
+        <property name="orderpositionDAO" ref="orderpositionDAO"/>
+        <property name="customerDAO" ref="customerDAO"/>
+        <property name="officeDAO" ref="officeDAO"/>
+        <property name="brancheDAO" ref="brancheDAO"/>
+        <property name="orderService" ref="orderService"/>
+        <property name="customerService" ref="customerService"/>
+    </bean>
+
+    <bean id="hibernateStatisticsCtrl" class="id.co.kmn.webui.debug.HibernateStatisticsCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="guiHibernateStatisticsService" ref="guiHibernateStatisticsService"/>
+        <property name="gridPagedListWrapper" ref="pagedGridWrapper"/>
+    </bean>
+    <bean id="hibernateStatisticsDetailCtrl" class="id.co.kmn.webui.debug.HibernateStatisticsDetailCtrl"
+          scope="prototype">
+        <property name="guiHibernateStatisticsService" ref="guiHibernateStatisticsService"/>
+    </bean>
+
+    <bean id="userWorkspace" class="id.co.kmn.UserWorkspace" scope="session"/>
+
+    <bean id="basisCtrl" abstract="true" scope="prototype"
+          class="id.co.kmn.webui.util.GFCBaseCtrl">
+        <property name="userWorkspace" ref="userWorkspace"/>
+    </bean>
+
+    <bean id="basisListCtrl" abstract="true" scope="prototype"
+          class="id.co.kmn.webui.util.GFCBaseListCtrl" parent="basisCtrl"
+          p:pagedListWrapper-ref="pagedListWrapper">
+    </bean>
+
+    <bean name="pagedListWrapper" class="id.co.kmn.webui.util.pagging.PagedListWrapper"
+          p:pagedListService-ref="pagedListService" scope="prototype">
+    </bean>
+
+    <bean name="pagedBindingListWrapper"
+          class="id.co.kmn.webui.util.pagging.PagedBindingListWrapper"
+          p:pagedListService-ref="pagedListService" scope="prototype">
+    </bean>
+
+    <bean name="pagedGridWrapper" class="id.co.kmn.webui.util.pagging.PagedGridWrapper"
+          p:pagedListService-ref="pagedListService" scope="prototype">
+    </bean>
+
+    <!-- UserBarController -->
+    <bean id="userBarCtrl" class="id.co.kmn.webui.util.UserBarCtrl"
+          scope="prototype">
+    </bean>
+    <!-- HelpPopupController -->
+    <bean id="helpWindowCtrl" class="id.co.kmn.webui.util.HelpWindowCtrl"
+          scope="prototype">
+    </bean>
+    <!-- ReportStyles -->
+    <bean id="djReportStyles" class="id.co.kmn.webui.reports.template.DJReportStyles"
+          scope="prototype">
+    </bean>
+    <!-- Pegawai -->
+    <!--bean id="mpegawaiMainCtrl" class="id.co.kmn.webui.administrasi.pegawai.MpegawaiMainCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="mpegawaiService" ref="mpegawaiService"/>
+    </bean>
+    <bean id="mpegawaiListCtrl" class="id.co.kmn.webui.administrasi.pegawai.MpegawaiListCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="mpegawaiService" ref="mpegawaiService"/>
+    </bean>
+    <bean id="mpegawaiDetailCtrl" class="id.co.kmn.webui.administrasi.pegawai.MpegawaiDetailCtrl"
+          parent="basisCtrl" scope="prototype">
+        <property name="mpegawaiService" ref="mpegawaiService"/>
+    </bean-->
+</beans>
+
+
+	

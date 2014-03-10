@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://localhost:9090/kmn/schemas/types"
+        xmlns:tns="http://localhost:9090/kmn/schemas/types"
+        elementFormDefault="qualified">
+
+    <complexType name="PatientInfo">
+        <all>
+            <element name="resPageNumber" type="int"/>
+            <element name="resRowThisPage" type="int"/>
+            <element name="resRowPerPage" type="int"/>
+            <element name="resRowTotal" type="int"/>
+            <element name="patients">
+                <complexType>
+                    <sequence>
+                        <element name="patient" type="tns:Patient" maxOccurs="9"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </all>
+    </complexType>
+
+    <complexType name="Patient">
+        <sequence>
+            <element name="patientId" type="string"/>
+            <element name="singleId" type="string"/>
+            <element name="patientName" type="string"/>
+            <element name="patientBrm" type="string"/>
+            <element name="docId" type="string"/>
+            <element name="docName" type="string"/>
+        </sequence>
+    </complexType>
+
+    <!--complexType name="Flight">
+        <sequence>
+            <element name="number" type="tns:FlightNumber"/>
+            <element name="departureTime" type="dateTime"/>
+            <element name="from" type="tns:Airport"/>
+            <element name="arrivalTime" type="dateTime"/>
+            <element name="to" type="tns:Airport"/>
+            <element name="serviceClass" type="tns:ServiceClass"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="FlightNumber">
+        <restriction base="string">
+            <pattern value="[A-Z][A-Z][0-9][0-9][0-9][0-9]"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="Name">
+        <sequence>
+            <element name="first" type="string"/>
+            <element name="last" type="string"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="FrequentFlyerUsername">
+        <restriction base="string"/>
+    </simpleType>
+
+
+    <complexType name="Airport">
+        <all>
+            <element name="code" type="tns:AirportCode"/>
+            <element name="name" type="string"/>
+            <element name="city" type="string"/>
+        </all>
+    </complexType>
+
+    <simpleType name="AirportCode">
+        <restriction base="string">
+            <pattern value="[A-Z][A-Z][A-Z]"/>
+        </restriction>
+    </simpleType>
+
+
+    <complexType name="Ticket">
+        <all>
+            <element name="id" type="long"/>
+            <element name="issueDate" type="date"/>
+            <element name="passengers">
+                <complexType>
+                    <sequence>
+                        <element name="passenger" type="tns:Name" maxOccurs="9"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="flight" type="tns:Flight"/>
+        </all>
+    </complexType>
+
+    <simpleType name="ServiceClass">
+        <restriction base="NCName">
+            <enumeration value="economy"/>
+            <enumeration value="business"/>
+            <enumeration value="first"/>
+        </restriction>
+    </simpleType-->
+
+</schema>

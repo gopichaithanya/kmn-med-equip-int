@@ -1,0 +1,76 @@
+package id.co.kmn.util;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: Hari Christian
+ * Date: 12/03/12
+ * Time: 0:21
+ * To change this template use File | Settings | File Templates.
+ */
+public class ConstantUtil {
+    public static String ID = "id";
+    public static String PRODI = "mprodi";
+    public static String RUANG = "mruang";
+    public static String SEKOLAH = "msekolah";
+    public static String MAHASISWA = "mmahasiswa";
+    public static String MATAKULIAH = "mtbmtkl";
+    public static String MATAKULIAH_NAME = "cnamamk";
+    public static String GRADE = "mgrade";
+    public static String NIM = "cnim";
+    public static String SINGKATAN = "csingkatan";
+    public static String THAJAR = "cthajar";
+    public static String TERM = "cterm";
+    public static String SEMESTER = "csmt";
+    public static String COHORT = "ccohort";
+    public static String KELOMPOK = "ckelompok";
+    public static String KURIKULUM_ID = "kurikulumId";
+    public static String KURIKULUM = "mkurikulum";
+    public static String KURIKULUM_CODE = "ckodekur";
+    public static String KURIKULUM_DOT_CODE = "mkurikulum.ckodekur";
+    public static String MAHASISWA_CODE = "ckdstatmhs";
+    public static String MAHASISWA_NAME = "cnmstatmhs";
+    public static String KETERANGAN = "cketerangan";
+    public static String PANGKAT_CODE = "ckdpangkatgolongan";
+    public static String PANGKAT_NAME = "cnmpangkatgolongan";
+    public static String HARI_CODE = "ckdhari";
+    public static String HARI_NAME = "cnmhari";
+    public static String JENJANG_CODE = "ckdjen";
+    public static String JENJANG_NAME = "cnmjen";
+    public static String JENJANG_SINGKATAN = "csingkat";
+    public static String MAHASISWA_DOT_NAME = "mmahasiswa.cnmstatmhs";
+    public static String MAHASISWA_DOT_NAMA = "mmahasiswa.cnama";
+    public static String MAHASISWA_DOT_NIM = "mmahasiswa.cnim";
+    public static String MAHASISWA_DOT_ID = "mmahasiswa.id";
+    public static String FEEDBACK_CODE = "ckdfeedback";
+    public static String PRODI_DOT_NAME = "mprodi.ckdprogst";
+    public static String PRODI_DOT_NAMA = "mprodi.cnmprogst";
+    public static String SEKOLAH_DOT_NAME = "msekolah.cnamaSekolah";
+    public static String NO_PERTANYAAN = "nnopertanyaan";
+    public static String PERTANYAAN = "cpertanyaan";
+    public static String JAWABAN = "cjawaban";
+    public static String JENIS_FEEDBACK = "ckdfeedback";
+    public static String PEGAWAI_DOT_NAMA = "mpegawai.cnama";
+    public static String PEGAWAI_DOT_NIP = "mpegawai.cnip";
+    public static String PEMINATAN_NAME = "cnmminat";
+    public static String MATAKULIAH_DOT_NAMA = "mtbmtkl.cnamamk";
+    public static String STATUS_MAHASISWA_DOT_CODE = "mstatusmhs.ckdstatmhs";
+    /* KMN */
+    public static String PRODUCER_CODE = "prodCode";
+    public static String PRODUCER_NAME = "prodName";
+    public static String ACTIVE_STATUS = "activeSts";
+    public static String ROOM_CODE = "roomCode";
+    public static String ROOM_NAME = "roomName";
+    public static String DESCRIPTION = "description";
+    public static String TYPE_CODE = "typeCode";
+    public static String TYPE_NAME = "typeName";
+    public static String SYSTEM_KEY = "systemKey";
+    public static String SYSTEM_VALUE = "systemValue";
+    public static String EQUIPMENT_CODE = "equipmentCode";
+    public static String EQUIPMENT_NAME = "name";
+    public static String EQUIPMENT_PROD_NAME = "mmedproducer.prodName";
+    public static String EQUIPMENT_TYPE_NAME = "mmedequiptype.typeName";
+    public static String BRANCH_CODE = "branchCode";
+    public static String LAST_NAME = "lastName";
+
+
+}
