@@ -1,0 +1,92 @@
+/*
+ * Copyright 2005-2010 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.springframework.ws.samples.pox.ws;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.ws.server.endpoint.AbstractSaxPayloadEndpoint;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
+
+public class ContactCountEndpoint extends AbstractSaxPayloadEndpoint {
+
+    private static final String NAMESPACE_URI = "http://localhost:9090/kmn";
+
+    private static final String CONTANT_NAME = "Contact";
+
+    private static final String CONTANT_COUNT_NAME = "ContactCount";
+
+    private DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+
+    private static final Log LOG = LogFactory.getLog(ContactCountEndpoint.class);
+
+    public ContactCountEndpoint() {
+        documentBuilderFactory.setNamespaceAware(true);
+    }
+
+    protected ContentHandler createContentHandler() throws Exception {
+        return new ContactCounter();
+    }
+
+    protected Source getResponse(ContentHandler contentHandler) throws Exception {
+        ContactCounter counter = (ContactCounter) contentHandler;
+
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document response = documentBuilder.newDocument();
+        Element contactCountElement = response.createElementNS(NAMESPACE_URI, CONTANT_COUNT_NAME);
+        response.appendChild(contactCountElement);
+        contactCountElement.setTextContent(Integer.toString(counter.contactCount));
+
+        return new DOMSource(response);
+    }
+
+    private static class ContactCounter extends DefaultHandler {
+
+        public ContactCounter(){
+            super();
+            LOG.debug("DEBUG: ContactCounter");
+            LOG.info("INFO: ContactCounter");
+        }
+        private int contactCount = 0;
+
+        @Override
+        public void startElement(String uri, String localName, String qName, Attributes attributes)
+                throws SAXException {
+            System.out.println("URI: " + uri);
+            System.out.println("localName: " + localName);
+            System.out.println("qName: " + qName);
+            System.out.println("Attributes: " + attributes);
+            LOG.debug("DEBUG: startElement");
+            LOG.info("INFO: startElement");
+            contactCount = 1;
+            if (NAMESPACE_URI.equals(uri) && CONTANT_NAME.equals(localName)) {
+                contactCount++;
+            }
+        }
+
+
+    }
+}
