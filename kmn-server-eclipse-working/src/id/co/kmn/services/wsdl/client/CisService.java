@@ -150,7 +150,9 @@ public class CisService {
         SOAPMessage response = connection.call(request, url);
         StoreResultsResponse result;
         if (!response.getSOAPBody().hasFault()) {
-            return writePutPatientDataResponse(response);
+            result = writePutPatientDataResponse(response);
+            //result.setSuccess(true);
+        	return result;
         } else {
             SOAPFault fault = response.getSOAPBody().getFault();
             System.err.println(MSG_SOAP_FAULT_HEAD);
@@ -245,16 +247,47 @@ public class CisService {
     public void setStoreResultResponse(SOAPElement soapElement, StoreResultsResponse srr) {
         if(soapElement.hasAttribute(RES_STATUS_XML) || soapElement.getNodeName().equalsIgnoreCase(RES_STATUS_XML)){
             srr.setResult(soapElement.getTextContent());
-            //srr.setSuccess(true);
+            if (logger.isDebugEnabled()) {
+                logger.debug("CisService.setStoreResultResponse - " + RES_STATUS_XML + ": " + soapElement.getTextContent());
+            }
+            if (soapElement.getTextContent().contains("STATUSNO&gt;0&lt;/STATUSNO") ||
+            		soapElement.getTextContent().contains("STATUSNO>0</STATUSNO")) {
+            	srr.setSuccess(true);
+            	if (logger.isDebugEnabled()) {
+                    logger.debug("CisService.setStoreResultResponse - srr.setSuccess(true)");
+                }
+            } else {
+            	srr.setSuccess(false);
+            	if (logger.isDebugEnabled()) {
+                    logger.debug("CisService.setStoreResultResponse - srr.setSuccess(false)");
+                }
+            }
         } else if(soapElement.hasAttribute(STATUS) || soapElement.getNodeName().equalsIgnoreCase(STATUS)){
             srr.setResult(soapElement.getTextContent());
-            //srr.setSuccess(true);
+            if (logger.isDebugEnabled()) {
+                logger.debug("CisService.setStoreResultResponse - " + STATUS + ": " + soapElement.getTextContent());
+            }
         } else if(soapElement.hasAttribute(STATUSNO) || soapElement.getNodeName().equalsIgnoreCase(STATUSNO)){
-           if(Integer.valueOf(soapElement.getTextContent()) == 0) {
+        	if (logger.isDebugEnabled()) {
+                logger.debug("CisService.setStoreResultResponse - " + STATUSNO + ": " + soapElement.getTextContent());
+            }
+        	if(Integer.valueOf(soapElement.getTextContent()) == 0) {
+        		if (logger.isDebugEnabled()) {
+                    logger.debug("CisService.setStoreResultResponse - " + STATUSNO + ": [Integer]");
+                }
                 srr.setSuccess(true);
-           }
+        	}
+        	if(soapElement.getTextContent().equalsIgnoreCase("0")) {
+        		if (logger.isDebugEnabled()) {
+                    logger.debug("CisService.setStoreResultResponse - " + STATUSNO + ": [String]");
+                }
+        		srr.setSuccess(true);
+        	}
         } else if(soapElement.hasAttribute(MESSAGE) || soapElement.getNodeName().equalsIgnoreCase(MESSAGE)){
             srr.setResult(soapElement.getTextContent());
+            if (logger.isDebugEnabled()) {
+                logger.debug("CisService.setStoreResultResponse - " + MESSAGE + ": " + soapElement.getTextContent());
+            }
         }
     }
 }
