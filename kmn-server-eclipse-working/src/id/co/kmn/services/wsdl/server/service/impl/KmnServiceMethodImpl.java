@@ -83,6 +83,9 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
             CisService cs = new CisService(systemDAO.getByCode("CIS_NAMESPACE_URI").getSystemValue());
             if (reqClinicId.equalsIgnoreCase("1")){
             	patientInfo = cs.getPatients(reqKeyword, systemDAO.getByCode("KDN_CLINIC_ID").getSystemValue(), reqPageNumber, reqRowPerPage);
+            } else if (reqClinicId.equalsIgnoreCase("2")) {
+            	patientInfo = cs.getPatients(reqKeyword, systemDAO.getByCode("SMG_CLINIC_ID").getSystemValue(), reqPageNumber, reqRowPerPage);
+            	//patientInfo = cs.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
             } else {
             	patientInfo = cs.getPatients(reqKeyword, systemDAO.getByCode("CIS_CLINIC_ID").getSystemValue(), reqPageNumber, reqRowPerPage);
             	//patientInfo = cs.getPatients(reqKeyword, reqClinicId, reqPageNumber, reqRowPerPage);
@@ -140,7 +143,8 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
             // save file to local server in public location
             String httpLocation = systemDAO.getByCode("HTTP_URL").getSystemValue();
             try {
-                httpLocation += saveByteArrayToFile(attachment, dataLocation);
+                String subDir = "/"+patientCode+"/"+patientId.split("#")[1].replaceAll("-", "");
+                httpLocation += saveByteArrayToFile(attachment, dataLocation, subDir);
                 trx.setDataLocation(httpLocation);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -185,12 +189,12 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
         return response;
     }
 
-    private String saveByteArrayToFile(Attachment attachment, String dataLocation) throws Exception {
+    private String saveByteArrayToFile(Attachment attachment, String dataLocation, String subDirectory) throws Exception {
         byte[] bytes = IOUtils.toByteArray(attachment.getInputStream());
         File tmp = File.createTempFile("TempAlat", ".dat");
         FileUtils.writeByteArrayToFile(tmp, bytes);
 
-        String path = systemDAO.getByCode("IMAGE_DIR").getSystemValue();
+        String path = systemDAO.getByCode("IMAGE_DIR").getSystemValue()+subDirectory;
         dataLocation = dataLocation.replaceFirst("C:/kmntmp", "");
         File dir = new File(dataLocation);
         String name = dataLocation.split("/")[1];
@@ -213,7 +217,7 @@ public class KmnServiceMethodImpl implements KmnServiceMethod {
         System.out.println("dataLocation: " + dataLocation);
         //return file.getAbsolutePath();
         //return dataLocation;
-        return name;
+        return subDirectory+name;
     }
 
     public Boolean storeResults(String branchId, String patientId, String patientCode, String patientName, String remark, int equipmentId, int imageId, DateTime trxDate, DateTime timeStamp, String dataLocation, ByteArrayAttachment dataOutput, String xmlData, String creatorId) {
