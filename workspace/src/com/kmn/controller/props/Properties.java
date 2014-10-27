@@ -22,6 +22,8 @@ public interface Properties {
     public static final String SERVER_PASSWORD = "server.password";
     public static final String SERVER_IP = "server.ip";
     public static final String SERVER_PORT = "server.port";
+    public static final String SERVER_KDN = "server.kdn";
+    public static final String SERVER_CLINIC = "server.clinic";
 
     public static final String EQUIPMENT_FILE = "equipment.properties";
     public static final String EQUIPMENT_CODE = "equipment.code";

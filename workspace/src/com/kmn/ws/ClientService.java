@@ -92,11 +92,13 @@ public class ClientService {
     public static final String TEMP_XML_DATA_PATH = "C:\\kmntmp\\tempDataXml.xml";
     private String URI = LOCAL_NAMESPACE_URI;
     private ClientConnector cc;
+    public ServerProperties sp;
     public ClientService() {
-        ServerProperties sp = new ServerProperties(null);
+        sp = new ServerProperties(null);
         sp.load();
         sp.getIp();
         sp.getPort();
+        sp.getKdn();
         URI = "http://"+sp.getIp()+":"+sp.getPort()+"/kmn/services";
         //this.cc = new ClientConnector(URI);
     }
