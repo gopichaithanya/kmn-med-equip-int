@@ -30,9 +30,12 @@ public class ServerProperties implements PropertiesController {
     private String password;
     private String ip;
     private String port;
+    private String kdn;
+    private String defaultClinic;
 
     public ServerProperties(Confirm confirm) {
         this.confirm = confirm;
+        this.load();
     }
 
     //@Override
@@ -45,6 +48,8 @@ public class ServerProperties implements PropertiesController {
             this.setPassword(prop.getProperty(SERVER_PASSWORD));
             this.setIp(prop.getProperty(SERVER_IP));
             this.setPort(prop.getProperty(SERVER_PORT));
+            this.setKdn(prop.getProperty(SERVER_KDN));
+            this.setDefaultClinic(prop.getProperty(SERVER_CLINIC));
 
         } catch (IOException ex) {
             confirm.onError(ex);
@@ -101,5 +106,21 @@ public class ServerProperties implements PropertiesController {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getKdn() {
+        return kdn;
+    }
+
+    public void setKdn(String kdn) {
+        this.kdn = kdn;
+    }
+    
+    public String getDefaultClinic() {
+        return defaultClinic;
+    }
+
+    public void setDefaultClinic(String defaultClinic) {
+        this.defaultClinic = defaultClinic;
     }
 }

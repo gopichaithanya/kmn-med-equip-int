@@ -4,15 +4,20 @@
  */
 package com.kmn.ws;
 
+import com.kmn.controller.props.ServerProperties;
+
 /**
  *
  * @author valeo
  */
 public interface WebServiceConstants {
+    ServerProperties sp = new ServerProperties(null);
     public static final String NAME_PREFIX = "kmn";
     public static final String LOCAL_NAMESPACE_URI = "http://localhost:9090/kmn/services";
+    //public static final String LOCAL_NAMESPACE_URI = "http://localhost:"+sp.getPort()+"/kmn/services";
     //public static final String LOCAL_NAMESPACE_URI = "http://192.168.13.10:8080/kmn/services";
     public static final String MESSAGES_NAMESPACE = "http://localhost:9090/kmn/schemas/messages";
+    //public static final String MESSAGES_NAMESPACE = "http://localhost:"+sp.getPort()+"/kmn/schemas/messages";
     public static final String GET_PATIENTS_REQUEST = "GetPatientsRequest";
     public static final String STORE_RESULTS_REQUEST = "StoreResultsRequest";
     public static final String REQKEYWORD = "reqKeyword";

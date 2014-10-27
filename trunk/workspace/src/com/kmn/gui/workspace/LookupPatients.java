@@ -5,6 +5,7 @@
 package com.kmn.gui.workspace;
 
 import com.kmn.MainApps;
+import com.kmn.controller.props.ServerProperties;
 import com.kmn.ws.ClientService;
 import com.kmn.ws.bean.Patient;
 import com.kmn.ws.bean.PatientInfo;
@@ -34,6 +35,7 @@ public class LookupPatients extends javax.swing.JDialog {
     private int pageNumber; 
     private int rowPerPage;
     ClientService cs;
+    ServerProperties sp;
     /**
      * Creates new form LookupPatients
      */
@@ -48,7 +50,9 @@ public class LookupPatients extends javax.swing.JDialog {
         initComponents();
         DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
         this.cs = new ClientService();
-        patientInfo = cs.retrievePatients(jTextField1.getText(), DEFAULT_CLINIC_ID, 
+        this.sp  = new ServerProperties(null);
+        sp.load();
+        patientInfo = cs.retrievePatients(jTextField1.getText(), sp.getKdn(), 
                 DEFAULT_PAGE_NUMBER, DEFAULT_ROW_PER_PAGE);
         if (patientInfo != null) {
             for (Patient p : patientInfo.getPatients()) {
@@ -86,7 +90,7 @@ public class LookupPatients extends javax.swing.JDialog {
             model.removeRow(0);
         }
         //ClientService cs = new ClientService();
-        patientInfo = this.cs.retrievePatients(jTextField1.getText(), "8", 1, 10);
+        patientInfo = this.cs.retrievePatients(jTextField1.getText(), this.sp.getKdn(), 1, 10);
         for (Patient p : patientInfo.getPatients()) {
             model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
                 p.getPatientBrm(), p.getDocId(), p.getDocName()});
@@ -105,7 +109,7 @@ public class LookupPatients extends javax.swing.JDialog {
             model.removeRow(0);
         }
         //ClientService cs = new ClientService();
-        patientInfo = this.cs.retrievePatients(jTextField1.getText(), "8", 1, 10);
+        patientInfo = this.cs.retrievePatients(jTextField1.getText(), this.sp.getKdn(), 1, 10);
         for (Patient p : patientInfo.getPatients()) {
             model.addRow(new Object[]{p.getPatientId(),p.getPatientName(),
                 p.getPatientBrm(), p.getDocId(), p.getDocName()});
@@ -282,7 +286,7 @@ public class LookupPatients extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, MSG_MANDATORY);
             } else {
                 String keyword = "%"+jTextField1.getText()+"%"+"#"+jTextField3.getText()+"#"+jTextField2.getText();
-                patientInfo = this.cs.retrievePatients(keyword, this.clinicId, this.pageNumber, this.rowPerPage);
+                patientInfo = this.cs.retrievePatients(keyword, this.sp.getKdn(), this.pageNumber, this.rowPerPage);
                 for (Patient p : patientInfo.getPatients()) {
                     model.addRow(new Object[]{p.getPatientId(),p.getSingleId(), p.getPatientName(),
                         p.getPatientBrm(), p.getDocId(), p.getDocName()});

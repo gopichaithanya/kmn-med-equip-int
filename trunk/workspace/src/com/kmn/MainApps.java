@@ -5,17 +5,26 @@
 package com.kmn;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 import javax.swing.AbstractAction;
+
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
+
 
 /**
  * The main class of the application.
  */
 public class MainApps extends SingleFrameApplication {
-    private Logger log = Logger.getLogger(MainApps.class);
-    
+    //private Logger log = Logger.getLogger(MainApps.class);
+    private final static Logger LOGGER = Logger.getLogger(MainApps.class.getName());
+    private static FileHandler fh = null;
     private MainView mainView;
     /**
      * At startup create and show the main frame of the application.
@@ -23,6 +32,17 @@ public class MainApps extends SingleFrameApplication {
 
     @Override
     protected void startup() {
+        try {
+            fh = new FileHandler("MEIclient.log", false);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Logger l = Logger.getLogger("");
+        fh.setFormatter(new SimpleFormatter());
+        //LOGGER.addHandler(fh);
+        LOGGER.setLevel(Level.DEBUG);
         this.mainView =  new MainView(this);
         show(mainView);
     }
@@ -65,7 +85,8 @@ public class MainApps extends SingleFrameApplication {
             restartAction.actionPerformed(null);
             
         } catch (InterruptedException ex) {
-            log.error(ex);
+            //log.error(ex);
+            LOGGER.error(ex);
         }
     }
 

@@ -8,6 +8,7 @@ import com.kmn.MainApps;
 import com.kmn.controller.InterfaceEvent;
 import com.kmn.controller.UserSession;
 import com.kmn.controller.props.EquipmentDetailProperties;
+import com.kmn.controller.props.ServerProperties;
 import com.kmn.util.CommInterface;
 import com.kmn.util.DicomInterface;
 import com.kmn.ws.ClientService;
@@ -110,6 +111,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     private DicomInterface dicomInterface;
     private CommInterface commInterface;
     private ClientService cs = new ClientService();
+    private ServerProperties sp = new ServerProperties(null);
 
     private LookupPatients lookupPatients;                      
     //To select the path of image file
@@ -125,12 +127,18 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         this.owner = owner;
         this.equip = equip;
         initComponents();
+        jTable2.setFillsViewportHeight(true);
         this.setName(equip.getCode());
         receiveEquipmentData();
         this.jButton3.setVisible(false); //Lookup Patient button
         this.jButton4.setVisible(true); //Add File button
         this.jLabel2.setVisible(false); //Patient Name
         this.jTextField1.setVisible(false); //Patient Name
+        this.jXDatePicker1.setFormats("dd/MM/yyyy");
+        this.jXDatePicker1.setDate(new Date());
+        this.sp.load();
+        this.jComboBox1.setSelectedIndex(Integer.valueOf(this.sp.getDefaultClinic()));
+        
     }   
     /**
      * This method is called from within the constructor to initialize the form.
@@ -171,6 +179,10 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jTextField2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
 
         setPreferredSize(new java.awt.Dimension(800, 500));
 
@@ -303,11 +315,11 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
         );
 
         jPanel3.add(jPanel4);
@@ -319,6 +331,9 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         jPanel5.setPreferredSize(new java.awt.Dimension(370, 400));
         jPanel5.setRequestFocusEnabled(false);
 
+        jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane3.setAutoscrolls(true);
+        jScrollPane3.setMaximumSize(new java.awt.Dimension(400, 150));
         jScrollPane3.setMinimumSize(new java.awt.Dimension(200, 150));
         jScrollPane3.setName(""); // NOI18N
         jScrollPane3.setPreferredSize(new java.awt.Dimension(400, 150));
@@ -339,9 +354,9 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.setMaximumSize(new java.awt.Dimension(2147483647, 800));
+        jTable2.setMaximumSize(new java.awt.Dimension(400, 150));
         jTable2.setMinimumSize(new java.awt.Dimension(200, 150));
-        jTable2.setPreferredSize(new java.awt.Dimension(400, 300));
+        jTable2.setPreferredSize(null);
         jTable2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTable2.getTableHeader().setReorderingAllowed(false);
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -351,12 +366,14 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         });
         jScrollPane3.setViewportView(jTable2);
         jTable2.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTable2.getColumnModel().getColumn(0).setPreferredWidth(100);
-        jTable2.getColumnModel().getColumn(1).setPreferredWidth(200);
-        jTable2.getColumnModel().getColumn(2).setPreferredWidth(100);
-        jTable2.getColumnModel().getColumn(3).setPreferredWidth(100);
-        jTable2.getColumnModel().getColumn(4).setPreferredWidth(100);
-        jTable2.getColumnModel().getColumn(5).setPreferredWidth(300);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTable2.getColumnModel().getColumn(1).setPreferredWidth(200);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTable2.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jTable2.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTable2.getColumnModel().getColumn(5).setPreferredWidth(300);
+        }
 
         jScrollPane5.setMinimumSize(new java.awt.Dimension(200, 50));
         jScrollPane5.setName(""); // NOI18N
@@ -435,6 +452,23 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
             }
         });
 
+        jLabel5.setText("Date");
+
+        jLabel6.setText("Clinic");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "KMN", "KDN", "SMG" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jXDatePicker1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -445,7 +479,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 .addComponent(jButton7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton6)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
@@ -458,21 +492,39 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 24, Short.MAX_VALUE))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -562,7 +614,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private PatientInfo patientInfo;
-    private static final String MSG_MANDATORY = "Harap masukkan Nama Pasien, BRM atau Single ID.";
+    private static final String MSG_MANDATORY = "Harap masukkan BRM, Single ID atau Tanggal.";
     private static final String DEFAULT_CLINIC_ID = "8";
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int DEFAULT_ROW_PER_PAGE = 10;
@@ -578,11 +630,17 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 model.removeRow(0);
             }
             //ClientService cs = new ClientService();
-            if(jTextField1.getText().isEmpty() && jTextField3.getText().isEmpty() && jTextField2.getText().isEmpty()){
+            if(jTextField2.getText().isEmpty() && jTextField3.getText().isEmpty() && jXDatePicker1.getDate()==null){
                 JOptionPane.showMessageDialog(this, MSG_MANDATORY);
             } else {
-                String keyword = "%"+jTextField1.getText()+"%"+"#"+jTextField3.getText()+"#"+jTextField2.getText();
-                patientInfo = this.cs.retrievePatients(keyword, this.clinicId, this.pageNumber, this.rowPerPage);
+                //String keyword = "%"+jTextField1.getText()+"%"+"#"+jTextField3.getText()+"#"+jTextField2.getText();SimpleDateFormat formatter;
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String date = "";
+                if (jXDatePicker1.getDate()!=null) { date = formatter.format(jXDatePicker1.getDate());}
+                String keyword = "%"+jTextField1.getText()+"%"+"#"+jTextField3.getText()+"#"+jTextField2.getText()+"#"+date;
+                //this.sp.load();
+                //patientInfo = this.cs.retrievePatients(keyword, this.sp.getKdn(), this.pageNumber, this.rowPerPage);
+                patientInfo = this.cs.retrievePatients(keyword, String.valueOf(jComboBox1.getSelectedIndex()), this.pageNumber, this.rowPerPage);
                 for (Patient p : patientInfo.getPatients()) {
                     model.addRow(new Object[]{p.getPatientId(),p.getSingleId(), p.getPatientName(),
                         p.getPatientBrm(), p.getDocId(), p.getDocName()});
@@ -600,9 +658,12 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // Cancel Button
         jTextField2.setText("");
         jTextField3.setText("");
-        // Cancel Button
+        jXDatePicker1.setDate(new Date());
+        jComboBox1.setSelectedIndex(0);
+        
         DefaultTableModel model= (DefaultTableModel) jTable3.getModel();
         while(model.getRowCount()>0){
             model.removeRow(0);
@@ -844,13 +905,17 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                         xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><dicom><attr>EMPTY</attr></dicom>";
                         //xmlData = "0";
                     }
-                    StoreResultsResponse srr = cs.storeResults(branchId, patientId, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    String date = "";
+                    if (jXDatePicker1.getDate()!=null) { date = formatter.format(jXDatePicker1.getDate());}
+                    StoreResultsResponse srr = cs.storeResults(branchId, patientId+"#"+date, patientCode, patientName, remark, equipmentId, imageId, trxDate, timeStamp
                         , dataLocation, dataOutput, xmlData, creatorId);
                     if(srr.isSuccess()) {
                         JOptionPane.showMessageDialog(this, MSG_SAVE_SUCCESS + srr.getResult());
                         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
                         model.removeRow(row);
                         jButton6ActionPerformed(null);
+                        removeImage();
                     } else {
                         JOptionPane.showMessageDialog(this, MSG_SAVE_FAILED + srr.getResult());
                     }
@@ -885,6 +950,14 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         }
     }//GEN-LAST:event_onSave
 
+    private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jXDatePicker1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JButton jButton1;
@@ -894,10 +967,13 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -915,6 +991,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     protected javax.swing.JTextField jTextField1;
     protected javax.swing.JTextField jTextField2;
     protected javax.swing.JTextField jTextField3;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
     private javax.swing.JLabel outputLabel;
     // End of variables declaration//GEN-END:variables
     //@Override
@@ -1075,6 +1152,10 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
         this.setVisible(true);
     }
     
+    private void removeImage() {
+        outputLabel.setIcon(null);
+        this.setVisible(false);
+    }
     private void renderPdf(File file) {
         try {
             renderPdfAsImage(file);
