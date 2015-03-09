@@ -614,7 +614,7 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private PatientInfo patientInfo;
-    private static final String MSG_MANDATORY = "Harap masukkan BRM, Single ID atau Tanggal.";
+    private static final String MSG_MANDATORY = "Harap masukkan BRM dan Tanggal, atau Single ID dan Tanggal.";
     private static final String DEFAULT_CLINIC_ID = "8";
     private static final int DEFAULT_PAGE_NUMBER = 1;
     private static final int DEFAULT_ROW_PER_PAGE = 10;
@@ -630,7 +630,9 @@ public class Workspace extends javax.swing.JPanel implements InterfaceEvent {
                 model.removeRow(0);
             }
             //ClientService cs = new ClientService();
-            if(jTextField2.getText().isEmpty() && jTextField3.getText().isEmpty() && jXDatePicker1.getDate()==null){
+            //jTextField2 = BRM 
+            //jTextField3 = Single ID
+            if(jXDatePicker1.getDate()==null || (jTextField2.getText().isEmpty() && jTextField3.getText().isEmpty())){
                 JOptionPane.showMessageDialog(this, MSG_MANDATORY);
             } else {
                 //String keyword = "%"+jTextField1.getText()+"%"+"#"+jTextField3.getText()+"#"+jTextField2.getText();SimpleDateFormat formatter;
